@@ -10,3 +10,7 @@ scripts/
 Dockerfile
 .dockerignore
 bunfig.toml
+
+# Ignore Keystone context files in production container
+.keystone/
+**/.stone.*.md
