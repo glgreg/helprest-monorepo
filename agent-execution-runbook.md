@@ -1,7 +1,7 @@
 # Guia de Execução Autônoma para Agentes (Agent Runbook) - HelpRest
 
 > [!IMPORTANT]
-> **DIRETRIZ MATRIZ**: Este documento serve como bússola de longo prazo e especificação operacional para agentes de IA autônomos. Se você é um agente de IA e está lendo isto em um loop de execução de longa duração, você **DEVE** reler este arquivo, o [SOUL.md](file:///c:/Users/hukak/Dev/helprest-monorepo/agent-helprest/SOUL.md) e a [arquitetura básica](file:///c:/Users/hukak/Dev/helprest-monorepo/agent-helprest/memory/docs/base.system.md) a cada 20-30 iterações (ou após grandes despejos de contexto) para evitar desvios de escopo e poluição de memória.
+> **DIRETRIZ MATRIZ**: Este documento serve como bússola de longo prazo e especificação operacional para agentes de IA autônomos. Se você é um agente de IA e está lendo isto em um loop de execução de longa duração, você **DEVE** reler este arquivo, o [protocol.md](.keystone/protocol.md), o [architecture.md](.keystone/architecture.md) e a [arquitetura básica](resources/docs/base.system.md) a cada 20-30 iterações (ou após grandes despejos de contexto) para evitar desvios de escopo e poluição de memória.
 
 ---
 
@@ -61,7 +61,7 @@ graph TD
 **Objetivo**: Entender o que já está implementado no backend para o módulo de `Visits`/`Social` e a estrutura de dados atual.
 
 1. **Auditar Entidades e Repositórios**:
-   - Analisar o arquivo [backend.md](file:///c:/Users/hukak/Dev/helprest-monorepo/agent-helprest/memory/docs/backend.md) atualizado.
+   - Analisar o arquivo [backend.md](resources/docs/backend.md) e as stones de backend (`.stone.api-*.md`).
    - Verificar a existência do modelo de dados de `Product` no backend (`src/domain/entities/Product.ts`) e o repositório `IProductRepository`.
    - Localizar a lógica de `Visit` e como as fotos de visitas são armazenadas no banco NoSQL.
 2. **Validar Scripts de Banco**:
@@ -159,6 +159,6 @@ Para considerar a execução finalizada com êxito, os agentes devem medir e reg
 
 Se o histórico da conversa ficar muito longo ou confuso devido a múltiplas rodadas de feedback:
 
-1. **Releia o Arquivo Central**: Faça um `view_file` nas primeiras 50 linhas deste documento e em [SOUL.md](file:///c:/Users/hukak/Dev/helprest-monorepo/agent-helprest/SOUL.md).
+1. **Releia o Arquivo Central**: Faça um `view_file` nas primeiras 50 linhas deste documento e em [protocol.md](.keystone/protocol.md).
 2. **Utilize a Checklist**: Crie e mantenha atualizado um arquivo temporal no diretório de artefatos (`task.md`) contendo a checklist atualizada de cada item acima, marcando com `[x]` as tarefas homologadas.
 3. **Delegação Limpa**: Se spwnar subagentes (como `research`), forneça um prompt focado e curado, evitando transferir gigabytes de histórico desnecessário.
