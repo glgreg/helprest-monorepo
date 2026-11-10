@@ -2,8 +2,7 @@ import React from 'react';
 import { Establishment } from '../../types';
 import { DIETARY_FLAGS } from '../../data/flags';
 import { StarRating } from '../atoms/StarRating';
-import { Badge } from '../atoms/Badge';
-import { MapPin, ShieldCheck, Utensils } from 'lucide-react';
+import { MapPin, ShieldCheck } from 'lucide-react';
 
 export interface EstablishmentCardProps {
   establishment: Establishment;
@@ -34,26 +33,32 @@ export const EstablishmentCard: React.FC<EstablishmentCardProps> = ({
     >
       {/* Top Banner / Image Container */}
       <div className="relative h-48 w-full bg-slate-100 overflow-hidden">
-        {/* Dynamic decorative visual */}
-        <div className="absolute inset-0 bg-gradient-to-tr from-slate-900/70 via-slate-900/30 to-transparent z-10" />
-        
-        {/* Fallback pattern / background */}
-        <div className="absolute inset-0 bg-gradient-to-r from-[#007E7F] to-[#00B4B6] opacity-90 group-hover:scale-105 transition-transform duration-500 flex items-center justify-center text-white">
-          <Utensils className="w-16 h-16 opacity-20" />
-        </div>
+        {/* Real photo */}
+        <img
+          src={establishment.imageUrl}
+          alt={establishment.name}
+          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+          onError={(e) => {
+            // Fallback if image fails
+            e.currentTarget.src = '/assets/places/0.jpeg';
+          }}
+        />
+
+        {/* Subtle gradient vignette for text legibility */}
+        <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-black/20" />
 
         {/* Badges on Image */}
         <div className="absolute top-3 left-3 z-20 flex flex-wrap gap-1.5 items-center">
           {userActiveFlags.length > 0 && isFullMatch && (
-            <Badge variant="success" className="font-bold shadow-sm">
-              <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse mr-1" />
-              100% Compatível
-            </Badge>
+            <span className="inline-flex items-center text-[11px] font-bold px-2.5 py-1 rounded-full bg-[#009C9D] text-white shadow-xs font-mono uppercase">
+              <span className="w-1.5 h-1.5 rounded-full bg-emerald-300 mr-1.5 animate-pulse" />
+              MATCH 100%
+            </span>
           )}
           {userActiveFlags.length > 0 && isPartialMatch && (
-            <Badge variant="warning" className="font-bold shadow-sm">
-              {Math.round(matchRatio * 100)}% Compatível
-            </Badge>
+            <span className="inline-flex items-center text-[11px] font-bold px-2.5 py-1 rounded-full bg-amber-500 text-white shadow-xs font-mono uppercase">
+              {Math.round(matchRatio * 100)}% COMPATÍVEL
+            </span>
           )}
           {establishment.kitchenCertified && (
             <span className="inline-flex items-center gap-1 text-[11px] font-semibold px-2.5 py-1 rounded-full bg-white/95 text-slate-800 shadow-sm backdrop-blur-xs">
@@ -104,10 +109,10 @@ export const EstablishmentCard: React.FC<EstablishmentCardProps> = ({
                 return (
                   <span
                     key={flagId}
-                    className={`text-[11px] px-2 py-0.5 rounded-md border font-medium ${
+                    className={`text-[10px] px-2.5 py-0.5 rounded-full font-mono uppercase font-bold transition-all ${
                       isUserRestricted
-                        ? 'bg-[#E6F7F7] text-[#007E7F] border-[#009C9D]/40 font-semibold ring-1 ring-[#009C9D]/30'
-                        : 'bg-slate-50 text-slate-600 border-slate-200'
+                        ? 'bg-[#009C9D] text-white shadow-2xs scale-105'
+                        : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
                     }`}
                   >
                     {flag?.shortLabel || flagId}

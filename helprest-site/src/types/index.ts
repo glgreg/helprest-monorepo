@@ -7,6 +7,7 @@ export interface DietaryFlag {
   category: DietaryFlagCategory;
   description: string;
   iconName: string;
+  imageAsset?: string;
   badgeBg: string;
   badgeText: string;
   badgeBorder: string;

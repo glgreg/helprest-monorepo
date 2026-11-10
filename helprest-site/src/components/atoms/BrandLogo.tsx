@@ -15,9 +15,9 @@ export const BrandLogo: React.FC<BrandLogoProps> = ({
   className = '',
 }) => {
   const iconSizes = {
-    sm: 'w-7 h-7',
-    md: 'w-9 h-9',
-    lg: 'w-12 h-12',
+    sm: 'w-8 h-8',
+    md: 'w-10 h-10',
+    lg: 'w-13 h-13',
   };
 
   const textSizes = {
@@ -27,21 +27,14 @@ export const BrandLogo: React.FC<BrandLogoProps> = ({
   };
 
   const content = (
-    <div className={`inline-flex items-center gap-2.5 select-none ${className}`}>
-      <div className={`relative flex items-center justify-center rounded-xl bg-gradient-to-tr from-[#007E7F] to-[#00B4B6] p-1.5 shadow-sm shadow-[#009C9D]/20 ${iconSizes[size]}`}>
-        <img
-          src="/assets/logos/logo_bare.svg"
-          alt="HelpRest Logo"
-          className="w-full h-full object-contain filter drop-shadow-sm brightness-110"
-          onError={(e) => {
-            // Fallback to text icon if svg not loaded
-            const target = e.currentTarget;
-            target.style.display = 'none';
-          }}
-        />
-      </div>
+    <div className={`inline-flex items-center gap-3 select-none ${className}`}>
+      <img
+        src="/assets/logos/helprest_logo_green.svg"
+        alt="HelpRest Logo"
+        className={`rounded-xl object-contain shadow-xs ${iconSizes[size]}`}
+      />
       {variant === 'full' && (
-        <span className={`font-extrabold tracking-tight text-slate-900 ${textSizes[size]}`}>
+        <span className={`font-bold tracking-tight text-[#11181C] ${textSizes[size]}`}>
           Help<span className="text-[#009C9D]">Rest</span>
         </span>
       )}
@@ -58,3 +51,4 @@ export const BrandLogo: React.FC<BrandLogoProps> = ({
 
   return content;
 };
+

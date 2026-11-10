@@ -64,7 +64,15 @@ export const FlagChip: React.FC<FlagChipProps> = ({
       title={flag.description}
     >
       <span className={isSelected ? 'text-white' : 'text-[#009C9D]'}>
-        {renderIcon(flag.iconName, size === 'sm' ? 'w-3.5 h-3.5' : 'w-4 h-4')}
+        {flag.imageAsset ? (
+          <img
+            src={flag.imageAsset}
+            alt={flag.name}
+            className={`${size === 'sm' ? 'w-4 h-4' : 'w-5 h-5'} object-contain inline-block rounded-xs`}
+          />
+        ) : (
+          renderIcon(flag.iconName, size === 'sm' ? 'w-3.5 h-3.5' : 'w-4 h-4')
+        )}
       </span>
       <span>{flag.name}</span>
       {isSelected && (

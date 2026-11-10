@@ -48,10 +48,10 @@ export const LegalLayout: React.FC<LegalLayoutProps> = ({
           <Breadcrumb currentPageTitle={title} />
 
           {/* Page Header */}
-          <div className="mb-10 pb-6 border-b border-slate-200">
+          <div className="mb-6 pb-6 border-b border-slate-200">
             <div className="inline-flex items-center gap-1.5 text-xs font-semibold px-2.5 py-1 rounded-full bg-[#E6F7F7] text-[#007E7F] border border-[#009C9D]/20 mb-3">
               <Clock className="w-3.5 h-3.5" />
-              <span>Última atualização: {lastUpdated}</span>
+              <span>Última atualização: {lastUpdated} • Google Play Console Nov/2026</span>
             </div>
             <h1 className="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">
               {title}
@@ -61,8 +61,31 @@ export const LegalLayout: React.FC<LegalLayoutProps> = ({
             </p>
           </div>
 
+          {/* Top Horizontal Compliance Tabs Bar (Always visible at the top on Mobile & Desktop) */}
+          <div className="mb-8 bg-white border border-slate-200 rounded-2xl p-2 shadow-2xs">
+            <div className="flex items-center gap-1 overflow-x-auto scrollbar-none pb-1">
+              {legalNavItems.map((item) => {
+                const isActive = currentPath === item.href;
+                return (
+                  <Link
+                    key={item.href}
+                    to={item.href}
+                    className={`flex items-center gap-2 px-3.5 py-2.5 rounded-xl text-xs sm:text-sm font-semibold whitespace-nowrap transition-all ${
+                      isActive
+                        ? 'bg-[#009C9D] text-white shadow-xs font-bold'
+                        : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100'
+                    }`}
+                  >
+                    <span>{item.icon}</span>
+                    <span>{item.label}</span>
+                  </Link>
+                );
+              })}
+            </div>
+          </div>
+
           {/* 2-Column Layout */}
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-10">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
             
             {/* Sidebar (4 cols) */}
             <aside className="lg:col-span-4 order-2 lg:order-1">

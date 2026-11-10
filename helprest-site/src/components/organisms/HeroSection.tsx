@@ -1,9 +1,9 @@
 import React from 'react';
 import { Container } from '../atoms/Container';
-import { Heading1, Paragraph, SectionTag } from '../atoms/Typography';
+import { Heading1, Paragraph } from '../atoms/Typography';
 import { StoreBadge } from '../atoms/StoreBadge';
 import { PhoneMockup } from '../molecules/PhoneMockup';
-import { ShieldCheck, MapPin, Sparkles, HeartHandshake } from 'lucide-react';
+import { ShieldCheck, MapPin, HeartHandshake } from 'lucide-react';
 import { useModal } from '../../context/useModal';
 
 export interface HeroSectionProps {
@@ -23,13 +23,13 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onOpenDownloadModal })
           
           {/* Left Content Column (7 cols) */}
           <div className="lg:col-span-7 text-center lg:text-left space-y-6">
-            <SectionTag>
-              <Sparkles className="w-3.5 h-3.5" />
-              O Aplicativo Definitivo para Restrições Alimentares
-            </SectionTag>
+            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#E6F7F7] text-[#007E7F] text-xs font-bold border border-[#009C9D]/30 select-none">
+              <img src="/assets/logos/helprest_logo_green.svg" alt="HelpRest" className="w-4 h-4 rounded-xs" />
+              <span>Aplicativo Oficial para Restrições Alimentares</span>
+            </div>
 
             <Heading1>
-              Onde comer com <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#007E7F] to-[#009C9D]">segurança</span> e <span className="underline decoration-[#F7CC33] decoration-wavy decoration-2">liberdade</span>.
+              Onde comer com <span className="text-[#009C9D]">segurança</span> e <span className="text-slate-900 underline decoration-[#009C9D]/40 decoration-2">liberdade</span>.
             </Heading1>
 
             <Paragraph className="max-w-2xl mx-auto lg:mx-0">
