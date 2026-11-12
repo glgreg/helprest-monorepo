@@ -87,6 +87,14 @@ helprest-api/.gitignore
 /helprest-api/.DS_Store
 
 # -------------------------------------------------------------------------------------------------
+# WEBSITE
+# -------------------------------------------------------------------------------------------------
+helprest-site/node_modules/
+helprest-site/dist/
+helprest-site/.eslintcache
+helprest-site/*.tsbuildinfo
+
+# -------------------------------------------------------------------------------------------------
 # KEYSTONE (Infraestrutura de Contexto e Arquitetura)
 # -------------------------------------------------------------------------------------------------
 # Força inclusão do Keystone no versionamento como infraestrutura do projeto.
@@ -94,3 +102,4 @@ helprest-api/.gitignore
 
 # Credentials and sensitive files
 resources/iniciacao_cientfica/service_account.json
+

@@ -1,0 +1,43 @@
+import { Review } from '../types';
+
+export const SAMPLE_REVIEWS: Review[] = [
+  {
+    id: 'rev-1',
+    authorName: 'Camila Mendonça',
+    authorAvatar: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=150&auto=format&fit=crop&q=80',
+    establishmentName: 'Verde Essência Bistrô 100% Gluten-Free',
+    establishmentId: 'est-1',
+    rating: 5,
+    dateFormatted: 'Há 2 dias',
+    geofenceDistanceMeters: 14,
+    isVerifiedVisit: true,
+    comment: 'Sou celíaca há mais de 10 anos e comer fora sempre foi uma roleta-russa. No HelpRest vi o selo de cozinha 100% isolada e fui sem medo. O Gnocchi é divino e passei o final de semana sem nenhuma contaminação. App essencial!',
+    userDietaryFlags: ['gluten_free', 'lactose_free'],
+  },
+  {
+    id: 'rev-2',
+    authorName: 'Lucas Arantes',
+    authorAvatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&auto=format&fit=crop&q=80',
+    establishmentName: 'Aroma & Grão Café e Confeitaria Inclusiva',
+    establishmentId: 'est-3',
+    rating: 5,
+    dateFormatted: 'Há 5 dias',
+    geofenceDistanceMeters: 22,
+    isVerifiedVisit: true,
+    comment: 'Alergia severa a ovos e leite me impedia de tomar café da manhã na rua com meus amigos. O recurso de match 100% do HelpRest me salvou. O pão de queijo vegano deles é surreal de bom!',
+    userDietaryFlags: ['lactose_free', 'egg_free'],
+  },
+  {
+    id: 'rev-3',
+    authorName: 'Mariana Duarte',
+    authorAvatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150&auto=format&fit=crop&q=80',
+    establishmentName: 'Terra & Raiz Culinária Botânica',
+    establishmentId: 'est-2',
+    rating: 5,
+    dateFormatted: 'Há 1 semana',
+    geofenceDistanceMeters: 9,
+    isVerifiedVisit: true,
+    comment: 'O que mais gosto no HelpRest é que as avaliações com fotos só podem ser postadas por quem realmente esteve no local (graças à checagem de GPS de 100m). Dá uma credibilidade imensa às dicas.',
+    userDietaryFlags: ['vegan', 'sugar_free'],
+  },
+];
