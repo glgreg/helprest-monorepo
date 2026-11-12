@@ -1,94 +1,97 @@
 import React from 'react';
 import { LegalLayout } from '../components/templates/LegalLayout';
-import { FileText, AlertTriangle, ShieldCheck, Scale, CheckCircle2 } from 'lucide-react';
+import { FileText, AlertTriangle, ShieldCheck, Scale, CheckCircle2, Users } from 'lucide-react';
 
 export const TermsOfServicePage: React.FC = () => {
   return (
     <LegalLayout
-      title="Termos de Uso"
-      subtitle="Regras, condições gerais e compromissos que regem o uso do aplicativo mobile HelpRest e de seus serviços web associados."
+      title="Termos de Uso e Diretrizes da Comunidade"
+      subtitle="Condições que regem o uso do aplicativo HelpRest (com.gustavo_lg.helprest), responsabilidades dos estabelecimentos parceiros e regras de conteúdo gerado por usuários."
       lastUpdated="Novembro de 2026"
     >
-      <div className="p-5 rounded-2xl bg-slate-50 border border-slate-200 flex items-start gap-3.5">
-        <Scale className="w-5 h-5 text-slate-700 flex-shrink-0 mt-0.5" />
-        <div className="text-xs sm:text-sm text-slate-700">
-          Ao baixar, instalar ou utilizar o aplicativo <strong>HelpRest</strong> ou acessar qualquer um de nossos serviços digitais, você declara ter lido, compreendido e concordado integralmente com estes Termos de Uso e com a nossa Política de Privacidade.
+      <div className="p-4 sm:p-5 rounded-2xl bg-[#FAFAFA] border border-[#EAEAEA] flex items-start gap-3">
+        <Scale className="w-5 h-5 text-[#11181C] flex-shrink-0 mt-0.5" />
+        <div className="text-xs sm:text-sm text-[#333333] leading-relaxed">
+          Ao instalar ou usar o aplicativo <strong>HelpRest</strong> ou suas páginas web associadas, operados por <strong>Gustavo L. Gregorio</strong>, você concorda integralmente com estes Termos de Uso e com a{' '}
+          <strong>Política de Privacidade</strong>. Para criar uma conta pessoal é necessário ter ao menos <strong>13 anos de idade</strong>.
         </div>
       </div>
 
       <section className="space-y-3">
-        <h2 className="text-xl font-bold text-slate-900 flex items-center gap-2">
+        <h2 className="text-lg sm:text-xl font-bold text-[#11181C] flex items-center gap-2">
           <FileText className="w-5 h-5 text-[#009C9D]" />
-          1. O Que É o HelpRest?
+          1. Natureza Informativa do Serviço
         </h2>
         <p>
-          O HelpRest é uma plataforma tecnológica mobile-first de busca, descoberta e recomendação gastronômica, concebida para aproximar consumidores com necessidades e restrições alimentares (como celíacos, intolerantes a lactose, veganos e alérgicos) de estabelecimentos comerciais (restaurantes, cafés, bistrôs e padarias) capazes de atendê-los de forma adequada.
+          O HelpRest é uma ferramenta digital de busca gastronômica, filtro por flags de restrição alimentar e compartilhamento comunitário de experiências de visita presencial.
         </p>
         <p>
-          O HelpRest <strong>não comercializa alimentos</strong>, não atua como serviço de entrega e não produz refeições. A responsabilidade civil, sanitária e operacional pelo preparo, acondicionamento e entrega de qualquer alimento recai exclusivamente sobre os respectivos estabelecimentos cadastrados.
+          O aplicativo <strong>não prepara, não vende e não realiza entregas de alimentos</strong>. A responsabilidade sanitária, nutricional e legal pela produção e manipulação dos alimentos ofertados é exclusivamente de cada estabelecimento comercial listado.
         </p>
       </section>
 
       <section className="space-y-3">
-        <h2 className="text-xl font-bold text-slate-900 flex items-center gap-2">
-          <AlertTriangle className="w-5 h-5 text-amber-500" />
-          2. Aviso Essencial sobre Saúde e Alergias Graves
+        <h2 className="text-lg sm:text-xl font-bold text-[#11181C] flex items-center gap-2">
+          <AlertTriangle className="w-5 h-5 text-[#D4A710]" />
+          2. Alergias Severas e Segurança Alimentar
         </h2>
-        <div className="bg-amber-50/70 border border-amber-200 rounded-2xl p-4 text-xs sm:text-sm text-amber-950 space-y-2">
+        <div className="bg-[#FEF9E7] border border-[#F9E6A2] rounded-2xl p-4 text-xs sm:text-sm text-[#735107] space-y-2">
           <p>
-            <strong>AVISO MÉDICO IMPORTANTE:</strong> O HelpRest é uma ferramenta auxiliar de busca e estilo de vida. As informações de restrições alimentares e cardápios são declaradas pelos próprios estabelecimentos e enriquecidas por avaliações da comunidade.
-          </p>
-          <p>
-            Usuários com <strong>anafilaxia severa</strong>, alergias com risco à vida ou doença celíaca de alta reatividade <strong>devem sempre comunicar diretamente aos atendentes e cozinheiros do restaurante sobre suas restrições</strong> antes do consumo, a fim de certificar-se sobre os procedimentos de manuseio e riscos de contaminação cruzada no momento do preparo.
+            O HelpRest apoia a escolha cotidiana de locais, mas não substitui consulta médica nem garantia verbal direta do restaurante. Pessoas com risco de anafilaxia, alergias graves ou alta sensibilidade devem sempre confirmar ingredientes e riscos de contaminação cruzada com a cozinha antes do pedido.
           </p>
         </div>
       </section>
 
       <section className="space-y-3">
-        <h2 className="text-xl font-bold text-slate-900 flex items-center gap-2">
+        <h2 className="text-lg sm:text-xl font-bold text-[#11181C] flex items-center gap-2">
           <ShieldCheck className="w-5 h-5 text-[#009C9D]" />
-          3. Cadastro de Conta e Autenticação
+          3. Cadastro de Consumidores e Estabelecimentos
         </h2>
-        <p>
-          Para usufruir de recursos personalizados, salvar favoritos, configurar flags alimentares ou gerenciar restaurantes, o usuário deve criar uma conta através de credenciais próprias ou mediante autenticação OAuth2 com o Google.
-        </p>
-        <ul className="list-disc pl-6 space-y-1 text-xs sm:text-sm text-slate-600">
-          <li>O usuário é o único responsável por manter a confidencialidade de sua senha e por todas as atividades efetuadas sob sua conta;</li>
-          <li>É expressamente proibido criar contas falsas, utilizar identidade de terceiros ou fraudar sistemas de credenciais;</li>
-          <li>Contas de estabelecimentos devem representar empresas regularmente constituídas, sendo de responsabilidade do gestor a veracidade dos dados cadastrais (CNPJ, endereço físico e flags de cozinha).</li>
+        <ul className="list-disc pl-6 space-y-1.5 text-xs sm:text-sm text-[#333333]">
+          <li>
+            O usuário compromete-se a fornecer informações verídicas e zelar pelas credenciais de acesso;
+          </li>
+          <li>
+            Estabelecimentos parceiros devem ser representados por empresas regularmente constituídas, sendo responsáveis pela veracidade do CNPJ, endereço, flags de cozinha declaradas e composição dos pratos exibidos no cardápio;
+          </li>
+          <li>
+            Contas e estabelecimentos que prestem declarações enganosas sobre segurança alergênica estarão sujeitos à suspensão ou remoção imediata.
+          </li>
         </ul>
       </section>
 
       <section className="space-y-3">
-        <h2 className="text-xl font-bold text-slate-900 flex items-center gap-2">
-          <CheckCircle2 className="w-5 h-5 text-emerald-600" />
-          4. Regras do Feed Social e Geofencing de 100 Metros
+        <h2 className="text-lg sm:text-xl font-bold text-[#11181C] flex items-center gap-2">
+          <Users className="w-5 h-5 text-[#009C9D]" />
+          4. Conteúdo Gerado pelo Usuário (UGC), Geofencing 100m e Moderação
         </h2>
         <p>
-          Para assegurar a idoneidade das avaliações e proteger a comunidade celíaca e alérgica contra fraudes comerciais:
+          O Feed Social e os comentários de visita permitem a publicação de textos e fotos enviados pelos usuários, sob as seguintes regras obrigatórias de comunidade (Google Play UGC Policy):
         </p>
-        <ul className="list-disc pl-6 space-y-1.5 text-xs sm:text-sm text-slate-600">
-          <li><strong>Validação por Proximidade Física:</strong> O envio de fotos e avaliações oficiais vinculadas a um estabelecimento requer que o GPS do usuário comprove presença física a até <strong>100 metros</strong> de raio do local no momento da captura;</li>
-          <li><strong>Proibição de Conteúdo Ilícito:</strong> É proibida a postagem de fotos que contenham nudez, violência, desrespeito ou produtos alheios ao estabelecimento visitado;</li>
-          <li><strong>Moderação:</strong> O HelpRest reserva-se o direito de remover qualquer avaliação ou suspender contas que violem padrões comunitários ou tentem burlar o mecanismo de geolocalização.</li>
+        <ul className="list-disc pl-6 space-y-1.5 text-xs sm:text-sm text-[#333333]">
+          <li>
+            <strong>Verificação em 100 metros:</strong> o registro oficial de visita exige confirmação por GPS dentro de 100m do estabelecimento para coibir avaliações falsas ou spam;
+          </li>
+          <li>
+            <strong>Conteúdo estritamente proibido:</strong> discursos de ódio, assédio, nudez, violência, dados pessoais de terceiros, difamação gratuita, publicidade enganosa ou qualquer tentativa de manipulação de coordenadas GPS;
+          </li>
+          <li>
+            <strong>Canal de Denúncia & Moderação:</strong> qualquer usuário pode reportar avaliações, fotos ou informações de cardápio inconsistentes pelo e-mail{' '}
+            <a href="mailto:suporte@helprest.com" className="text-[#007E7F] font-bold hover:underline">
+              suporte@helprest.com
+            </a>
+            . Denúncias são analisadas com remoção do conteúdo abusivo e suspensão ou banimento da conta infratora.
+          </li>
         </ul>
       </section>
 
       <section className="space-y-3">
-        <h2 className="text-xl font-bold text-slate-900">
-          5. Propriedade Intelectual
+        <h2 className="text-lg sm:text-xl font-bold text-[#11181C] flex items-center gap-2">
+          <CheckCircle2 className="w-5 h-5 text-[#009C9D]" />
+          5. Propriedade Intelectual e Foro
         </h2>
         <p>
-          A marca "HelpRest", a interface visual, logotipos, algoritmos de cálculo de flags, código-fonte e bancos de dados são de propriedade exclusiva da HelpRest Tecnologia e de seus fundadores, protegidos pelas leis de propriedade intelectual e direitos autorais.
-        </p>
-      </section>
-
-      <section className="space-y-3">
-        <h2 className="text-xl font-bold text-slate-900">
-          6. Legislação Aplicável e Foro
-        </h2>
-        <p>
-          Estes Termos de Uso são regidos e interpretados em conformidade com a legislação da República Federativa do Brasil, em especial o Marco Civil da Internet (Lei nº 12.965/2014) e o Código de Defesa do Consumidor (Lei nº 8.078/1990). Fica eleito o Foro da Comarca de São Paulo, Estado de São Paulo, para dirimir eventuais litígios.
+          A marca HelpRest, interface, código-fonte e organização visual são protegidos por direitos autorais sob titularidade do desenvolvedor <strong>Gustavo L. Gregorio</strong>. Estes Termos são regidos pelas leis da República Federativa do Brasil, elegendo-se o Foro da Comarca de <strong>Curitiba, Estado do Paraná</strong>, salvo disposições protetivas de foro do consumidor aplicáveis.
         </p>
       </section>
     </LegalLayout>

@@ -1,160 +1,192 @@
 import React from 'react';
 import { LegalLayout } from '../components/templates/LegalLayout';
-import { ShieldCheck, Lock, MapPin, Eye, Database, AlertCircle } from 'lucide-react';
+import { ShieldCheck, Lock, MapPin, Eye, Database, AlertCircle, Camera } from 'lucide-react';
 import { Link } from '../router';
 
 export const PrivacyPolicyPage: React.FC = () => {
   return (
     <LegalLayout
       title="Política de Privacidade"
-      subtitle="Conheça nossas práticas de transparência, proteção e tratamento de dados pessoais no HelpRest, em estrita conformidade com a LGPD e as políticas do Google Play Console."
+      subtitle="Transparência sobre coleta, tratamento, compartilhamento técnico, permissões Android e direitos dos titulares no HelpRest em conformidade com a LGPD e as diretrizes do Google Play."
       lastUpdated="Novembro de 2026"
     >
-      {/* Overview Card */}
-      <div className="p-5 rounded-2xl bg-[#E6F7F7]/60 border border-[#009C9D]/30 flex items-start gap-3.5">
+      {/* Overview Callout */}
+      <div className="p-4 sm:p-5 rounded-2xl bg-[#F4FDFB] border border-[#B2DFDB] flex items-start gap-3">
         <ShieldCheck className="w-5 h-5 text-[#007E7F] flex-shrink-0 mt-0.5" />
-        <div className="text-xs sm:text-sm text-slate-700">
-          <strong>Resumo de Privacidade:</strong> O HelpRest nunca comercializa seus dados pessoais. Coletamos apenas as informações estritamente necessárias para calcular compatibilidade com restrições alimentares, geolocalizar restaurantes próximos e validar a autenticidade de fotos de visitas via geofencing de 100 metros.
+        <div className="text-xs sm:text-sm text-[#11181C] leading-relaxed">
+          <strong>Compromisso de Privacidade:</strong> O HelpRest nunca vende nem aluga seus dados pessoais. Coletamos apenas os dados necessários para filtrar estabelecimentos compatíveis com suas restrições alimentares, autenticar sua conta e validar visitas presenciais a até 100 metros do restaurante.
         </div>
       </div>
 
+      {/* Prominent Disclosure for Background Location — Mandatory Google Play Policy */}
+      <div className="p-4 sm:p-5 rounded-2xl bg-[#FEF9E7] border border-[#F9E6A2] space-y-2">
+        <div className="flex items-center gap-2 font-bold text-[#735107] text-sm">
+          <MapPin className="w-4 h-4 flex-shrink-0" />
+          <span>Divulgação Proeminente: Uso de Localização em Segundo Plano</span>
+        </div>
+        <p className="text-xs sm:text-sm text-[#735107] leading-relaxed">
+          O aplicativo <strong>HelpRest</strong> pode solicitar a permissão opcional de localização em segundo plano (
+          <code className="font-mono text-xs bg-white/70 px-1 py-0.5 rounded">ACCESS_BACKGROUND_LOCATION</code> e serviço em primeiro plano{' '}
+          <code className="font-mono text-xs bg-white/70 px-1 py-0.5 rounded">FOREGROUND_SERVICE_LOCATION</code>
+          ) para manter o serviço opcional <em>HELPREST_BACKGROUND_LOCATION</em> ativo com notificação visível na barra do sistema e ajudar você a descobrir estabelecimentos seguros próximos mesmo quando o aplicativo está minimizado.
+        </p>
+        <p className="text-xs sm:text-sm text-[#735107] leading-relaxed">
+          Essa permissão é <strong>estritamente opcional</strong>: você pode utilizar normalmente a busca, o mapa, os filtros de restrições e o cardápio permitindo apenas <em>“Durante o uso do app”</em>. Não mantemos histórico contínuo de rotas em servidor e você pode revogar a autorização a qualquer momento em{' '}
+          <strong>Configurações do Android &gt; Aplicativos &gt; HelpRest &gt; Permissões</strong>.
+        </p>
+      </div>
+
       <section className="space-y-3">
-        <h2 className="text-xl font-bold text-slate-900 flex items-center gap-2">
+        <h2 className="text-lg sm:text-xl font-bold text-[#11181C] flex items-center gap-2">
           <Database className="w-5 h-5 text-[#009C9D]" />
-          1. Quem é o Responsável pelo Tratamento dos Dados?
+          1. Identificação do Responsável e do Aplicativo
         </h2>
         <p>
-          O aplicativo <strong>HelpRest</strong> (disponível sob o pacote Android <code className="bg-slate-100 px-1.5 py-0.5 rounded text-xs font-mono text-slate-800">com.gustavo_lg.helprest</code>) e o site oficial <code className="bg-slate-100 px-1.5 py-0.5 rounded text-xs font-mono text-slate-800">helprest.com.br</code> são operados pela HelpRest Tecnologia, atuando como Controladora de Dados nos termos da Lei Geral de Proteção de Dados Pessoais (Lei Federal nº 13.709/2018 - "LGPD").
+          O aplicativo móvel <strong>HelpRest</strong> (pacote Android{' '}
+          <code className="bg-[#FAFAFA] border border-[#EAEAEA] px-1.5 py-0.5 rounded text-xs font-mono text-[#11181C]">
+            com.gustavo_lg.helprest
+          </code>
+          ) e seu portal web são mantidos e operados sob responsabilidade do desenvolvedor{' '}
+          <strong>Gustavo L. Gregorio</strong> (Controlador de Dados nos termos da Lei Geral de Proteção de Dados — Lei nº 13.709/2018, LGPD).
         </p>
         <p>
-          Para quaisquer dúvidas, solicitações ou exercício de direitos de titularidade de dados, nosso Encarregado pelo Tratamento de Dados Pessoais (DPO) pode ser contatado diretamente através do canal: <a href="mailto:privacidade@helprest.com" className="text-[#009C9D] font-semibold hover:underline">privacidade@helprest.com</a>.
+          O canal oficial do Encarregado pelo Tratamento de Dados Pessoais (DPO) para solicitações, dúvidas ou exercício de direitos de titularidade é{' '}
+          <a href="mailto:privacidade@helprest.com" className="text-[#007E7F] font-bold hover:underline">
+            privacidade@helprest.com
+          </a>{' '}
+          (suporte técnico geral:{' '}
+          <a href="mailto:suporte@helprest.com" className="text-[#007E7F] font-bold hover:underline">
+            suporte@helprest.com
+          </a>
+          ).
         </p>
       </section>
 
       <section className="space-y-3">
-        <h2 className="text-xl font-bold text-slate-900 flex items-center gap-2">
+        <h2 className="text-lg sm:text-xl font-bold text-[#11181C] flex items-center gap-2">
           <Eye className="w-5 h-5 text-[#009C9D]" />
-          2. Dados Pessoais Coletados e Finalidades
+          2. Dados Coletados, Permissões e Finalidades
         </h2>
-        <p>
-          Coletamos dados em três categorias principais, sempre pautados nas bases legais do Consentimento, Execução de Contrato e Legítimo Interesse:
-        </p>
 
-        <div className="space-y-4 pt-2">
-          <div className="border border-slate-200 rounded-2xl p-4 bg-slate-50/50">
-            <h3 className="font-bold text-slate-900 text-sm mb-1">
-              a) Dados Cadastrais e de Autenticação
+        <div className="space-y-3 pt-1">
+          <div className="border border-[#EAEAEA] rounded-2xl p-4 bg-[#FAFAFA] space-y-1.5">
+            <h3 className="font-bold text-[#11181C] text-sm">
+              a) Dados Cadastrais, Autenticação e Parceiros Comerciais
             </h3>
-            <p className="text-xs sm:text-sm text-slate-600">
-              <strong>O que coletamos:</strong> Nome completo, endereço de e-mail, senha criptografada (em caso de login tradicional) ou identificador único emitido pelo Google Sign-In (ID Token verificado via JWKS).
+            <p className="text-xs sm:text-sm text-[#333333]">
+              <strong>Consumidores:</strong> nome completo, e-mail, data de nascimento (coletada no cadastro para verificação etária e personalização), senha criptografada com Argon2id ou identificador Google Sign-In (OAuth2), além de foto de perfil e links sociais quando informados voluntariamente.
             </p>
-            <p className="text-xs sm:text-sm text-slate-600 mt-1">
-              <strong>Finalidade:</strong> Criação e gerenciamento de perfil, autenticação segura através de JSON Web Tokens (JWT) com refresh token rotacionado e comunicação sobre a conta.
+            <p className="text-xs sm:text-sm text-[#333333]">
+              <strong>Estabelecimentos Parceiros:</strong> nome comercial, CNPJ, endereço geográfico e cardápios informados pelo gestor do restaurante no cadastro empresarial.
             </p>
           </div>
 
-          <div className="border border-slate-200 rounded-2xl p-4 bg-slate-50/50">
-            <h3 className="font-bold text-slate-900 text-sm mb-1 flex items-center gap-1.5">
+          <div className="border border-[#EAEAEA] rounded-2xl p-4 bg-[#FAFAFA] space-y-1.5">
+            <h3 className="font-bold text-[#11181C] text-sm flex items-center gap-1.5">
               <MapPin className="w-4 h-4 text-[#009C9D]" />
-              b) Dados de Geolocalização (Permissões de GPS)
+              b) Dados de Localização (Primeiro Plano e Segundo Plano Opcional)
             </h3>
-            <p className="text-xs sm:text-sm text-slate-600">
-              <strong>O que coletamos:</strong> Coordenadas de latitude e longitude (<code className="text-xs font-mono">ACCESS_FINE_LOCATION</code> e <code className="text-xs font-mono">ACCESS_COARSE_LOCATION</code>) obtidas quando o usuário autoriza a localização no dispositivo.
-            </p>
-            <p className="text-xs sm:text-sm text-slate-600 mt-1">
-              <strong>Finalidade:</strong> (i) Ordenar restaurantes pela distância física mais próxima por meio da fórmula de Haversine e índices geoespaciais 2dsphere; (ii) Executar a regra de segurança anti-fraude de <em>geofencing de 100 metros</em>, que valida se o usuário esteve de fato presente no estabelecimento antes de permitir a postagem de fotos de visitas no feed comunitário.
-            </p>
-            <p className="text-xs sm:text-sm text-slate-600 mt-1">
-              <strong>Nota sobre Localização em Segundo Plano:</strong> A localização em segundo plano só é utilizada mediante autorização explícita para alertar sobre estabelecimentos seguros ao redor do usuário, nunca sendo armazenado histórico contínuo de rastreamento.
+            <p className="text-xs sm:text-sm text-[#333333]">
+              Coordenadas aproximadas e precisas (
+              <code className="text-xs font-mono">ACCESS_FINE_LOCATION</code> e{' '}
+              <code className="text-xs font-mono">ACCESS_COARSE_LOCATION</code>) são usadas para ordenar estabelecimentos próximos via cálculo geoespacial e aplicar a validação de presença física no raio de <strong>100 metros</strong> (geofencing) no momento de registrar uma visita avaliada. Caso o usuário habilite a permissão opcional de segundo plano (
+              <code className="text-xs font-mono">ACCESS_BACKGROUND_LOCATION</code>), o serviço exibe notificação ativa persistente no Android (
+              <code className="text-xs font-mono">POST_NOTIFICATIONS</code>).
             </p>
           </div>
 
-          <div className="border border-slate-200 rounded-2xl p-4 bg-slate-50/50">
-            <h3 className="font-bold text-slate-900 text-sm mb-1">
-              c) Preferências de Restrição Alimentar (Dados Sensíveis de Estilo de Vida)
+          <div className="border border-[#EAEAEA] rounded-2xl p-4 bg-[#FAFAFA] space-y-1.5">
+            <h3 className="font-bold text-[#11181C] text-sm">
+              c) Preferências e Restrições Alimentares (Flags)
             </h3>
-            <p className="text-xs sm:text-sm text-slate-600">
-              <strong>O que coletamos:</strong> As flags ativas marcadas no perfil (por exemplo: Sem Glúten/Doença Celíaca, Intolerância a Lactose, Vegano, Vegetariano, Alergia a Frutos do Mar, Alergia a Castanhas/Amendoim, etc.).
-            </p>
-            <p className="text-xs sm:text-sm text-slate-600 mt-1">
-              <strong>Finalidade:</strong> Alimentar o algoritmo de recomendação <code className="text-xs font-mono">RecommendationService</code> para filtrar cardápios e exibir scores de correspondência (Match 100% ou Parcial).
+            <p className="text-xs sm:text-sm text-[#333333]">
+              Flags escolhidas no perfil (como Sem Glúten, Sem Lactose, Vegano, Vegetariano, Sem Castanhas, Sem Frutos do Mar, Sem Ovos ou Sem Açúcar) são processadas exclusivamente para o ranqueamento personalizado do{' '}
+              <code className="text-xs font-mono">RecommendationService</code> e separação de cardápios em <em>“Para você”</em> e <em>“Outros Itens”</em>, sem fins publicitários.
             </p>
           </div>
 
-          <div className="border border-slate-200 rounded-2xl p-4 bg-slate-50/50">
-            <h3 className="font-bold text-slate-900 text-sm mb-1">
-              d) Fotos de Visitas e Conteúdo Gerado pelo Usuário
+          <div className="border border-[#EAEAEA] rounded-2xl p-4 bg-[#FAFAFA] space-y-1.5">
+            <h3 className="font-bold text-[#11181C] text-sm flex items-center gap-1.5">
+              <Camera className="w-4 h-4 text-[#009C9D]" />
+              d) Câmera, Mídia e Conteúdo Gerado pelo Usuário (Feed Social)
             </h3>
-            <p className="text-xs sm:text-sm text-slate-600">
-              <strong>O que coletamos:</strong> Fotografias de pratos e ambientes enviadas voluntariamente pelo usuário ao publicar uma avaliação de visita.
-            </p>
-            <p className="text-xs sm:text-sm text-slate-600 mt-1">
-              <strong>Finalidade:</strong> Exibição no feed social comunitário para auxiliar outros usuários com restrições a visualizarem opções seguras de consumo.
+            <p className="text-xs sm:text-sm text-[#333333]">
+              O acesso à câmera ou galeria (<em>expo-image-picker</em>) ocorre apenas sob ação explícita do usuário para adicionar foto de perfil ou fotografar uma refeição ao registrar visita dentro dos 100 metros do restaurante. Comentários, notas e fotos publicados ficam visíveis no Feed Social comunitário.
             </p>
           </div>
         </div>
       </section>
 
       <section className="space-y-3">
-        <h2 className="text-xl font-bold text-slate-900 flex items-center gap-2">
+        <h2 className="text-lg sm:text-xl font-bold text-[#11181C] flex items-center gap-2">
           <Lock className="w-5 h-5 text-[#009C9D]" />
-          3. Práticas de Segurança e Criptografia
+          3. Terceiros, Transferência Técnica e Segurança
         </h2>
         <p>
-          Adotamos salvaguardas técnicas e organizacionais avançadas para garantir a integridade e sigilo dos dados:
+          Todas as comunicações entre o aplicativo e os servidores ocorrem exclusivamente via HTTPS com TLS 1.3; senhas são armazenadas com Argon2id e sessões utilizam tokens JWT com expiração controlada.
         </p>
-        <ul className="list-disc pl-6 space-y-1.5 text-xs sm:text-sm text-slate-600">
-          <li><strong>Criptografia em trânsito:</strong> Toda comunicação entre o app mobile, web e servidores de API é forçada sobre HTTPS com protocolo TLS 1.3 e cabeçalhos de segurança estritos.</li>
-          <li><strong>Armazenamento de senhas com Argon2id:</strong> Senhas nunca são salvas em texto puro. Utilizamos Argon2id com parâmetros seguros de salt e memória.</li>
-          <li><strong>Tokens de acesso seguros (JWT):</strong> Sessões utilizam tokens HS256 com prazo de expiração curto e renovação automatizada com refresh tokens.</li>
-          <li><strong>Sanitização NoSQL:</strong> Proteção estrita contra ataques de injeção em banco de dados NoSQL MongoDB através de sanitização de operadores.</li>
+        <p>
+          Para viabilizar recursos essenciais do app sem comercializar dados, utilizamos os seguintes provedores técnicos:
+        </p>
+        <ul className="list-disc pl-6 space-y-1.5 text-xs sm:text-sm text-[#333333]">
+          <li>
+            <strong>Google Maps Platform:</strong> renderização de mapas e marcadores geográficos, sujeito à{' '}
+            <a
+              href="https://policies.google.com/privacy"
+              target="_blank"
+              rel="noreferrer"
+              className="text-[#007E7F] font-bold hover:underline"
+            >
+              Política de Privacidade do Google
+            </a>
+            .
+          </li>
+          <li>
+            <strong>Google Sign-In / Identity Services:</strong> validação segura de autenticação OAuth2 por ID Token quando o usuário opta pelo login com Google.
+          </li>
+          <li>
+            <strong>Infraestrutura em Nuvem (MongoDB Atlas e Redis):</strong> persistência e cache protegidos por controle de acesso e sanitização de consultas.
+          </li>
         </ul>
       </section>
 
       <section className="space-y-3">
-        <h2 className="text-xl font-bold text-slate-900">
-          4. Compartilhamento de Dados com Terceiros
+        <h2 className="text-lg sm:text-xl font-bold text-[#11181C]">
+          4. Retenção, Direitos LGPD e Exclusão de Conta
         </h2>
         <p>
-          <strong>O HelpRest não vende, não aluga e não comercializa dados pessoais sob nenhuma hipótese.</strong> O compartilhamento ocorre exclusivamente com fornecedores de infraestrutura indispensáveis para a prestação do serviço:
+          Conforme a LGPD (Art. 18), você pode solicitar confirmação de tratamento, correção, portabilidade, revogação de consentimento ou exclusão definitiva da sua conta e dos dados associados. O prazo máximo de atendimento e expurgo é de 30 dias corridos.
         </p>
-        <ul className="list-disc pl-6 space-y-1 text-xs sm:text-sm text-slate-600">
-          <li><strong>Google Maps Platform:</strong> Para exibição de mapas interativos, geocodificação de endereços e rotas.</li>
-          <li><strong>Infraestrutura de Banco de Dados em Nuvem (MongoDB Atlas & Redis):</strong> Para persistência criptografada e cache distribuído com alta disponibilidade.</li>
-        </ul>
-      </section>
-
-      <section className="space-y-3">
-        <h2 className="text-xl font-bold text-slate-900">
-          5. Direitos dos Titulares de Dados (LGPD Art. 18)
-        </h2>
         <p>
-          Você tem direito, a qualquer momento e mediante requisição gratuita, a:
-        </p>
-        <ul className="list-disc pl-6 space-y-1 text-xs sm:text-sm text-slate-600">
-          <li>Confirmar a existência de tratamento de dados;</li>
-          <li>Acessar e retificar seus dados cadastrais diretamente no aplicativo;</li>
-          <li>Solicitar a anonimização, bloqueio ou eliminação de dados desnecessários;</li>
-          <li>Revogar seu consentimento ou solicitar a exclusão integral de sua conta e histórico.</li>
-        </ul>
-        <p className="pt-1">
-          Para solicitar a exclusão definitiva, você pode utilizar a opção no próprio aplicativo ou acessar nossa página exclusiva de conformidade: <Link to="/exclusao-de-dados" className="text-[#009C9D] font-bold hover:underline">Página de Exclusão de Conta e Dados</Link>.
+          Consulte instruções detalhadas e gere sua solicitação na{' '}
+          <Link to="/exclusao-de-dados" className="text-[#007E7F] font-bold hover:underline">
+            Página Oficial de Exclusão de Conta e Dados
+          </Link>{' '}
+          ou consulte o resumo técnico em{' '}
+          <Link to="/seguranca-dos-dados" className="text-[#007E7F] font-bold hover:underline">
+            Segurança dos Dados (Data Safety)
+          </Link>
+          .
         </p>
       </section>
 
       <section className="space-y-3">
-        <h2 className="text-xl font-bold text-slate-900">
-          6. Proteção da Privacidade Infantil
+        <h2 className="text-lg sm:text-xl font-bold text-[#11181C]">
+          5. Idade Mínima e Privacidade de Crianças
         </h2>
         <p>
-          O HelpRest é direcionado ao público geral e não coleta intencionalmente dados de crianças menores de 13 anos. Caso tome conhecimento de cadastro indevido de menor sem autorização parental, realizaremos a exclusão imediata mediante notificação via <a href="mailto:privacidade@helprest.com" className="text-[#009C9D] font-semibold hover:underline">privacidade@helprest.com</a>.
+          A criação de conta pessoal no HelpRest requer idade mínima de <strong>13 anos</strong>. O aplicativo não é direcionado a crianças menores de 13 anos e não coleta intencionalmente seus dados. Caso identifiquemos cadastro indevido de menor de 13 anos sem consentimento legal aplicável, removeremos a conta imediatamente após notificação em{' '}
+          <a href="mailto:privacidade@helprest.com" className="text-[#007E7F] font-bold hover:underline">
+            privacidade@helprest.com
+          </a>
+          .
         </p>
       </section>
 
-      <div className="p-4 rounded-xl bg-slate-100 border border-slate-200 text-xs text-slate-600 flex items-start gap-2.5">
-        <AlertCircle className="w-4 h-4 text-slate-500 flex-shrink-0 mt-0.5" />
+      <div className="p-4 rounded-xl bg-[#FAFAFA] border border-[#EAEAEA] text-xs text-[#687076] flex items-start gap-2.5">
+        <AlertCircle className="w-4 h-4 text-[#687076] flex-shrink-0 mt-0.5" />
         <div>
-          Esta política pode ser atualizada periodicamente para refletir evoluções regulatórias ou novos recursos do produto. Quaisquer alterações substanciais serão comunicadas previamente pelo aplicativo ou por e-mail.
+          Alterações relevantes nesta Política de Privacidade serão comunicadas nesta URL oficial com data de revisão atualizada.
         </div>
       </div>
     </LegalLayout>

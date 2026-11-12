@@ -1,67 +1,125 @@
 import React, { useState } from 'react';
-import { Input } from '../atoms/Input';
-import { Textarea } from '../atoms/Input';
+import { Input, Textarea } from '../atoms/Input';
 import { Button } from '../atoms/Button';
-import { AlertTriangle, CheckCircle2, ShieldAlert } from 'lucide-react';
+import { AlertTriangle, CheckCircle2, Mail, Copy, ShieldCheck } from 'lucide-react';
 
 export const DeleteAccountForm: React.FC = () => {
   const [email, setEmail] = useState('');
   const [scope, setScope] = useState<'full' | 'data-only'>('full');
   const [reason, setReason] = useState('');
   const [confirmationChecked, setConfirmationChecked] = useState(false);
-  const [submitted, setSubmitted] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
+  const [protocolId, setProtocolId] = useState<string | null>(null);
+  const [copied, setCopied] = useState(false);
+
+  const scopeLabel =
+    scope === 'full'
+      ? 'Exclusão Total da Conta e Dados Vinculados'
+      : 'Exclusão Apenas de Dados de Localização e Histórico (manter cadastro)';
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (!email || !confirmationChecked) return;
-
-    setIsLoading(true);
-    // Simulate backend processing
-    setTimeout(() => {
-      setIsLoading(false);
-      setSubmitted(true);
-    }, 900);
+    const stamp = Date.now().toString(36).toUpperCase().slice(-6);
+    setProtocolId(`HR-DEL-${stamp}`);
+    setCopied(false);
   };
 
-  if (submitted) {
+  const mailSubject = encodeURIComponent(
+    `[HelpRest • ${protocolId || 'LGPD'}] Solicitação de ${scope === 'full' ? 'Exclusão Total de Conta' : 'Exclusão de Dados'}`
+  );
+
+  const requestSummary = [
+    `Protocolo de Referência: ${protocolId || 'Pendente'}`,
+    `Aplicativo: HelpRest (com.gustavo_lg.helprest)`,
+    `E-mail da conta cadastrada: ${email}`,
+    `Tipo de solicitação: ${scopeLabel}`,
+    `Motivo informado: ${reason.trim() || 'Não informado'}`,
+    `Prazo legal máximo (LGPD): 30 dias corridos após verificação de titularidade.`,
+  ].join('\n');
+
+  const mailtoHref = `mailto:privacidade@helprest.com?subject=${mailSubject}&body=${encodeURIComponent(requestSummary)}`;
+
+  const handleCopy = async () => {
+    try {
+      await navigator.clipboard.writeText(requestSummary);
+      setCopied(true);
+    } catch {
+      setCopied(false);
+    }
+  };
+
+  if (protocolId) {
     return (
-      <div className="bg-emerald-50 border border-emerald-200 rounded-2xl p-6 sm:p-8 text-center space-y-3">
-        <div className="w-12 h-12 bg-emerald-100 text-emerald-700 rounded-full flex items-center justify-center mx-auto">
-          <CheckCircle2 className="w-6 h-6" />
+      <div className="bg-white border border-[#B2DFDB] rounded-2xl p-6 sm:p-8 space-y-5">
+        <div className="flex items-start gap-3">
+          <div className="w-10 h-10 bg-[#E0F2F1] text-[#007E7F] rounded-full flex items-center justify-center flex-shrink-0">
+            <CheckCircle2 className="w-5 h-5" />
+          </div>
+          <div className="space-y-1">
+            <h3 className="text-lg font-bold text-[#11181C]">
+              Resumo da Solicitação Pronto para Envio ({protocolId})
+            </h3>
+            <p className="text-sm text-[#687076] leading-relaxed">
+              Para confirmar a titularidade do e-mail <strong>{email}</strong> com segurança, finalize o envio pelo botão abaixo no seu aplicativo de e-mail ou envie o texto para{' '}
+              <a
+                href="mailto:privacidade@helprest.com"
+                className="font-bold text-[#007E7F] hover:underline"
+              >
+                privacidade@helprest.com
+              </a>
+              .
+            </p>
+          </div>
         </div>
-        <h3 className="text-xl font-bold text-emerald-950">
-          Solicitação de Exclusão Registrada com Sucesso
-        </h3>
-        <p className="text-sm text-emerald-800 max-w-lg mx-auto">
-          Enviamos uma confirmação para <strong>{email}</strong> com o protocolo de segurança.
-          Conforme exigido pelo Google Play Console e pela LGPD, sua conta e dados vinculados serão purgados de nossos bancos de dados em até <strong>30 dias corridos</strong>.
-        </p>
-        <div className="pt-2">
+
+        <pre className="bg-[#FAFAFA] border border-[#EAEAEA] rounded-xl p-4 text-xs font-mono text-[#333333] whitespace-pre-wrap break-words">
+          {requestSummary}
+        </pre>
+
+        <div className="flex flex-wrap items-center gap-3">
+          <a href={mailtoHref}>
+            <Button type="button" variant="primary" size="md" iconLeft={<Mail className="w-4 h-4" />}>
+              Abrir E-mail Oficial de Exclusão
+            </Button>
+          </a>
           <Button
             type="button"
             variant="outline"
+            size="md"
+            onClick={handleCopy}
+            iconLeft={<Copy className="w-4 h-4" />}
+          >
+            {copied ? 'Texto Copiado!' : 'Copiar Protocolo'}
+          </Button>
+          <Button
+            type="button"
+            variant="ghost"
             size="sm"
             onClick={() => {
-              setSubmitted(false);
-              setEmail('');
-              setReason('');
-              setConfirmationChecked(false);
+              setProtocolId(null);
+              setCopied(false);
             }}
           >
-            Enviar outra solicitação
+            Editar dados
           </Button>
         </div>
+
+        <p className="text-xs text-[#687076]">
+          Após o recebimento da mensagem a partir do endereço titular, o atendimento e o expurgo seguem o prazo máximo de 30 dias corridos conforme a LGPD (Art. 18).
+        </p>
       </div>
     );
   }
 
   return (
-    <form onSubmit={handleSubmit} className="bg-white border border-slate-200 rounded-2xl p-6 sm:p-8 shadow-sm space-y-5">
-      <div className="flex items-start gap-3 p-4 rounded-xl bg-amber-50 border border-amber-200 text-amber-900 text-xs sm:text-sm">
-        <AlertTriangle className="w-5 h-5 text-amber-600 flex-shrink-0 mt-0.5" />
+    <form
+      onSubmit={handleSubmit}
+      className="bg-white border border-[#EAEAEA] rounded-2xl p-6 sm:p-8 space-y-5"
+    >
+      <div className="flex items-start gap-3 p-4 rounded-xl bg-[#FEF9E7] border border-[#F9E6A2] text-[#735107] text-xs sm:text-sm">
+        <AlertTriangle className="w-5 h-5 text-[#D4A710] flex-shrink-0 mt-0.5" />
         <div>
-          <strong className="font-bold">Atenção:</strong> A exclusão de conta é permanente e irreversível. Todos os seus favoritos salvos, flags alimentares configuradas e histórico de visitas georreferenciadas serão permanentemente removidos.
+          <strong className="font-bold">Atenção:</strong> A exclusão definitiva da conta remove de forma irreversível suas credenciais, restrições configuradas, favoritos e dados pessoais associados.
         </div>
       </div>
 
@@ -72,47 +130,56 @@ export const DeleteAccountForm: React.FC = () => {
           required
           value={email}
           onChange={(e) => setEmail(e.target.value)}
-          placeholder="exemplo@email.com"
-          helperText="O mesmo e-mail utilizado no login tradicional ou Google Sign-In."
+          placeholder="seu.email@exemplo.com"
+          helperText="Informe o mesmo e-mail utilizado no login tradicional ou no Google Sign-In."
         />
 
         <div>
-          <label className="block text-xs font-semibold text-slate-700 mb-2">
+          <label className="block text-xs font-bold text-[#11181C] mb-2">
             Escopo da Solicitação
           </label>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
             <button
               type="button"
               onClick={() => setScope('full')}
-              className={`p-3.5 rounded-xl border text-left transition-all cursor-pointer ${
+              className={`p-3.5 rounded-xl border text-left transition-colors cursor-pointer ${
                 scope === 'full'
-                  ? 'border-[#009C9D] bg-[#E6F7F7]/50 ring-2 ring-[#009C9D]/20'
-                  : 'border-slate-200 hover:border-slate-300'
+                  ? 'border-[#009C9D] bg-[#F4FDFB]'
+                  : 'border-[#DDDDDD] hover:border-[#BDBDBD]'
               }`}
             >
-              <div className="font-bold text-sm text-slate-900 mb-0.5">Exclusão Total da Conta</div>
-              <div className="text-xs text-slate-500">Deleta login, perfil, restrições, fotos e histórico completo.</div>
+              <div className="font-bold text-sm text-[#11181C] mb-0.5">
+                Exclusão Total da Conta
+              </div>
+              <div className="text-xs text-[#687076]">
+                Remove login, perfil, restrições, favoritos e histórico vinculado.
+              </div>
             </button>
+
             <button
               type="button"
               onClick={() => setScope('data-only')}
-              className={`p-3.5 rounded-xl border text-left transition-all cursor-pointer ${
+              className={`p-3.5 rounded-xl border text-left transition-colors cursor-pointer ${
                 scope === 'data-only'
-                  ? 'border-[#009C9D] bg-[#E6F7F7]/50 ring-2 ring-[#009C9D]/20'
-                  : 'border-slate-200 hover:border-slate-300'
+                  ? 'border-[#009C9D] bg-[#F4FDFB]'
+                  : 'border-[#DDDDDD] hover:border-[#BDBDBD]'
               }`}
             >
-              <div className="font-bold text-sm text-slate-900 mb-0.5">Exclusão Apenas de Dados</div>
-              <div className="text-xs text-slate-500">Mantém a conta ativa, mas limpa histórico de GPS e avaliações.</div>
+              <div className="font-bold text-sm text-[#11181C] mb-0.5">
+                Exclusão Apenas de Dados / Histórico
+              </div>
+              <div className="text-xs text-[#687076]">
+                Limpa registros de visitas e localização mantendo a conta cadastral ativa.
+              </div>
             </button>
           </div>
         </div>
 
         <Textarea
-          label="Motivo da solicitação (opcional)"
+          label="Observações adicionais (opcional)"
           value={reason}
           onChange={(e) => setReason(e.target.value)}
-          placeholder="Conte-nos brevemente o motivo para nos ajudar a melhorar o app..."
+          placeholder="Se desejar, informe detalhes sobre o pedido ou feedback de melhoria..."
           rows={3}
         />
 
@@ -123,26 +190,29 @@ export const DeleteAccountForm: React.FC = () => {
             required
             checked={confirmationChecked}
             onChange={(e) => setConfirmationChecked(e.target.checked)}
-            className="w-4 h-4 mt-0.5 text-[#009C9D] rounded border-slate-300 focus:ring-[#009C9D] cursor-pointer"
+            className="w-4 h-4 mt-0.5 accent-[#009C9D] rounded border-[#DDDDDD] cursor-pointer"
           />
-          <label htmlFor="confirm-delete" className="text-xs text-slate-600 leading-normal cursor-pointer select-none">
-            Confirmo que sou o titular da conta informada e estou ciente de que todos os dados vinculados serão definitivamente excluídos no prazo máximo de 30 dias.
+          <label
+            htmlFor="confirm-delete"
+            className="text-xs text-[#687076] leading-normal cursor-pointer select-none"
+          >
+            Confirmo que sou o titular da conta informada e estou ciente de que os dados solicitados serão removidos ou anonimizados definitivamente em até 30 dias.
           </label>
         </div>
       </div>
 
       <div className="pt-2 flex flex-col sm:flex-row items-center justify-between gap-4">
-        <span className="text-xs text-slate-400 inline-flex items-center gap-1">
-          <ShieldAlert className="w-3.5 h-3.5" /> Google Play Policy Compliance & LGPD Art. 18
+        <span className="text-xs text-[#687076] inline-flex items-center gap-1.5">
+          <ShieldCheck className="w-4 h-4 text-[#009C9D]" />
+          <span>privacidade@helprest.com • LGPD Art. 18</span>
         </span>
         <Button
           type="submit"
-          variant="secondary"
-          isLoading={isLoading}
+          variant="danger"
           disabled={!email || !confirmationChecked}
-          className="bg-rose-700 hover:bg-rose-800 text-white w-full sm:w-auto"
+          className="w-full sm:w-auto"
         >
-          Confirmar Solicitação de Exclusão
+          Gerar Protocolo de Exclusão
         </Button>
       </div>
     </form>
