@@ -1,29 +1,47 @@
 @import "tailwindcss";
 
 @theme {
-  --font-sans: "Plus Jakarta Sans", system-ui, -apple-system, sans-serif;
+  --font-sans: "Roboto", system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-mono: "Roboto Mono", ui-monospace, SFMono-Regular, monospace;
+
+  /* Core helprest-app color tokens */
   --color-brand: #009C9D;
   --color-brand-dark: #007E7F;
-  --color-brand-hover: #008788;
+  --color-brand-hover: #008384;
   --color-brand-light: #21B2B3;
-  --color-brand-subtle: #E6F7F7;
-  --color-brand-50: #F0FDFD;
-  --color-brand-100: #CCFBFB;
-  --color-brand-500: #009C9D;
-  --color-brand-600: #008384;
-  --color-brand-700: #006A6B;
-  --color-brand-800: #005354;
+  --color-brand-tint: #E0F2F1;
+  --color-brand-soft: #F4FDFB;
+  --color-brand-border: #B2DFDB;
+
+  /* App accents */
+  --color-coral: #FF533F;
   --color-gold: #F7CC33;
-  --color-gold-dark: #D4A710;
-  --color-gold-light: #FDEBB0;
-  --color-dark: #11181C;
-  --color-dark-surface: #1E293B;
+
+  /* App neutrals & typography */
+  --color-ink: #11181C;
+  --color-ink-secondary: #333333;
   --color-muted: #687076;
+  --color-canvas: #FAFAFA;
+  --color-surface: #FFFFFF;
+  --color-border-hairline: #EAEAEA;
+  --color-border-card: #DDDDDD;
+  --color-track: #E0E0E0;
 }
 
 @layer base {
   html {
     scroll-behavior: smooth;
     font-family: var(--font-sans);
+    background-color: var(--color-canvas);
+    color: var(--color-ink);
   }
+}
+
+/* Custom thin scrollbars inside the interactive phone simulator */
+.scrollbar-none {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+.scrollbar-none::-webkit-scrollbar {
+  display: none;
 }

@@ -5,36 +5,42 @@ export const FAQS: FaqItem[] = [
     id: 'faq-1',
     category: 'geral',
     question: 'O HelpRest é gratuito para os consumidores?',
-    answer: 'Sim! O HelpRest é 100% gratuito para os usuários finais encontrarem estabelecimentos, salvarem restrições alimentares, lerem avaliações verificadas e consultarem cardápios seguros.',
+    answer:
+      'Sim. O HelpRest é gratuito para você configurar suas restrições alimentares, explorar restaurantes próximos no mapa, salvar locais ou pratos nos favoritos e registrar visitas com foto no feed social.',
   },
   {
     id: 'faq-2',
     category: 'restricoes',
-    question: 'Como funciona o cálculo de compatibilidade de flags?',
-    answer: 'O algoritmo do HelpRest analisa todas as suas restrições selecionadas. Se você marcou "Sem Glúten" e "Sem Lactose", estabelecimentos que atendem a ambas têm compatibilidade máxima (100% Match) e ganham prioridade no topo. Se não houver locais 100% próximos, o sistema degrada de forma transparente para opções parciais, excluindo qualquer local que não atenda a nenhuma das suas necessidades.',
+    question: 'Como o aplicativo calcula quais restaurantes aparecem para mim?',
+    answer:
+      'O motor de recomendação compara as restrições selecionadas no seu perfil com as flags de cada cozinha e prato. Locais que atendem 100% das suas flags ativas aparecem em destaque; qualquer estabelecimento sem nenhuma correspondência é ocultado enquanto suas restrições estiverem ligadas.',
   },
   {
     id: 'faq-3',
     category: 'seguranca',
-    question: 'O que é a validação de visitas por geofencing (100 metros)?',
-    answer: 'Para combater avaliações falsas e garantir a segurança de quem tem alergias severas, fotos de visitas e avaliações oficiais no feed social só podem ser registradas se o GPS do usuário comprovar que ele esteve fisicamente a menos de 100 metros do estabelecimento.',
+    question: 'Como funciona a validação de visita em 100 metros e o uso da câmera?',
+    answer:
+      'No momento em que você toca em "Registrar Visita", o HelpRest verifica suas coordenadas GPS dentro de um raio de 100 metros do estabelecimento. A câmera ou galeria só é aberta quando você escolhe anexar uma foto da refeição ao relato.',
   },
   {
     id: 'faq-4',
-    category: 'estabelecimentos',
-    question: 'Como um restaurante ou cafeteria pode se cadastrar no HelpRest?',
-    answer: 'Restaurantes podem criar sua conta de Estabelecimento diretamente no aplicativo ou na versão web para empresas. É possível selecionar quais restrições a cozinha atende, cadastrar cardápios categorizados, indicar alérgenos por prato e solicitar auditoria de selos de preparo seguro.',
+    category: 'seguranca',
+    question: 'O HelpRest precisa de localização em segundo plano?',
+    answer:
+      'Não é obrigatório para usar o mapa nem para filtrar restaurantes. A permissão em segundo plano ("Permitir o tempo todo") é totalmente opcional, acompanha notificação visível na barra do Android quando ativa para descobrir locais próximos e pode ser revogada a qualquer momento nas configurações do aparelho.',
   },
   {
     id: 'faq-5',
-    category: 'seguranca',
-    question: 'Como o HelpRest protege os meus dados pessoais e de saúde?',
-    answer: 'Seus dados de preferências alimentares e localização são tratados com criptografia de ponta a ponta em trânsito (TLS 1.3) e hashes fortes (Argon2id). O HelpRest segue rigorosamente a Lei Geral de Proteção de Dados (LGPD) e as diretrizes do Google Play Console. Você pode solicitar a exclusão integral de sua conta e histórico a qualquer momento.',
+    category: 'estabelecimentos',
+    question: 'Como um restaurante ou cafeteria pode se cadastrar no HelpRest?',
+    answer:
+      'No próprio aplicativo, a tela inicial oferece a entrada dedicada para empresas. O gestor cria a conta informando dados do estabelecimento e CNPJ, define as flags da cozinha e gerencia os itens do cardápio com ingredientes detalhados.',
   },
   {
     id: 'faq-6',
     category: 'restricoes',
-    question: 'O HelpRest substitui orientações médicas ou nutricionais?',
-    answer: 'Não. O HelpRest é uma plataforma de busca e recomendação com finalidade de estilo de vida e assistência cotidiana. Não emitimos diagnósticos clínicos. Pessoas com anafilaxia ou alergias graves devem sempre confirmar procedimentos de manipulação diretamente com a equipe do restaurante.',
+    question: 'O HelpRest substitui orientação médica ou confirmação no balcão?',
+    answer:
+      'Não. O HelpRest é uma ferramenta informativa de busca e apoio ao dia a dia, nunca um serviço médico. Pessoas com alergias graves ou anafilaxia devem sempre confirmar os procedimentos de preparo e risco de contaminação cruzada diretamente com a cozinha antes de pedir.',
   },
 ];

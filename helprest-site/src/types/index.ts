@@ -8,6 +8,8 @@ export interface DietaryFlag {
   description: string;
   iconName: string;
   imageAsset?: string;
+  /** Official seed swatch color from helprest-api */
+  swatchColor: string;
   badgeBg: string;
   badgeText: string;
   badgeBorder: string;
@@ -17,6 +19,7 @@ export interface MenuItem {
   id: string;
   name: string;
   description: string;
+  ingredients: string[];
   priceFormatted: string;
   flags: string[]; // flag IDs
   isSafe: boolean;
@@ -36,21 +39,27 @@ export interface Establishment {
   neighborhood: string;
   city: string;
   imageUrl: string;
+  logoInitials: string;
+  logoBg: string;
   flags: string[]; // supported flag IDs
   matchRatio?: number; // 0 to 1
   isSponsor?: boolean;
   kitchenCertified: boolean;
   priceRange: '$' | '$$' | '$$$' | '$$$$';
   highlightDish: MenuItem;
+  otherDish: MenuItem;
   features: string[];
+  mapPosition: { x: number; y: number };
 }
 
 export interface Review {
   id: string;
   authorName: string;
-  authorAvatar: string;
+  authorInitials: string;
+  avatarBg: string;
   establishmentName: string;
   establishmentId: string;
+  visitPhotoUrl: string;
   rating: number;
   dateFormatted: string;
   geofenceDistanceMeters: number;
@@ -69,6 +78,7 @@ export interface FaqItem {
 export interface DataSafetyItem {
   id: string;
   dataType: string;
+  androidPermission?: string;
   collected: boolean;
   shared: boolean;
   purpose: string;

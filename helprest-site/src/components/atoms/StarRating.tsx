@@ -25,34 +25,34 @@ export const StarRating: React.FC<StarRatingProps> = ({
   };
 
   const textSizes = {
-    sm: 'text-xs',
-    md: 'text-sm font-semibold',
+    sm: 'text-xs font-bold',
+    md: 'text-sm font-bold',
     lg: 'text-base font-bold',
   };
 
   return (
     <div className={`inline-flex items-center gap-1.5 ${className}`}>
-      <div className="flex items-center text-[#F7CC33]">
+      <div className="flex items-center gap-0.5 text-[#F7CC33]">
         {Array.from({ length: maxStars }).map((_, i) => {
           const filled = i < Math.floor(rating);
           const half = !filled && i < rating;
           return (
             <Star
               key={i}
-              className={`${iconSizes[size]} ${filled || half ? 'fill-[#F7CC33] text-[#F7CC33]' : 'text-slate-300'}`}
+              className={`${iconSizes[size]} ${
+                filled || half ? 'fill-[#F7CC33] text-[#F7CC33]' : 'text-[#DDDDDD]'
+              }`}
             />
           );
         })}
       </div>
       {showValue && (
-        <span className={`text-slate-800 ${textSizes[size]}`}>
+        <span className={`text-[#11181C] tabular-nums ${textSizes[size]}`}>
           {rating.toFixed(1)}
         </span>
       )}
       {reviewCount !== undefined && (
-        <span className="text-xs text-slate-500">
-          ({reviewCount})
-        </span>
+        <span className="text-xs text-[#687076] tabular-nums">({reviewCount})</span>
       )}
     </div>
   );

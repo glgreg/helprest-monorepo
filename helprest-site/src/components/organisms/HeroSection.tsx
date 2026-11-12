@@ -1,9 +1,9 @@
 import React from 'react';
 import { Container } from '../atoms/Container';
-import { Heading1, Paragraph } from '../atoms/Typography';
+import { Heading1, Paragraph, SectionTag } from '../atoms/Typography';
 import { StoreBadge } from '../atoms/StoreBadge';
 import { PhoneMockup } from '../molecules/PhoneMockup';
-import { ShieldCheck, MapPin, HeartHandshake } from 'lucide-react';
+import { MapPin, Search, ShieldCheck } from 'lucide-react';
 import { useModal } from '../../context/useModal';
 
 export interface HeroSectionProps {
@@ -13,77 +13,79 @@ export interface HeroSectionProps {
 export const HeroSection: React.FC<HeroSectionProps> = ({ onOpenDownloadModal }) => {
   const { openDownloadModal: openGlobalModal } = useModal();
   const handleOpenModal = onOpenDownloadModal || openGlobalModal;
-  return (
-    <section className="relative pt-10 pb-20 sm:pt-16 sm:pb-28 overflow-hidden bg-gradient-to-b from-[#E6F7F7]/40 via-white to-slate-50">
-      {/* Decorative gradient ambient blobs */}
-      <div className="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-gradient-to-tr from-[#009C9D]/15 to-teal-200/20 rounded-full blur-3xl pointer-events-none -z-10" />
 
+  return (
+    <section className="py-12 sm:py-16 lg:py-20 bg-[#FAFAFA]">
       <Container size="lg">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 items-center">
-          
-          {/* Left Content Column (7 cols) */}
-          <div className="lg:col-span-7 text-center lg:text-left space-y-6">
-            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#E6F7F7] text-[#007E7F] text-xs font-bold border border-[#009C9D]/30 select-none">
-              <img src="/assets/logos/helprest_logo_green.svg" alt="HelpRest" className="w-4 h-4 rounded-xs" />
-              <span>Aplicativo Oficial para Restrições Alimentares</span>
-            </div>
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 items-center">
+          {/* Left Content & App Showcase Photo (7 cols) */}
+          <div className="lg:col-span-6 space-y-6">
+            <SectionTag>Descoberta gastronômica segura</SectionTag>
 
             <Heading1>
-              Onde comer com <span className="text-[#009C9D]">segurança</span> e <span className="text-slate-900 underline decoration-[#009C9D]/40 decoration-2">liberdade</span>.
+              Coma fora com <span className="text-[#009C9D]">segurança</span> e cardápios feitos para você.
             </Heading1>
 
-            <Paragraph className="max-w-2xl mx-auto lg:mx-0">
-              Conectamos celíacos, alérgicos, intolerantes a lactose e veganos a restaurantes com cozinhas auditadas e cardápios transparentes. Nosso algoritmo inteligente calcula o <strong>Match 100%</strong> das suas necessidades alimentares em tempo real.
+            <Paragraph className="max-w-xl">
+              O HelpRest filtra restaurantes próximos pelas suas restrições — sem glúten, sem lactose, vegano, vegetariano e alergias — separando no cardápio o que combina com seu perfil e exibindo avaliações confirmadas por GPS a até 100 metros do local.
             </Paragraph>
 
-            {/* Store Download CTAs */}
-            <div className="pt-2 flex flex-wrap items-center justify-center lg:justify-start gap-4">
+            <div className="flex flex-wrap items-center gap-3 pt-1">
               <StoreBadge platform="google-play" onClick={handleOpenModal} />
               <StoreBadge platform="app-store" />
             </div>
 
-            {/* Trust Points */}
-            <div className="pt-6 border-t border-slate-200/80 grid grid-cols-1 sm:grid-cols-3 gap-4 text-left">
-              <div className="flex items-start gap-2.5">
-                <div className="w-8 h-8 rounded-xl bg-[#E6F7F7] flex items-center justify-center text-[#007E7F] flex-shrink-0 mt-0.5">
-                  <ShieldCheck className="w-4 h-4" />
-                </div>
-                <div>
-                  <div className="text-xs font-bold text-slate-900">Match de Flags</div>
-                  <div className="text-[11px] text-slate-500">Exclusão de locais incompatíveis</div>
-                </div>
-              </div>
+            {/* Clean Editorial Food Preview Card featuring authentic App UserBar Pill */}
+            <div className="pt-2">
+              <div className="relative rounded-2xl overflow-hidden border border-[#EAEAEA] bg-white p-2">
+                <div className="relative h-52 sm:h-[260px] rounded-xl overflow-hidden bg-[#F2F4F5]">
+                  <img
+                    src="/assets/showcase/hero-dining.jpg"
+                    alt="Prato artesanal sem glúten em bistrô parceiro"
+                    className="w-full h-full object-cover object-center"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/10 to-transparent" />
 
-              <div className="flex items-start gap-2.5">
-                <div className="w-8 h-8 rounded-xl bg-amber-50 flex items-center justify-center text-amber-700 flex-shrink-0 mt-0.5">
-                  <MapPin className="w-4 h-4" />
-                </div>
-                <div>
-                  <div className="text-xs font-bold text-slate-900">Geofencing 100m</div>
-                  <div className="text-[11px] text-slate-500">Avaliações reais validadas por GPS</div>
-                </div>
-              </div>
+                  {/* Authentic App Floating UserBar Preview */}
+                  <div className="absolute top-3.5 inset-x-3.5 bg-white/95 rounded-full py-1.5 px-3.5 border border-[#EAEAEA] flex items-center justify-between gap-2 shadow-sm">
+                    <div className="flex items-center gap-2 min-w-0">
+                      <MapPin className="w-4 h-4 text-[#009C9D] flex-shrink-0" />
+                      <Search className="w-3.5 h-3.5 text-[#9BA1A6] flex-shrink-0" />
+                      <span className="text-xs text-[#687076] truncate">
+                        Sem glúten em Curitiba
+                      </span>
+                    </div>
+                    <span className="font-mono text-[10px] font-bold uppercase px-2 py-0.5 rounded-full bg-[#F4FDFB] text-[#007E7F] border border-[#B2DFDB] flex-shrink-0">
+                      Match 100%
+                    </span>
+                  </div>
 
-              <div className="flex items-start gap-2.5">
-                <div className="w-8 h-8 rounded-xl bg-emerald-50 flex items-center justify-center text-emerald-700 flex-shrink-0 mt-0.5">
-                  <HeartHandshake className="w-4 h-4" />
-                </div>
-                <div>
-                  <div className="text-xs font-bold text-slate-900">Comunidade Ativa</div>
-                  <div className="text-[11px] text-slate-500">Dicas e fotos de quem também tem restrição</div>
+                  {/* Caption Bar */}
+                  <div className="absolute bottom-3 inset-x-3 flex items-center justify-between text-white text-xs">
+                    <div className="inline-flex items-center gap-1.5 font-medium">
+                      <ShieldCheck className="w-4 h-4 text-[#F7CC33]" />
+                      <span>Cardápio separado em “Para você” e “Outros Itens”</span>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
-
           </div>
 
-          {/* Right Visual Column (5 cols) */}
-          <div className="lg:col-span-5 relative flex justify-center">
-            {/* Background halo */}
-            <div className="absolute inset-0 bg-gradient-to-tr from-[#009C9D]/20 to-[#F7CC33]/15 rounded-full filter blur-2xl transform scale-90" />
-            <PhoneMockup />
+          {/* Right Interactive 4-Tab Mobile Prototype (6 cols) */}
+          <div className="lg:col-span-6 flex flex-col items-center">
+            <div className="w-full max-w-[440px] rounded-3xl bg-white border border-[#EAEAEA] py-6 px-4 sm:px-6 flex flex-col items-center">
+              <div className="w-full flex items-center justify-between mb-4 px-1">
+                <span className="font-mono text-[10px] font-bold uppercase tracking-wider text-[#007E7F]">
+                  Prévia interativa do app
+                </span>
+                <span className="text-[11px] text-[#687076]">
+                  Toque nas abas e nos locais
+                </span>
+              </div>
+              <PhoneMockup />
+            </div>
           </div>
-
         </div>
       </Container>
     </section>
