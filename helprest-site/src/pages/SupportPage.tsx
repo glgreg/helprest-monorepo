@@ -8,110 +8,108 @@ export const SupportPage: React.FC = () => {
   return (
     <LegalLayout
       title="Central de Suporte & Contato"
-      subtitle="Canais oficiais de atendimento ao usuário, suporte a estabelecimentos parceiros e dados de contato do desenvolvedor perante o Google Play Console."
+      subtitle="Atendimento direto aos usuários do HelpRest, suporte a restaurantes parceiros, denúncias de conteúdo e dados oficiais do desenvolvedor para o Google Play."
       lastUpdated="Novembro de 2026"
     >
-      {/* Developer Identification Box (Google Play Requirement) */}
-      <div className="border border-slate-200 rounded-3xl p-6 bg-slate-50/80 space-y-4">
-        <h2 className="text-base font-bold text-slate-900 flex items-center gap-2">
+      {/* Official Play Console Developer Contact Card */}
+      <div className="border border-[#EAEAEA] rounded-2xl p-5 sm:p-6 bg-[#FAFAFA] space-y-4">
+        <h2 className="text-base font-bold text-[#11181C] flex items-center gap-2">
           <Smartphone className="w-5 h-5 text-[#009C9D]" />
-          Dados Oficiais do Desenvolvedor (Google Play Store)
+          <span>Dados Oficiais do Desenvolvedor</span>
         </h2>
-        
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs sm:text-sm text-slate-700">
+
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs sm:text-sm text-[#333333]">
           <div className="space-y-1">
-            <span className="text-xs text-slate-400 font-semibold uppercase tracking-wider block">
-              Entidade Responsável / Desenvolvedor:
+            <span className="font-mono text-[10px] text-[#687076] font-bold uppercase tracking-wider block">
+              Desenvolvedor Responsável
             </span>
-            <span className="font-bold text-slate-900 text-sm">
-              HelpRest Tecnologia (Gustavo L. Gregorio)
-            </span>
+            <span className="font-bold text-[#11181C]">Gustavo L. Gregorio (HelpRest)</span>
           </div>
 
           <div className="space-y-1">
-            <span className="text-xs text-slate-400 font-semibold uppercase tracking-wider block">
-              E-mail Oficial de Atendimento:
+            <span className="font-mono text-[10px] text-[#687076] font-bold uppercase tracking-wider block">
+              E-mail de Suporte Técnico
             </span>
-            <a
-              href="mailto:suporte@helprest.com"
-              className="text-[#009C9D] font-bold hover:underline"
-            >
+            <a href="mailto:suporte@helprest.com" className="text-[#007E7F] font-bold hover:underline">
               suporte@helprest.com
             </a>
           </div>
 
           <div className="space-y-1">
-            <span className="text-xs text-slate-400 font-semibold uppercase tracking-wider block">
-              Pacote Android (Package Name):
+            <span className="font-mono text-[10px] text-[#687076] font-bold uppercase tracking-wider block">
+              E-mail de Privacidade / DPO
             </span>
-            <code className="bg-white px-2 py-0.5 rounded border border-slate-200 font-mono text-slate-800 text-xs">
-              com.gustavo_lg.helprest
-            </code>
+            <a href="mailto:privacidade@helprest.com" className="text-[#007E7F] font-bold hover:underline">
+              privacidade@helprest.com
+            </a>
           </div>
 
           <div className="space-y-1">
-            <span className="text-xs text-slate-400 font-semibold uppercase tracking-wider block">
-              Localização & Jurisdição:
+            <span className="font-mono text-[10px] text-[#687076] font-bold uppercase tracking-wider block">
+              Pacote Android • Localização
             </span>
-            <span className="text-slate-800">
-              São Paulo, SP — Brasil
-            </span>
+            <div className="flex flex-wrap items-center gap-2">
+              <code className="bg-white px-2 py-0.5 rounded border border-[#EAEAEA] font-mono text-[#11181C] text-xs">
+                com.gustavo_lg.helprest
+              </code>
+              <span className="text-xs text-[#687076]">• Curitiba, PR — Brasil</span>
+            </div>
           </div>
         </div>
 
-        <div className="pt-2 border-t border-slate-200/80 flex items-center gap-2 text-xs text-slate-500">
-          <Clock className="w-4 h-4 text-slate-400" />
-          <span>Horário de Atendimento da Equipe: Segunda a Sexta-feira, das 09h às 18h (Horário de Brasília).</span>
+        <div className="pt-3 border-t border-[#EAEAEA] flex items-center gap-2 text-xs text-[#687076]">
+          <Clock className="w-4 h-4 text-[#009C9D] flex-shrink-0" />
+          <span>Horário de atendimento: segunda a sexta-feira, das 09h às 18h (Brasília).</span>
         </div>
       </div>
 
-      {/* Quick Actions Grid */}
+      {/* Quick Actions */}
       <section className="space-y-3">
-        <h2 className="text-xl font-bold text-slate-900">
-          Ações Rápidas de Autoatendimento
+        <h2 className="text-lg sm:text-xl font-bold text-[#11181C]">
+          Acessos Rápidos
         </h2>
-        
+
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
           <Link
             to="/exclusao-de-dados"
-            className="p-4 rounded-2xl border border-slate-200 hover:border-rose-300 hover:bg-rose-50/30 transition-all flex items-center justify-between group"
+            className="p-4 rounded-2xl border border-[#EAEAEA] bg-white hover:border-[#D93829]/40 transition-colors flex items-center justify-between group"
           >
             <div>
-              <div className="font-bold text-sm text-slate-900 group-hover:text-rose-700">
+              <div className="font-bold text-sm text-[#11181C] group-hover:text-[#D93829]">
                 Excluir Conta ou Dados
               </div>
-              <div className="text-xs text-slate-500">
-                Remova suas credenciais e histórico do banco de dados
+              <div className="text-xs text-[#687076]">
+                Gere protocolo oficial e remova seus registros
               </div>
             </div>
-            <ArrowRight className="w-4 h-4 text-slate-400 group-hover:text-rose-600 transition-transform group-hover:translate-x-0.5" />
+            <ArrowRight className="w-4 h-4 text-[#687076] group-hover:text-[#D93829] transition-transform group-hover:translate-x-0.5" />
           </Link>
 
           <Link
             to="/seguranca-dos-dados"
-            className="p-4 rounded-2xl border border-slate-200 hover:border-[#009C9D]/40 hover:bg-[#E6F7F7]/30 transition-all flex items-center justify-between group"
+            className="p-4 rounded-2xl border border-[#EAEAEA] bg-white hover:border-[#009C9D] transition-colors flex items-center justify-between group"
           >
             <div>
-              <div className="font-bold text-sm text-slate-900 group-hover:text-[#007E7F]">
-                Consultar Segurança dos Dados
+              <div className="font-bold text-sm text-[#11181C] group-hover:text-[#007E7F]">
+                Segurança dos Dados & Permissões
               </div>
-              <div className="text-xs text-slate-500">
-                Veja o relatório de privacidade e dados coletados
+              <div className="text-xs text-[#687076]">
+                Lista completa de coleta e controles Android
               </div>
             </div>
-            <ArrowRight className="w-4 h-4 text-slate-400 group-hover:text-[#009C9D] transition-transform group-hover:translate-x-0.5" />
+            <ArrowRight className="w-4 h-4 text-[#687076] group-hover:text-[#007E7F] transition-transform group-hover:translate-x-0.5" />
           </Link>
         </div>
       </section>
 
-      {/* Direct Contact Form */}
-      <section className="space-y-4 pt-4 border-t border-slate-200">
-        <div className="flex items-center gap-2 text-xl font-bold text-slate-900">
+      {/* Contact Form */}
+      <section className="space-y-3 pt-4 border-t border-[#EAEAEA]">
+        <div className="flex items-center gap-2 text-lg sm:text-xl font-bold text-[#11181C]">
           <MessageSquare className="w-5 h-5 text-[#009C9D]" />
-          <h2>Envie uma Mensagem para o Suporte</h2>
+          <h2>Enviar Mensagem ao Suporte</h2>
         </div>
-        <p className="text-xs sm:text-sm text-slate-600">
-          Preencha o formulário abaixo caso precise de ajuda com sua conta, tenha interesse em cadastrar um estabelecimento ou queira reportar uma inconformidade em um cardápio:
+        <p className="text-xs sm:text-sm text-[#687076]">
+          Utilize o formulário para dúvidas técnicas, cadastro de restaurante parceiro ou denúncia de informações de cardápio e conteúdo na plataforma:
         </p>
         <ContactForm />
       </section>

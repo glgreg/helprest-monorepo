@@ -5,11 +5,11 @@ import { FlagChip } from '../molecules/FlagChip';
 import { EstablishmentCard } from '../molecules/EstablishmentCard';
 import { DIETARY_FLAGS } from '../../data/flags';
 import { SAMPLE_ESTABLISHMENTS } from '../../data/establishments';
-import { SlidersHorizontal, Sparkles, Filter, AlertCircle, RotateCcw } from 'lucide-react';
+import { Filter, AlertCircle, RotateCcw, Heart } from 'lucide-react';
 
 export const InteractiveSimulator: React.FC = () => {
-  // Default with Gluten Free and Lactose Free selected to show the power right away
   const [selectedFlags, setSelectedFlags] = useState<string[]>(['gluten_free', 'lactose_free']);
+  const [favoriteIds, setFavoriteIds] = useState<string[]>(['est-1']);
 
   const handleToggleFlag = (flagId: string) => {
     setSelectedFlags((prev) =>
@@ -17,29 +17,31 @@ export const InteractiveSimulator: React.FC = () => {
     );
   };
 
+  const handleToggleFavorite = (estId: string) => {
+    setFavoriteIds((prev) =>
+      prev.includes(estId) ? prev.filter((id) => id !== estId) : [...prev, estId]
+    );
+  };
+
   const handleReset = () => {
     setSelectedFlags([]);
   };
 
-  // Rank establishments according to HelpRest RecommendationService logic:
-  // 1. Calculate match ratio (matching user flags / total user flags)
-  // 2. If user has active restrictions and match ratio is 0, exclude completely!
-  // 3. Sort by match ratio descending, then by distance ascending
+  // Match RecommendationService logic: compute flagMatchRatio, exclude zero-match when filters active
   const rankedEstablishments = React.useMemo(() => {
     if (selectedFlags.length === 0) {
       return SAMPLE_ESTABLISHMENTS;
     }
 
-    return SAMPLE_ESTABLISHMENTS
-      .map((est) => {
-        const matchingCount = selectedFlags.filter((f) => est.flags.includes(f)).length;
-        const ratio = matchingCount / selectedFlags.length;
-        return {
-          ...est,
-          matchRatio: ratio,
-        };
-      })
-      .filter((est) => est.matchRatio > 0) // Zero-match exclusion rule!
+    return SAMPLE_ESTABLISHMENTS.map((est) => {
+      const matchingCount = selectedFlags.filter((f) => est.flags.includes(f)).length;
+      const ratio = matchingCount / selectedFlags.length;
+      return {
+        ...est,
+        matchRatio: ratio,
+      };
+    })
+      .filter((est) => est.matchRatio > 0)
       .sort((a, b) => {
         if (b.matchRatio !== a.matchRatio) {
           return b.matchRatio - a.matchRatio;
@@ -49,31 +51,36 @@ export const InteractiveSimulator: React.FC = () => {
   }, [selectedFlags]);
 
   return (
-    <section id="restricoes" className="py-20 bg-white border-y border-slate-200/80">
+    <section id="restricoes" className="py-16 sm:py-20 bg-white border-y border-[#EAEAEA]">
       <Container size="lg">
-        <div className="text-center max-w-3xl mx-auto mb-12">
-          <SectionTag>
-            <SlidersHorizontal className="w-3.5 h-3.5" />
-            Simulador Interativo
-          </SectionTag>
-          <Heading2>
-            Experimente o Algoritmo do HelpRest em Tempo Real
-          </Heading2>
-          <Paragraph className="mt-3">
-            Selecione uma ou mais restrições alimentares abaixo e veja como nossa plataforma recalcula as recomendações, destacando locais com <strong>100% de compatibilidade</strong> e excluindo estabelecimentos inseguros.
-          </Paragraph>
+        <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-6 mb-10">
+          <div className="max-w-2xl">
+            <SectionTag>Filtros por flag alimentar</SectionTag>
+            <Heading2>Filtre em tempo real pelas suas restrições</Heading2>
+            <Paragraph className="mt-2.5">
+              Ative as flags do seu perfil abaixo. O app coloca os locais com 100% de compatibilidade no topo, separa o cardápio seguro e oculta quem não atende nenhuma restrição.
+            </Paragraph>
+          </div>
+          {favoriteIds.length > 0 && (
+            <div className="inline-flex items-center gap-2 px-3.5 py-2 rounded-full bg-[#FAFAFA] border border-[#EAEAEA] text-xs font-medium text-[#333333] w-fit">
+              <Heart className="w-3.5 h-3.5 fill-[#FF533F] text-[#FF533F]" />
+              <span>
+                {favoriteIds.length} {favoriteIds.length === 1 ? 'local salvo' : 'locais salvos'} em Favoritos
+              </span>
+            </div>
+          )}
         </div>
 
-        {/* Flag Selector Chips */}
-        <div className="bg-slate-50 border border-slate-200 rounded-3xl p-6 sm:p-8 mb-10 shadow-xs">
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-5 pb-4 border-b border-slate-200/80">
+        {/* App Step 4 Style Flag Selector */}
+        <div className="bg-[#FAFAFA] border border-[#EAEAEA] rounded-2xl p-5 sm:p-6 mb-10">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-4 pb-3 border-b border-[#EAEAEA]">
             <div className="flex items-center gap-2">
               <Filter className="w-4 h-4 text-[#009C9D]" />
-              <span className="text-sm font-bold text-slate-800">
-                Escolha suas Restrições:
+              <span className="text-sm font-bold text-[#11181C]">
+                Quais restrições definem seu perfil?
               </span>
-              <span className="text-xs text-slate-500">
-                ({selectedFlags.length} selecionada{selectedFlags.length === 1 ? '' : 's'})
+              <span className="font-mono text-xs text-[#687076] whitespace-nowrap flex-shrink-0">
+                ({selectedFlags.length} ativa{selectedFlags.length === 1 ? '' : 's'})
               </span>
             </div>
 
@@ -81,15 +88,15 @@ export const InteractiveSimulator: React.FC = () => {
               <button
                 type="button"
                 onClick={handleReset}
-                className="inline-flex items-center gap-1.5 text-xs font-semibold text-slate-500 hover:text-slate-900 transition-colors cursor-pointer"
+                className="inline-flex items-center gap-1.5 text-xs font-bold text-[#007E7F] hover:underline cursor-pointer w-fit"
               >
                 <RotateCcw className="w-3.5 h-3.5" />
-                Limpar seleção
+                Limpar filtros
               </button>
             )}
           </div>
 
-          <div className="flex flex-wrap gap-2.5">
+          <div className="flex flex-wrap gap-2">
             {DIETARY_FLAGS.map((flag) => (
               <FlagChip
                 key={flag.id}
@@ -100,48 +107,39 @@ export const InteractiveSimulator: React.FC = () => {
             ))}
           </div>
 
-          {/* Algorithm Insight banner */}
-          <div className="mt-6 pt-4 border-t border-slate-200/60 flex items-start gap-2.5 text-xs text-slate-600">
-            <Sparkles className="w-4 h-4 text-[#009C9D] flex-shrink-0 mt-0.5" />
-            <div>
-              <strong>Critério Arquitetural do HelpRest:</strong> Quando você ativa restrições, o sistema prioriza opções com pontuação máxima de flags (<code className="bg-white px-1.5 py-0.5 rounded border border-slate-200 font-mono text-[#007E7F]">flagMatchRatio = 1.0</code>). Locais que não atendem a nenhuma restrição são <strong>automaticamente omitidos</strong> da listagem para sua proteção.
-            </div>
+          <div className="mt-4 pt-3 border-t border-[#EAEAEA] text-xs text-[#687076] flex flex-wrap items-center justify-between gap-2">
+            <span>
+              Locais exibidos: <strong className="text-[#11181C]">{rankedEstablishments.length}</strong> de {SAMPLE_ESTABLISHMENTS.length} exemplos em Curitiba
+            </span>
+            <span>
+              Toque em <strong>Explorar cardápio separado</strong> em qualquer cartão para ver ingredientes.
+            </span>
           </div>
         </div>
 
-        {/* Results Grid */}
-        <div className="space-y-6">
-          <div className="flex items-center justify-between">
-            <h3 className="text-xl font-bold text-slate-900 flex items-center gap-2">
-              <span>Opções Recomendadas</span>
-              <span className="text-xs font-semibold px-2.5 py-0.5 rounded-full bg-[#E6F7F7] text-[#007E7F] border border-[#009C9D]/20">
-                {rankedEstablishments.length} estabelecimentos seguros
-              </span>
+        {rankedEstablishments.length === 0 ? (
+          <div className="text-center py-12 px-4 bg-[#FAFAFA] rounded-2xl border border-[#EAEAEA] space-y-2.5">
+            <AlertCircle className="w-9 h-9 text-[#F2994A] mx-auto" />
+            <h3 className="text-base font-bold text-[#11181C]">
+              Nenhum estabelecimento atende simultaneamente essa combinação na amostra
             </h3>
+            <p className="text-sm text-[#687076] max-w-md mx-auto">
+              Regra de segurança zero-match ativa: restaurantes sem correspondência são ocultados para evitar recomendações enganosas.
+            </p>
           </div>
-
-          {rankedEstablishments.length === 0 ? (
-            <div className="text-center py-12 px-4 bg-slate-50 rounded-3xl border border-slate-200 space-y-3">
-              <AlertCircle className="w-10 h-10 text-amber-500 mx-auto" />
-              <h4 className="text-lg font-bold text-slate-900">
-                Nenhum estabelecimento encontrado para essa combinação extrema
-              </h4>
-              <p className="text-sm text-slate-600 max-w-md mx-auto">
-                Na versão completa do app, novos restaurantes são cadastrados diariamente e o sistema sugere opções em bairros vizinhos.
-              </p>
-            </div>
-          ) : (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {rankedEstablishments.map((est) => (
-                <EstablishmentCard
-                  key={est.id}
-                  establishment={est}
-                  userActiveFlags={selectedFlags}
-                />
-              ))}
-            </div>
-          )}
-        </div>
+        ) : (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {rankedEstablishments.map((est) => (
+              <EstablishmentCard
+                key={est.id}
+                establishment={est}
+                userActiveFlags={selectedFlags}
+                isFavorite={favoriteIds.includes(est.id)}
+                onToggleFavorite={handleToggleFavorite}
+              />
+            ))}
+          </div>
+        )}
       </Container>
     </section>
   );

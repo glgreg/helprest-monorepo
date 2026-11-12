@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Button } from '../atoms/Button';
-import { Input } from '../atoms/Input';
-import { X, CheckCircle2, Sparkles, Bell, ShieldCheck } from 'lucide-react';
+import { Link } from '../../router';
+import { X, Smartphone, ShieldCheck, Mail, ArrowRight } from 'lucide-react';
 
 export interface DownloadModalProps {
   isOpen: boolean;
@@ -9,126 +9,119 @@ export interface DownloadModalProps {
 }
 
 export const DownloadModal: React.FC<DownloadModalProps> = ({ isOpen, onClose }) => {
-  const [email, setEmail] = useState('');
-  const [registered, setRegistered] = useState(false);
-  const [loading, setLoading] = useState(false);
+  const [notifyEmail, setNotifyEmail] = useState('');
 
   if (!isOpen) return null;
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!email) return;
-
-    setLoading(true);
-    setTimeout(() => {
-      setLoading(false);
-      setRegistered(true);
-    }, 600);
-  };
+  const notifyHref = `mailto:suporte@helprest.com?subject=${encodeURIComponent(
+    '[HelpRest Android] Solicitação de link / acesso na Google Play'
+  )}&body=${encodeURIComponent(
+    `Olá equipe HelpRest,\n\nGostaria de receber o link atualizado do aplicativo HelpRest (com.gustavo_lg.helprest) na Google Play Store.\nE-mail de contato: ${notifyEmail || 'responder neste endereço'}`
+  )}`;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-xs animate-in fade-in duration-200">
-      <div 
-        className="relative w-full max-w-lg bg-white rounded-3xl p-6 sm:p-8 shadow-2xl border border-slate-100 overflow-hidden"
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-[#11181C]/60 backdrop-blur-xs">
+      <div
+        className="relative w-full max-w-md bg-white rounded-3xl shadow-xl border border-[#EAEAEA] overflow-hidden"
         role="dialog"
         aria-modal="true"
+        aria-labelledby="download-modal-title"
       >
-        {/* Top Close Button */}
-        <button
-          type="button"
-          onClick={onClose}
-          className="absolute top-5 right-5 p-2 rounded-full text-slate-400 hover:text-slate-700 hover:bg-slate-100 transition-colors cursor-pointer"
-          aria-label="Fechar modal"
-        >
-          <X className="w-5 h-5" />
-        </button>
-
-        {registered ? (
-          <div className="text-center py-6 space-y-3">
-            <div className="w-14 h-14 bg-emerald-100 text-emerald-600 rounded-full flex items-center justify-center mx-auto">
-              <CheckCircle2 className="w-7 h-7" />
-            </div>
-            <h3 className="text-2xl font-bold text-slate-900">
-              Você está na lista VIP!
-            </h3>
-            <p className="text-slate-600 text-sm max-w-sm mx-auto">
-              Confirmamos seu e-mail <strong>{email}</strong>. Assim que a versão oficial for liberada no Google Play Console, você receberá o link exclusivo de download em primeira mão!
-            </p>
-            <div className="pt-3">
-              <Button variant="primary" onClick={onClose} size="md">
-                Entendido
-              </Button>
-            </div>
-          </div>
-        ) : (
-          <div className="space-y-5">
-            <div className="flex items-center gap-2.5">
-              <div className="w-10 h-10 rounded-2xl bg-[#E6F7F7] flex items-center justify-center text-[#009C9D]">
-                <Sparkles className="w-5 h-5" />
-              </div>
-              <div>
-                <span className="text-xs uppercase font-bold tracking-wider text-[#009C9D]">
-                  Acesso Antecipado
-                </span>
-                <h3 className="text-xl font-bold text-slate-900">
-                  HelpRest no Google Play
-                </h3>
-              </div>
-            </div>
-
-            <p className="text-sm text-slate-600 leading-relaxed">
-              O aplicativo <strong>HelpRest (Android)</strong> está em fase final de homologação técnica junto ao Google Play Console. Inscreva-se para receber o convite do Acesso Antecipado e ser o primeiro a testar restaurantes 100% seguros na sua região.
-            </p>
-
-            {/* App Specs Card */}
-            <div className="bg-slate-50 border border-slate-200/80 rounded-2xl p-4 text-xs space-y-2 text-slate-700">
-              <div className="flex justify-between">
-                <span className="text-slate-500">Pacote oficial:</span>
-                <span className="font-mono font-semibold text-slate-900">com.gustavo_lg.helprest</span>
-              </div>
-              <div className="flex justify-between">
-                <span className="text-slate-500">Compatibilidade:</span>
-                <span className="font-semibold text-slate-900">Android 8.0+ (Oreo ou superior)</span>
-              </div>
-              <div className="flex justify-between">
-                <span className="text-slate-500">Preço:</span>
-                <span className="font-semibold text-emerald-600">100% Gratuito</span>
-              </div>
-              <div className="flex items-center gap-1.5 pt-1 text-[11px] text-[#007E7F]">
-                <ShieldCheck className="w-4 h-4 flex-shrink-0" />
-                <span>Auditoria de privacidade & Termos LGPD integrados</span>
-              </div>
-            </div>
-
-            {/* Form */}
-            <form onSubmit={handleSubmit} className="space-y-3">
-              <Input
-                label="Seu melhor e-mail para receber o link"
-                type="email"
-                required
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                placeholder="seu.email@exemplo.com"
-                icon={<Bell className="w-4 h-4" />}
-              />
-              <Button
-                type="submit"
-                variant="primary"
-                fullWidth
-                size="lg"
-                isLoading={loading}
-              >
-                Garantir Acesso Antecipado
-              </Button>
-            </form>
-
-            <div className="text-center">
-              <span className="text-[11px] text-slate-400">
-                Usuário iOS? A versão para App Store está em desenvolvimento paralelo e será anunciada em breve.
+        {/* App-authentic Brand Header Strip matching helprest-app/(auth)/home */}
+        <div className="bg-[#009C9D] px-6 py-5 text-white flex items-center justify-between">
+          <div className="flex items-center gap-3">
+            <img
+              src="/assets/logos/logo_bare.png"
+              alt="HelpRest"
+              className="w-9 h-9 object-contain"
+            />
+            <div>
+              <span className="font-mono text-[10px] uppercase tracking-wider text-white/85 block">
+                Google Play Store
               </span>
+              <h3 id="download-modal-title" className="text-lg font-bold leading-tight">
+                Baixar o HelpRest
+              </h3>
             </div>
           </div>
-        )}
+
+          <button
+            type="button"
+            onClick={onClose}
+            className="p-2 rounded-full text-white/80 hover:text-white hover:bg-white/15 transition-colors cursor-pointer"
+            aria-label="Fechar janela"
+          >
+            <X className="w-5 h-5" />
+          </button>
+        </div>
+
+        <div className="p-6 space-y-5">
+          <p className="text-sm text-[#687076] leading-relaxed">
+            O pacote Android oficial está configurado para distribuição no Google Play Console. Confira a ficha técnica e os documentos públicos de conformidade do aplicativo:
+          </p>
+
+          <div className="bg-[#FAFAFA] border border-[#EAEAEA] rounded-2xl p-4 text-xs space-y-2 text-[#333333]">
+            <div className="flex justify-between gap-2">
+              <span className="text-[#687076]">Aplicativo:</span>
+              <span className="font-bold text-[#11181C]">HelpRest</span>
+            </div>
+            <div className="flex justify-between gap-2">
+              <span className="text-[#687076]">Pacote Android:</span>
+              <code className="font-mono font-bold text-[#11181C]">com.gustavo_lg.helprest</code>
+            </div>
+            <div className="flex justify-between gap-2">
+              <span className="text-[#687076]">Desenvolvedor:</span>
+              <span className="font-medium text-[#11181C]">Gustavo L. Gregorio</span>
+            </div>
+            <div className="flex justify-between gap-2">
+              <span className="text-[#687076]">Versão / Preço:</span>
+              <span className="font-bold text-[#007E7F]">1.0.0 • Gratuito</span>
+            </div>
+          </div>
+
+          <div className="space-y-2.5">
+            <label htmlFor="notify-email-input" className="block text-xs font-bold text-[#11181C]">
+              Receber o link ou suporte de instalação por e-mail
+            </label>
+            <div className="flex gap-2">
+              <input
+                id="notify-email-input"
+                type="email"
+                value={notifyEmail}
+                onChange={(e) => setNotifyEmail(e.target.value)}
+                placeholder="seu.email@exemplo.com"
+                className="flex-1 rounded-full border border-[#DDDDDD] px-4 py-2 text-sm text-[#11181C] placeholder:text-[#9BA1A6] focus:outline-none focus:border-[#009C9D]"
+              />
+              <a href={notifyHref}>
+                <Button type="button" variant="primary" size="md" iconLeft={<Mail className="w-4 h-4" />}>
+                  Solicitar
+                </Button>
+              </a>
+            </div>
+          </div>
+
+          <div className="pt-3 border-t border-[#EAEAEA] flex flex-wrap items-center justify-between gap-2 text-xs">
+            <div className="inline-flex items-center gap-1.5 text-[#007E7F] font-medium">
+              <ShieldCheck className="w-4 h-4" />
+              <span>Políticas Play Console ativas</span>
+            </div>
+            <div className="flex items-center gap-3">
+              <Link
+                to="/seguranca-dos-dados"
+                onClick={onClose}
+                className="font-bold text-[#007E7F] hover:underline inline-flex items-center gap-1"
+              >
+                <span>Segurança dos Dados</span>
+                <ArrowRight className="w-3 h-3" />
+              </Link>
+            </div>
+          </div>
+
+          <div className="flex items-center gap-2 text-[11px] text-[#687076]">
+            <Smartphone className="w-3.5 h-3.5 flex-shrink-0 text-[#009C9D]" />
+            <span>Versão para iOS (App Store) prevista após a etapa inicial no Android.</span>
+          </div>
+        </div>
       </div>
     </div>
   );
