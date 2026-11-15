@@ -7,6 +7,9 @@
 			"path": "helprest-app"
 		},
 		{
+			"path": "helprest-site"
+		},
+		{
 			"path": "resources"
 		}
 	],
