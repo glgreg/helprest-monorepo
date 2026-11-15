@@ -73,14 +73,14 @@ export const DeleteAccountForm: React.FC = () => {
 
   const requestSummary = [
     `Protocolo de Referência: ${protocolId || 'Pendente'}`,
-    `Aplicativo: HelpRest (com.gustavo_lg.helprest)`,
+    `Aplicativo: HelpRest (com.helprest)`,
     `E-mail da conta cadastrada: ${email}`,
     `Tipo de solicitação: ${scopeLabel}`,
     `Motivo informado: ${reason.trim() || 'Não informado'}`,
     `Prazo legal máximo (LGPD): 30 dias corridos após verificação de titularidade.`,
   ].join('\n');
 
-  const mailtoHref = `mailto:privacidade@helprest.com?subject=${mailSubject}&body=${encodeURIComponent(
+  const mailtoHref = `mailto:privacidade@helprest.net?subject=${mailSubject}&body=${encodeURIComponent(
     requestSummary
   )}`;
 
@@ -96,32 +96,32 @@ export const DeleteAccountForm: React.FC = () => {
 
   if (protocolId) {
     return (
-      <div className="tonal-surface bg-[#E9F3F2] rounded-2xl p-6 sm:p-7 space-y-5">
+      <div className="tonal-surface bg-[#EFFBFB] rounded-2xl p-6 sm:p-7 space-y-5">
         <div role="status" aria-live="polite" className="visually-hidden">
           {liveStatus}
         </div>
         <div className="flex items-start gap-3">
-          <div className="w-10 h-10 bg-[#007677] text-white rounded-full flex items-center justify-center flex-shrink-0">
+          <div className="w-10 h-10 bg-[#009C9D] text-[#09181A] rounded-full flex items-center justify-center flex-shrink-0">
             <CheckCircle2 className="w-5 h-5" aria-hidden="true" />
           </div>
           <div className="space-y-1">
-            <h3 className="text-lg font-bold text-[#181C1B]">
+            <h3 className="text-lg font-bold text-[#11181C]">
               Resumo da solicitação pronto para envio ({protocolId})
             </h3>
-            <p className="text-sm text-[#3A413F] leading-relaxed">
+            <p className="text-sm text-[#3F454A] leading-relaxed">
               Para confirmar a titularidade do e-mail <strong>{email}</strong> com segurança, finalize o envio pelo botão abaixo no seu aplicativo de e-mail ou envie o texto para{' '}
               <a
-                href="mailto:privacidade@helprest.com"
-                className="font-semibold text-[#00696A] hover:underline"
+                href="mailto:privacidade@helprest.net"
+                className="font-semibold text-[#00797A] hover:underline"
               >
-                privacidade@helprest.com
+                privacidade@helprest.net
               </a>
               .
             </p>
           </div>
         </div>
 
-        <pre className="bg-white rounded-xl p-4 text-xs font-mono text-[#181C1B] whitespace-pre-wrap break-words">
+        <pre className="bg-white rounded-xl p-4 text-xs font-mono text-[#11181C] whitespace-pre-wrap break-words">
           {requestSummary}
         </pre>
 
@@ -158,7 +158,7 @@ export const DeleteAccountForm: React.FC = () => {
           </Button>
         </div>
 
-        <p className="text-xs text-[#525B58]">
+        <p className="text-xs text-[#596168]">
           Após o recebimento da mensagem a partir do endereço titular, o atendimento e o expurgo seguem o prazo máximo de 30 dias corridos conforme a LGPD (Art. 18).
         </p>
       </div>
@@ -169,14 +169,14 @@ export const DeleteAccountForm: React.FC = () => {
     <form
       onSubmit={handleSubmit}
       noValidate
-      className="tonal-surface bg-[#F4F6F5] rounded-2xl p-6 sm:p-7 space-y-5"
+      className="tonal-surface bg-[#F7F7F8] rounded-2xl p-6 sm:p-7 space-y-5"
     >
       <div role="status" aria-live="polite" className="visually-hidden">
         {liveStatus}
       </div>
 
-      {/* Semantic danger notice (replacing mustard yellow banner) */}
-      <div className="flex items-start gap-3 p-4 rounded-xl bg-[#FDF1EF] border-s-4 border-[#B42318] text-[#7A271A] text-xs sm:text-sm leading-relaxed">
+      {/* Crisp straight left accent border without curved AI hooks */}
+      <div className="flex items-start gap-3 p-4 rounded-e-xl border-s-[3px] border-[#B42318] bg-[#FDF1EF] text-[#7A271A] text-xs sm:text-sm leading-relaxed">
         <AlertTriangle className="w-5 h-5 text-[#B42318] flex-shrink-0 mt-0.5" aria-hidden="true" />
         <div>
           <strong className="font-bold">Atenção:</strong> A exclusão definitiva da conta remove de forma irreversível suas credenciais, restrições configuradas, favoritos e dados pessoais associados.
@@ -215,15 +215,15 @@ export const DeleteAccountForm: React.FC = () => {
         />
 
         <fieldset className="space-y-2.5">
-          <legend className="text-sm font-medium text-[#181C1B]">
+          <legend className="text-sm font-medium text-[#11181C]">
             Escopo da solicitação
           </legend>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
             <label
               className={`tonal-surface flex items-start gap-3 p-4 rounded-xl cursor-pointer transition-colors ${
                 scope === 'full'
-                  ? 'bg-[#E9F3F2] ring-2 ring-[#007677]'
-                  : 'bg-white hover:bg-[#EDF1EF]'
+                  ? 'bg-[#EFFBFB] ring-2 ring-[#009C9D]'
+                  : 'bg-white hover:bg-[#F1F2F4]'
               }`}
             >
               <input
@@ -232,13 +232,13 @@ export const DeleteAccountForm: React.FC = () => {
                 value="full"
                 checked={scope === 'full'}
                 onChange={() => setScope('full')}
-                className="mt-0.5 h-4 w-4 accent-[#007677] flex-shrink-0 cursor-pointer"
+                className="mt-0.5 h-4 w-4 accent-[#009C9D] flex-shrink-0 cursor-pointer"
               />
               <div>
-                <div className="font-bold text-sm text-[#181C1B]">
+                <div className="font-bold text-sm text-[#11181C]">
                   Exclusão total da conta
                 </div>
-                <div className="text-xs text-[#525B58] mt-0.5 leading-snug">
+                <div className="text-xs text-[#596168] mt-0.5 leading-snug">
                   Remove login, perfil, restrições, favoritos e histórico vinculado.
                 </div>
               </div>
@@ -247,8 +247,8 @@ export const DeleteAccountForm: React.FC = () => {
             <label
               className={`tonal-surface flex items-start gap-3 p-4 rounded-xl cursor-pointer transition-colors ${
                 scope === 'data-only'
-                  ? 'bg-[#E9F3F2] ring-2 ring-[#007677]'
-                  : 'bg-white hover:bg-[#EDF1EF]'
+                  ? 'bg-[#EFFBFB] ring-2 ring-[#009C9D]'
+                  : 'bg-white hover:bg-[#F1F2F4]'
               }`}
             >
               <input
@@ -257,13 +257,13 @@ export const DeleteAccountForm: React.FC = () => {
                 value="data-only"
                 checked={scope === 'data-only'}
                 onChange={() => setScope('data-only')}
-                className="mt-0.5 h-4 w-4 accent-[#007677] flex-shrink-0 cursor-pointer"
+                className="mt-0.5 h-4 w-4 accent-[#009C9D] flex-shrink-0 cursor-pointer"
               />
               <div>
-                <div className="font-bold text-sm text-[#181C1B]">
+                <div className="font-bold text-sm text-[#11181C]">
                   Apenas dados e histórico
                 </div>
-                <div className="text-xs text-[#525B58] mt-0.5 leading-snug">
+                <div className="text-xs text-[#596168] mt-0.5 leading-snug">
                   Limpa registros de visitas e localização mantendo a conta cadastral ativa.
                 </div>
               </div>
@@ -299,11 +299,11 @@ export const DeleteAccountForm: React.FC = () => {
                   setErrors((prev) => ({ ...prev, confirmation: undefined }));
                 }
               }}
-              className="w-5 h-5 mt-0.5 accent-[#007677] rounded border-[#747D7B] cursor-pointer flex-shrink-0"
+              className="w-5 h-5 mt-0.5 accent-[#009C9D] rounded border-[#717880] cursor-pointer flex-shrink-0"
             />
             <label
               htmlFor={confirmId}
-              className="text-xs sm:text-sm text-[#3A413F] leading-snug cursor-pointer select-none py-0.5"
+              className="text-xs sm:text-sm text-[#3F454A] leading-snug cursor-pointer select-none py-0.5"
             >
               Confirmo que sou o titular da conta informada e estou ciente de que os dados solicitados serão removidos ou anonimizados definitivamente em até 30 dias.{' '}
               <span className="text-[#B42318]" aria-hidden="true">
@@ -324,9 +324,9 @@ export const DeleteAccountForm: React.FC = () => {
       </div>
 
       <div className="pt-2 flex flex-col sm:flex-row items-center justify-between gap-4">
-        <span className="text-xs text-[#525B58] inline-flex items-center gap-1.5">
-          <ShieldCheck className="w-4 h-4 text-[#007677]" aria-hidden="true" />
-          <span>privacidade@helprest.com · LGPD Art. 18</span>
+        <span className="text-xs text-[#596168] inline-flex items-center gap-1.5">
+          <ShieldCheck className="w-4 h-4 text-[#00797A]" aria-hidden="true" />
+          <span>privacidade@helprest.net · LGPD Art. 18</span>
         </span>
         <Button type="submit" variant="danger" size="lg" className="w-full sm:w-auto">
           Gerar Protocolo de Exclusão

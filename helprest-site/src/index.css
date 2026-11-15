@@ -1,42 +1,43 @@
 @import "tailwindcss";
 
 @theme {
-  --font-sans: "Roboto", system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
-  --font-mono: "Roboto Mono", ui-monospace, SFMono-Regular, monospace;
+  --font-display: "Bricolage Grotesque Variable", "Plus Jakarta Sans Variable", system-ui, -apple-system, sans-serif;
+  --font-sans: "Plus Jakarta Sans Variable", system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-mono: "JetBrains Mono Variable", ui-monospace, SFMono-Regular, monospace;
 
-  /* Brand & Google-UI tonal hierarchy aligned with HelpRest */
+  /* Exact HelpRest brand cyan-teal + warm optimistic accents */
   --color-brand: #009C9D;
-  --color-brand-fill: #007677;
-  --color-brand-fill-hover: #006061;
-  --color-brand-dark: #00696A;
-  --color-brand-deep: #0A4E50;
-  --color-brand-tint: #E9F3F2;
-  --color-brand-container: #D4EBE9;
+  --color-brand-hover: #1BA6A7;
+  --color-brand-text: #00797A;
+  --color-brand-ink-on-fill: #09181A;
+  --color-brand-tint: #EFFBFB;
+  --color-brand-container: #D8F3F3;
 
-  /* Semantic accents (gold reserved strictly for rating stars) */
+  /* Semantic accents (coral heart accent from SVG mark, gold strictly for rating stars) */
   --color-coral: #FF533F;
-  --color-coral-ink: #C43E32;
+  --color-coral-ink: #C93322;
+  --color-coral-soft: #FFF1EE;
   --color-danger: #B42318;
   --color-danger-soft: #FDF1EF;
   --color-danger-ink: #7A271A;
-  --color-gold: #D99B04;
+  --color-gold: #E5A910;
 
-  /* Balanced neutral mineral inks & surfaces */
-  --color-ink: #181C1B;
-  --color-ink-secondary: #3A413F;
-  --color-muted: #525B58;
-  --color-canvas: #F4F6F5;
+  /* Crisp neutral whites & grays (aligned with helprest-app/constants/Colors.ts) */
+  --color-ink: #11181C;
+  --color-ink-secondary: #3F454A;
+  --color-muted: #596168;
+  --color-canvas: #F7F7F8;
   --color-surface: #FFFFFF;
-  --color-surface-low: #EDF1EF;
-  --color-surface-container: #E4EAE7;
-  --color-surface-high: #DAE2DE;
-  --color-control-stroke: #747D7B;
+  --color-surface-low: #F1F2F4;
+  --color-surface-container: #E6E8EB;
+  --color-surface-high: #DCDFE4;
+  --color-control-stroke: #717880;
 }
 
 @layer base {
   :root {
     color-scheme: light;
-    accent-color: var(--color-brand-fill);
+    accent-color: var(--color-brand);
     scrollbar-color: var(--color-control-stroke) var(--color-surface-low);
   }
 
@@ -51,15 +52,20 @@
 
   ::selection {
     background-color: var(--color-brand-container);
-    color: #083B3C;
+    color: var(--color-brand-ink-on-fill);
   }
 
   h1,
-  h2,
+  h2 {
+    font-family: var(--font-display);
+    text-wrap: balance;
+  }
+
   h3,
   h4,
   h5,
-  h6 {
+  h6,
+  th {
     text-wrap: balance;
   }
 
@@ -73,13 +79,12 @@
   }
 
   :where(a:any-link, button, summary, input, select, textarea, [tabindex]):focus-visible {
-    outline: 3px solid var(--color-brand-fill);
+    outline: 3px solid var(--color-brand-text);
     outline-offset: 2px;
   }
 }
 
-/* Inverted focus ring contrast inside deep teal or dark surfaces */
-.surface-deep :where(a:any-link, button, [tabindex]):focus-visible,
+/* Inverted focus ring contrast inside dark footer surfaces */
 .surface-footer :where(a:any-link, button, [tabindex]):focus-visible {
   outline-color: #FFFFFF;
 }
@@ -135,14 +140,14 @@
   .site-header-bar {
     background-color: rgb(255 255 255 / 0.92);
     backdrop-filter: blur(12px);
-    box-shadow: 0 4px 20px -4px rgb(24 28 27 / 0.1);
+    box-shadow: 0 4px 20px -4px rgb(17 24 28 / 0.1);
   }
 }
 
 .site-sticky-header.is-stuck .site-header-bar {
   background-color: rgb(255 255 255 / 0.92);
   backdrop-filter: blur(12px);
-  box-shadow: 0 4px 20px -4px rgb(24 28 27 / 0.1);
+  box-shadow: 0 4px 20px -4px rgb(17 24 28 / 0.1);
 }
 
 /* Desktop Navigation Popover Dropdown (Viewport-aware positioning + fallback) */
@@ -260,7 +265,7 @@ dialog.hr-dialog {
   border-radius: 1.75rem;
   background-color: var(--color-surface);
   color: var(--color-ink);
-  box-shadow: 0 24px 60px -12px rgb(24 28 27 / 0.28);
+  box-shadow: 0 24px 60px -12px rgb(17 24 28 / 0.28);
   opacity: 0;
   transition-property: opacity, transform, display, overlay;
   transition-duration: 0.24s;
@@ -283,7 +288,7 @@ dialog.hr-dialog:modal {
 }
 
 dialog.hr-dialog::backdrop {
-  background-color: rgb(24 28 27 / 0);
+  background-color: rgb(17 24 28 / 0);
   overflow: hidden;
   overscroll-behavior: contain;
   transition-property: background-color, display, overlay;
@@ -308,10 +313,10 @@ dialog.hr-dialog::backdrop {
   }
 
   &::backdrop {
-    background-color: rgb(24 28 27 / 0.56);
+    background-color: rgb(17 24 28 / 0.56);
 
     @starting-style {
-      background-color: rgb(24 28 27 / 0);
+      background-color: rgb(17 24 28 / 0);
     }
   }
 }

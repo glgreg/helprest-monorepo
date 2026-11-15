@@ -51,7 +51,7 @@ export const InteractiveSimulator: React.FC = () => {
   }, [selectedFlags]);
 
   return (
-    <section id="restricoes" className="py-16 sm:py-20 bg-[#F4F6F5]">
+    <section id="restricoes" className="py-16 sm:py-20 bg-[#F7F7F8]">
       <Container size="lg">
         <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-6 mb-10">
           <div className="max-w-2xl">
@@ -61,7 +61,7 @@ export const InteractiveSimulator: React.FC = () => {
             </Paragraph>
           </div>
           {favoriteIds.length > 0 && (
-            <div className="tonal-surface inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white text-xs font-medium text-[#181C1B] shadow-[0_2px_10px_-4px_rgba(24,28,27,0.06)] w-fit">
+            <div className="tonal-surface inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white text-xs font-medium text-[#11181C] shadow-[0_2px_10px_-4px_rgba(17,24,28,0.06)] w-fit">
               <Heart className="w-3.5 h-3.5 fill-[#FF533F] text-[#FF533F]" aria-hidden="true" />
               <span>
                 {favoriteIds.length}{' '}
@@ -71,19 +71,19 @@ export const InteractiveSimulator: React.FC = () => {
           )}
         </div>
 
-        {/* Elevated White Filter Tray on #F4F6F5 Canvas */}
+        {/* Elevated White Filter Tray on #F7F7F8 Canvas */}
         <div
           role="search"
           aria-label="Filtrar restaurantes por restrição alimentar"
-          className="tonal-surface bg-white rounded-3xl p-5 sm:p-6 shadow-[0_2px_12px_-4px_rgba(24,28,27,0.06)] mb-10 space-y-5"
+          className="tonal-surface bg-white rounded-3xl p-5 sm:p-6 shadow-[0_2px_12px_-4px_rgba(17,24,28,0.06)] mb-10 space-y-5"
         >
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
             <div className="flex flex-wrap items-center gap-2">
-              <Filter className="w-4 h-4 text-[#007677]" aria-hidden="true" />
-              <span className="text-sm font-bold text-[#181C1B]">
+              <Filter className="w-4 h-4 text-[#009C9D]" aria-hidden="true" />
+              <span className="text-sm font-bold text-[#11181C]">
                 Quais restrições definem seu perfil?
               </span>
-              <span className="text-xs text-[#525B58] tabular-nums whitespace-nowrap">
+              <span className="text-xs text-[#596168] tabular-nums whitespace-nowrap">
                 {rankedEstablishments.length} de {SAMPLE_ESTABLISHMENTS.length} locais compatíveis
               </span>
             </div>
@@ -92,7 +92,7 @@ export const InteractiveSimulator: React.FC = () => {
               <button
                 type="button"
                 onClick={handleReset}
-                className="inline-flex items-center gap-1.5 text-xs font-semibold text-[#00696A] hover:bg-[#E9F3F2] px-3 py-1.5 min-h-[36px] rounded-full transition-colors cursor-pointer w-fit"
+                className="inline-flex items-center gap-1.5 text-xs font-semibold text-[#00797A] hover:bg-[#EFFBFB] px-3 py-1.5 min-h-[36px] rounded-full transition-colors cursor-pointer w-fit"
               >
                 <RotateCcw className="w-3.5 h-3.5" aria-hidden="true" />
                 <span>Limpar filtros</span>
@@ -113,12 +113,12 @@ export const InteractiveSimulator: React.FC = () => {
         </div>
 
         {rankedEstablishments.length === 0 ? (
-          <div className="tonal-surface text-center py-12 px-6 bg-white rounded-3xl shadow-[0_2px_12px_-4px_rgba(24,28,27,0.06)] space-y-2.5">
-            <AlertCircle className="w-9 h-9 text-[#C43E32] mx-auto" aria-hidden="true" />
-            <h3 className="text-base font-bold text-[#181C1B]">
+          <div className="tonal-surface text-center py-12 px-6 bg-white rounded-3xl shadow-[0_2px_12px_-4px_rgba(17,24,28,0.06)] space-y-2.5">
+            <AlertCircle className="w-9 h-9 text-[#C93322] mx-auto" aria-hidden="true" />
+            <h3 className="text-base font-bold text-[#11181C]">
               Nenhum estabelecimento atende simultaneamente essa combinação na amostra
             </h3>
-            <p className="text-sm text-[#525B58] max-w-md mx-auto">
+            <p className="text-sm text-[#596168] max-w-md mx-auto">
               Regra de segurança zero-match ativa: restaurantes sem correspondência são ocultados para evitar recomendações enganosas.
             </p>
           </div>

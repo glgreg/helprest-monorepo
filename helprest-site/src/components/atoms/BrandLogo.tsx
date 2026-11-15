@@ -23,7 +23,7 @@ export const BrandLogo: React.FC<BrandLogoProps> = ({
   };
 
   const textSizes = {
-    sm: 'text-lg',
+    sm: 'text-[19px]',
     md: 'text-xl',
     lg: 'text-2xl',
   };
@@ -45,12 +45,12 @@ export const BrandLogo: React.FC<BrandLogoProps> = ({
       />
       {variant === 'full' && (
         <span
-          className={`font-bold tracking-tight ${textSizes[size]} ${
-            tone === 'inverse' ? 'text-white' : 'text-[#181C1B]'
+          className={`font-display font-bold tracking-tight ${textSizes[size]} ${
+            tone === 'inverse' ? 'text-white' : 'text-[#11181C]'
           }`}
         >
           Help
-          <span className={tone === 'inverse' ? 'text-[#9CE2E0]' : 'text-[#007677]'}>
+          <span className={tone === 'inverse' ? 'text-[#26D0D1]' : 'text-[#009C9D]'}>
             Rest
           </span>
         </span>
