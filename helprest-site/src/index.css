@@ -4,40 +4,428 @@
   --font-sans: "Roboto", system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
   --font-mono: "Roboto Mono", ui-monospace, SFMono-Regular, monospace;
 
-  /* Core helprest-app color tokens */
+  /* Brand & Google-UI tonal hierarchy aligned with HelpRest */
   --color-brand: #009C9D;
-  --color-brand-dark: #007E7F;
-  --color-brand-hover: #008384;
-  --color-brand-light: #21B2B3;
-  --color-brand-tint: #E0F2F1;
-  --color-brand-soft: #F4FDFB;
-  --color-brand-border: #B2DFDB;
+  --color-brand-fill: #007677;
+  --color-brand-fill-hover: #006061;
+  --color-brand-dark: #00696A;
+  --color-brand-deep: #0A4E50;
+  --color-brand-tint: #E9F3F2;
+  --color-brand-container: #D4EBE9;
 
-  /* App accents */
+  /* Semantic accents (gold reserved strictly for rating stars) */
   --color-coral: #FF533F;
-  --color-gold: #F7CC33;
+  --color-coral-ink: #C43E32;
+  --color-danger: #B42318;
+  --color-danger-soft: #FDF1EF;
+  --color-danger-ink: #7A271A;
+  --color-gold: #D99B04;
 
-  /* App neutrals & typography */
-  --color-ink: #11181C;
-  --color-ink-secondary: #333333;
-  --color-muted: #687076;
-  --color-canvas: #FAFAFA;
+  /* Balanced neutral mineral inks & surfaces */
+  --color-ink: #181C1B;
+  --color-ink-secondary: #3A413F;
+  --color-muted: #525B58;
+  --color-canvas: #F4F6F5;
   --color-surface: #FFFFFF;
-  --color-border-hairline: #EAEAEA;
-  --color-border-card: #DDDDDD;
-  --color-track: #E0E0E0;
+  --color-surface-low: #EDF1EF;
+  --color-surface-container: #E4EAE7;
+  --color-surface-high: #DAE2DE;
+  --color-control-stroke: #747D7B;
 }
 
 @layer base {
+  :root {
+    color-scheme: light;
+    accent-color: var(--color-brand-fill);
+    scrollbar-color: var(--color-control-stroke) var(--color-surface-low);
+  }
+
   html {
     scroll-behavior: smooth;
+    scroll-padding-top: 5.25rem;
+    overflow-x: clip;
     font-family: var(--font-sans);
-    background-color: var(--color-canvas);
+    background-color: var(--color-surface);
     color: var(--color-ink);
+  }
+
+  ::selection {
+    background-color: var(--color-brand-container);
+    color: #083B3C;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    text-wrap: balance;
+  }
+
+  p,
+  li {
+    text-wrap: pretty;
+  }
+
+  textarea {
+    resize: vertical;
+  }
+
+  :where(a:any-link, button, summary, input, select, textarea, [tabindex]):focus-visible {
+    outline: 3px solid var(--color-brand-fill);
+    outline-offset: 2px;
   }
 }
 
-/* Custom thin scrollbars inside the interactive phone simulator */
+/* Inverted focus ring contrast inside deep teal or dark surfaces */
+.surface-deep :where(a:any-link, button, [tabindex]):focus-visible,
+.surface-footer :where(a:any-link, button, [tabindex]):focus-visible {
+  outline-color: #FFFFFF;
+}
+
+/* Accessible utility */
+.visually-hidden:where(:not(:focus-within, :active)) {
+  position: absolute !important;
+  clip-path: inset(50%) !important;
+  overflow: hidden !important;
+  width: 1px !important;
+  height: 1px !important;
+  margin: -1px !important;
+  padding: 0 !important;
+  border: 0 !important;
+  white-space: nowrap !important;
+}
+
+/* Form control typography & interaction-gated validation */
+.hr-field-control {
+  font: inherit;
+  font-size: max(1rem, 1em);
+  min-block-size: 3rem;
+}
+
+.hr-field-control:is(:user-invalid, .user-invalid-fallback, [aria-invalid="true"]) {
+  border-color: var(--color-danger);
+  background-color: var(--color-danger-soft);
+}
+
+.hr-field-error {
+  display: none;
+}
+
+.hr-field-group:has(:is(:user-invalid, .user-invalid-fallback, [aria-invalid="true"])) .hr-field-error {
+  display: flex;
+}
+
+/* Sticky navbar scroll-state awareness (progressive enhancement + JS .is-stuck fallback) */
+.site-sticky-header {
+  position: sticky;
+  inset-block-start: 0;
+  z-index: 40;
+  container-type: scroll-state;
+  container-name: site-header;
+}
+
+.site-header-bar {
+  background-color: rgb(255 255 255 / 0.96);
+  transition: box-shadow 0.2s ease, background-color 0.2s ease;
+}
+
+@container site-header scroll-state(stuck: top) {
+  .site-header-bar {
+    background-color: rgb(255 255 255 / 0.92);
+    backdrop-filter: blur(12px);
+    box-shadow: 0 4px 20px -4px rgb(24 28 27 / 0.1);
+  }
+}
+
+.site-sticky-header.is-stuck .site-header-bar {
+  background-color: rgb(255 255 255 / 0.92);
+  backdrop-filter: blur(12px);
+  box-shadow: 0 4px 20px -4px rgb(24 28 27 / 0.1);
+}
+
+/* Desktop Navigation Popover Dropdown (Viewport-aware positioning + fallback) */
+.site-nav-popover {
+  border: 0;
+  opacity: 0;
+  transition-property: opacity, transform, display, overlay;
+  transition-duration: 0.16s;
+  transition-timing-function: ease-out;
+  transition-behavior: allow-discrete;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .site-nav-popover {
+    transform: translateY(-4px);
+  }
+}
+
+.site-nav-popover:is(:popover-open, .\:popover-open) {
+  display: block;
+  opacity: 1;
+
+  @starting-style {
+    opacity: 0;
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    transform: translateY(0);
+
+    @starting-style {
+      transform: translateY(-4px);
+    }
+  }
+}
+
+@supports (position-area: block-end) {
+  .site-nav-popover {
+    inset: auto;
+    margin: 0;
+    height: auto;
+    margin-block-start: 0.5rem;
+    position-area: block-end span-inline-start;
+    position-try-fallbacks: flip-block, flip-inline, flip-block flip-inline;
+  }
+}
+
+@supports not (position-area: block-end) {
+  .site-nav-popover {
+    position: fixed;
+    margin: 0;
+  }
+}
+
+/* Native <details> Accordion styling & intrinsic slide animation */
+details.faq-item summary {
+  list-style: none;
+  display: flex;
+  align-items: center;
+  gap: 0.875rem;
+  cursor: pointer;
+}
+
+details.faq-item summary::-webkit-details-marker {
+  display: none;
+}
+
+details.faq-item summary::before {
+  content: "";
+  inline-size: 1.125rem;
+  block-size: 1.125rem;
+  flex-shrink: 0;
+  background-color: currentColor;
+  forced-color-adjust: none;
+  mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2.25' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E")
+    no-repeat center / contain;
+  rotate: -90deg;
+}
+
+details.faq-item[open] > summary::before {
+  rotate: 0deg;
+}
+
+details.faq-item::details-content {
+  interpolate-size: allow-keywords;
+  overflow: clip;
+  contain: layout;
+}
+
+details.faq-item:not([open])::details-content {
+  block-size: 0;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  details.faq-item summary::before {
+    transition: rotate 0.2s ease;
+  }
+
+  details.faq-item::details-content {
+    transition-property: block-size, content-visibility, display;
+    transition-duration: 0.28s;
+    transition-timing-function: ease-in-out;
+    transition-behavior: allow-discrete;
+  }
+}
+
+/* Native modal <dialog> top-layer entry/exit animation & scroll containment */
+dialog.hr-dialog {
+  padding: 0;
+  border: 0;
+  margin: auto;
+  max-inline-size: min(28rem, calc(100dvw - 2rem));
+  max-block-size: calc(100dvh - 2rem);
+  inline-size: 100%;
+  overflow-y: auto;
+  border-radius: 1.75rem;
+  background-color: var(--color-surface);
+  color: var(--color-ink);
+  box-shadow: 0 24px 60px -12px rgb(24 28 27 / 0.28);
+  opacity: 0;
+  transition-property: opacity, transform, display, overlay;
+  transition-duration: 0.24s;
+  transition-timing-function: ease-out;
+  transition-behavior: allow-discrete;
+}
+
+dialog.hr-dialog[open] {
+  display: block;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  dialog.hr-dialog {
+    transform: scale(0.95);
+  }
+}
+
+dialog.hr-dialog:modal {
+  overscroll-behavior: contain;
+}
+
+dialog.hr-dialog::backdrop {
+  background-color: rgb(24 28 27 / 0);
+  overflow: hidden;
+  overscroll-behavior: contain;
+  transition-property: background-color, display, overlay;
+  transition-duration: 0.24s;
+  transition-timing-function: ease-out;
+  transition-behavior: allow-discrete;
+}
+
+:is(dialog.hr-dialog[open]):where(:not([data-closing])) {
+  opacity: 1;
+
+  @starting-style {
+    opacity: 0;
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    transform: scale(1);
+
+    @starting-style {
+      transform: scale(0.95);
+    }
+  }
+
+  &::backdrop {
+    background-color: rgb(24 28 27 / 0.56);
+
+    @starting-style {
+      background-color: rgb(24 28 27 / 0);
+    }
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  dialog.hr-dialog,
+  dialog.hr-dialog::backdrop {
+    transition-duration: 0.08s;
+  }
+}
+
+/* Responsive tonal data tables (container query stacked mobile cards) */
+.hr-table-wrap {
+  overflow-x: auto;
+  max-inline-size: 100%;
+  container-type: inline-size;
+  border-radius: 1rem;
+}
+
+.hr-responsive-table {
+  inline-size: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  text-align: start;
+}
+
+.hr-responsive-table tbody th {
+  font-weight: 600;
+  text-align: start;
+  vertical-align: top;
+}
+
+.hr-responsive-table tbody tr:nth-child(odd) {
+  background-color: var(--color-surface);
+}
+
+.hr-responsive-table tbody tr:nth-child(even) {
+  background-color: var(--color-canvas);
+}
+
+@container (width < 520px) {
+  .hr-responsive-table,
+  .hr-responsive-table thead,
+  .hr-responsive-table tbody,
+  .hr-responsive-table tr,
+  .hr-responsive-table th,
+  .hr-responsive-table td {
+    display: block;
+  }
+
+  .hr-responsive-table thead {
+    display: none;
+  }
+
+  .hr-responsive-table tbody tr:nth-child(n) {
+    margin-block-end: 0.75rem;
+    border-radius: 1rem;
+    padding: 0.875rem 1rem;
+    background-color: var(--color-canvas);
+  }
+
+  .hr-responsive-table tbody tr:last-child {
+    margin-block-end: 0;
+  }
+
+  .hr-responsive-table tbody th,
+  .hr-responsive-table tbody td {
+    padding: 0.25rem 0;
+    inline-size: 100%;
+    overflow-wrap: anywhere;
+  }
+
+  .hr-responsive-table tbody th {
+    padding-block-end: 0.5rem;
+    margin-block-end: 0.375rem;
+    border-block-end: 1px solid var(--color-surface-container);
+  }
+
+  .hr-responsive-table td:nth-child(2)::before {
+    content: var(--col-2-label) ": ";
+    display: block;
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--color-muted);
+    margin-block-end: 0.125rem;
+  }
+
+  .hr-responsive-table td:nth-child(3)::before {
+    content: var(--col-3-label) ": ";
+    display: block;
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--color-muted);
+    margin-block-end: 0.125rem;
+  }
+}
+
+/* Forced Colors (Windows High Contrast) structural fallbacks */
+@media (forced-colors: active) {
+  .tonal-surface,
+  dialog.hr-dialog,
+  details.faq-item,
+  .site-nav-popover,
+  .hr-table-wrap,
+  .hr-responsive-table tbody tr {
+    border: 1px solid CanvasText;
+  }
+
+  .tonal-chip[aria-pressed="true"] {
+    outline: 2px solid Highlight;
+  }
+}
+
+/* Hidden scrollbar inside simulator phone viewport where touch/wheel still scrolls */
 .scrollbar-none {
   -ms-overflow-style: none;
   scrollbar-width: none;

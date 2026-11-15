@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useId } from 'react';
+import { AlertCircle } from 'lucide-react';
 
 export interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
   label?: string;
@@ -8,37 +9,58 @@ export interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> 
 }
 
 export const Input = React.forwardRef<HTMLInputElement, InputProps>(
-  ({ label, error, helperText, icon, className = '', id, ...props }, ref) => {
-    const inputId = id || (label ? label.toLowerCase().replace(/\s+/g, '-') : undefined);
+  ({ label, error, helperText, icon, className = '', id, required, ...props }, ref) => {
+    const generatedId = useId();
+    const inputId = id || generatedId;
+    const hintId = helperText ? `${inputId}-hint` : undefined;
+    const errorId = `${inputId}-error`;
+    const describedBy = [hintId, error ? errorId : undefined].filter(Boolean).join(' ') || undefined;
 
     return (
-      <div className="w-full space-y-1.5">
+      <div className="hr-field-group w-full space-y-1.5">
         {label && (
-          <label htmlFor={inputId} className="block text-xs font-bold text-[#11181C]">
+          <label htmlFor={inputId} className="block text-sm font-medium text-[#181C1B]">
             {label}
+            {required && (
+              <span className="text-[#B42318] ms-1" aria-hidden="true">
+                *
+              </span>
+            )}
           </label>
+        )}
+        {helperText && (
+          <p id={hintId} className="text-xs text-[#525B58] leading-snug">
+            {helperText}
+          </p>
         )}
         <div className="relative rounded-xl">
           {icon && (
-            <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-[#687076]">
+            <div className="absolute inset-y-0 start-0 ps-3.5 flex items-center pointer-events-none text-[#525B58]">
               {icon}
             </div>
           )}
           <input
             ref={ref}
             id={inputId}
-            className={`w-full rounded-xl border bg-white px-4 py-2.5 text-sm text-[#11181C] transition-colors placeholder:text-[#9BA1A6] focus:outline-none focus:ring-2 focus:ring-[#009C9D]/20 focus:border-[#009C9D] ${
-              icon ? 'pl-10' : ''
+            required={required}
+            aria-invalid={error ? 'true' : 'false'}
+            aria-describedby={describedBy}
+            className={`hr-field-control w-full rounded-xl border bg-white px-4 py-2.5 text-[#181C1B] transition-colors placeholder:text-[#66706D] ${
+              icon ? 'ps-10' : ''
             } ${
               error
-                ? 'border-[#D93829] focus:border-[#D93829] focus:ring-[#D93829]/20'
-                : 'border-[#DDDDDD] hover:border-[#BDBDBD]'
+                ? 'border-[#B42318] bg-[#FDF1EF]'
+                : 'border-[#747D7B] hover:border-[#181C1B] focus:border-[#007677]'
             } ${className}`}
             {...props}
           />
         </div>
-        {error && <p className="text-xs text-[#D93829] font-medium">{error}</p>}
-        {!error && helperText && <p className="text-xs text-[#687076]">{helperText}</p>}
+        {error && (
+          <p id={errorId} className="flex items-center gap-1.5 text-xs text-[#B42318] font-medium pt-0.5">
+            <AlertCircle className="w-3.5 h-3.5 flex-shrink-0" aria-hidden="true" />
+            <span>{error}</span>
+          </p>
+        )}
       </div>
     );
   }
@@ -53,29 +75,50 @@ export interface TextareaProps extends React.TextareaHTMLAttributes<HTMLTextArea
 }
 
 export const Textarea = React.forwardRef<HTMLTextAreaElement, TextareaProps>(
-  ({ label, error, helperText, className = '', id, rows = 4, ...props }, ref) => {
-    const textareaId = id || (label ? label.toLowerCase().replace(/\s+/g, '-') : undefined);
+  ({ label, error, helperText, className = '', id, rows = 4, required, ...props }, ref) => {
+    const generatedId = useId();
+    const textareaId = id || generatedId;
+    const hintId = helperText ? `${textareaId}-hint` : undefined;
+    const errorId = `${textareaId}-error`;
+    const describedBy = [hintId, error ? errorId : undefined].filter(Boolean).join(' ') || undefined;
 
     return (
-      <div className="w-full space-y-1.5">
+      <div className="hr-field-group w-full space-y-1.5">
         {label && (
-          <label htmlFor={textareaId} className="block text-xs font-bold text-[#11181C]">
+          <label htmlFor={textareaId} className="block text-sm font-medium text-[#181C1B]">
             {label}
+            {required && (
+              <span className="text-[#B42318] ms-1" aria-hidden="true">
+                *
+              </span>
+            )}
           </label>
+        )}
+        {helperText && (
+          <p id={hintId} className="text-xs text-[#525B58] leading-snug">
+            {helperText}
+          </p>
         )}
         <textarea
           ref={ref}
           id={textareaId}
           rows={rows}
-          className={`w-full rounded-xl border bg-white px-4 py-2.5 text-sm text-[#11181C] transition-colors placeholder:text-[#9BA1A6] focus:outline-none focus:ring-2 focus:ring-[#009C9D]/20 focus:border-[#009C9D] ${
+          required={required}
+          aria-invalid={error ? 'true' : 'false'}
+          aria-describedby={describedBy}
+          className={`hr-field-control w-full rounded-xl border bg-white px-4 py-3 text-[#181C1B] transition-colors placeholder:text-[#66706D] ${
             error
-              ? 'border-[#D93829] focus:border-[#D93829] focus:ring-[#D93829]/20'
-              : 'border-[#DDDDDD] hover:border-[#BDBDBD]'
+              ? 'border-[#B42318] bg-[#FDF1EF]'
+              : 'border-[#747D7B] hover:border-[#181C1B] focus:border-[#007677]'
           } ${className}`}
           {...props}
         />
-        {error && <p className="text-xs text-[#D93829] font-medium">{error}</p>}
-        {!error && helperText && <p className="text-xs text-[#687076]">{helperText}</p>}
+        {error && (
+          <p id={errorId} className="flex items-center gap-1.5 text-xs text-[#B42318] font-medium pt-0.5">
+            <AlertCircle className="w-3.5 h-3.5 flex-shrink-0" aria-hidden="true" />
+            <span>{error}</span>
+          </p>
+        )}
       </div>
     );
   }

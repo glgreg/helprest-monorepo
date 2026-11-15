@@ -29,8 +29,7 @@ export const PhoneMockup: React.FC = () => {
   const [activePinId, setActivePinId] = useState<string>('est-1');
   const [visitToast, setVisitToast] = useState<boolean>(false);
 
-  const toggleFavorite = (id: string, e?: React.MouseEvent) => {
-    if (e) e.stopPropagation();
+  const toggleFavorite = (id: string) => {
     setFavoriteIds((prev) =>
       prev.includes(id) ? prev.filter((item) => item !== id) : [...prev, id]
     );
@@ -48,31 +47,30 @@ export const PhoneMockup: React.FC = () => {
     SAMPLE_ESTABLISHMENTS.find((e) => e.id === activePinId) || SAMPLE_ESTABLISHMENTS[0];
 
   return (
-    <div className="relative mx-auto w-[312px] sm:w-[332px] rounded-[46px] p-3 bg-[#181E22] shadow-[0_24px_60px_-15px_rgba(17,24,28,0.22)] ring-1 ring-black/10 select-none">
+    <div className="relative mx-auto w-[308px] sm:w-[326px] rounded-[44px] p-3 bg-[#1E2322] shadow-[0_24px_60px_-14px_rgba(24,28,27,0.28)] select-none">
       {/* Hardware Side Keys */}
-      <div className="absolute -left-[3px] top-24 h-9 w-[3px] bg-[#2D353A] rounded-l-sm" />
-      <div className="absolute -left-[3px] top-36 h-11 w-[3px] bg-[#2D353A] rounded-l-sm" />
-      <div className="absolute -right-[3px] top-28 h-14 w-[3px] bg-[#2D353A] rounded-r-sm" />
+      <div className="absolute -left-[3px] top-24 h-9 w-[3px] bg-[#333A38] rounded-l-sm" />
+      <div className="absolute -left-[3px] top-36 h-11 w-[3px] bg-[#333A38] rounded-l-sm" />
+      <div className="absolute -right-[3px] top-28 h-14 w-[3px] bg-[#333A38] rounded-r-sm" />
 
-      {/* Inner Phone Viewport matching helprest-app #FAFAFA / #FFFFFF */}
-      <div className="relative w-full h-[630px] rounded-[36px] bg-[#FAFAFA] overflow-hidden flex flex-col justify-between border-[3px] border-[#11181C] font-sans">
-        {/* Top Notch & Android/iOS Status Bar */}
-        <div className="bg-white/95 pt-2.5 px-5 pb-1.5 flex items-center justify-between text-[10px] font-bold text-[#11181C] z-30 border-b border-[#EAEAEA]/70">
+      {/* Inner Phone Viewport */}
+      <div className="relative w-full h-[618px] rounded-[34px] bg-[#F4F6F5] overflow-hidden flex flex-col justify-between font-sans">
+        {/* Top Status Bar */}
+        <div className="bg-white pt-2.5 px-5 pb-1.5 flex items-center justify-between text-[10px] font-bold text-[#181C1B] z-30">
           <span>09:41</span>
-          <div className="w-16 h-3.5 bg-[#11181C] rounded-full" />
+          <div className="w-16 h-3.5 bg-[#181C1B] rounded-full" />
           <div className="flex items-center gap-1">
             <span>5G</span>
-            <div className="w-3.5 h-2 border border-[#11181C] rounded-[2px] p-[1px]">
-              <div className="w-2 h-full bg-[#11181C]" />
+            <div className="w-3.5 h-2 border border-[#181C1B] rounded-[2px] p-[1px]">
+              <div className="w-2 h-full bg-[#181C1B]" />
             </div>
           </div>
         </div>
 
-        {/* DETAIL SCREEN OVERLAY (helprest-app/app/(app)/details/[id].tsx) */}
+        {/* DETAIL SCREEN OVERLAY */}
         {selectedPlace ? (
-          <div className="flex-1 flex flex-col bg-[#FAFAFA] overflow-y-auto scrollbar-none pb-20">
-            {/* Banner Photo */}
-            <div className="relative h-36 bg-[#E0F2F1] flex-shrink-0">
+          <div className="flex-1 flex flex-col bg-[#F4F6F5] overflow-y-auto scrollbar-none pb-20">
+            <div className="relative h-36 bg-[#D4EBE9] flex-shrink-0">
               <img
                 src={selectedPlace.imageUrl}
                 alt={selectedPlace.name}
@@ -82,56 +80,60 @@ export const PhoneMockup: React.FC = () => {
                 type="button"
                 onClick={() => setSelectedPlace(null)}
                 aria-label="Voltar"
-                className="absolute top-3 left-3 w-8 h-8 rounded-full bg-white/95 shadow-xs flex items-center justify-center text-[#11181C] cursor-pointer"
+                className="absolute top-3 left-3 w-9 h-9 rounded-full bg-white/95 shadow-sm flex items-center justify-center text-[#181C1B] cursor-pointer"
               >
-                <ChevronLeft className="w-4 h-4" />
+                <ChevronLeft className="w-4 h-4" aria-hidden="true" />
               </button>
               <button
                 type="button"
-                onClick={(e) => toggleFavorite(selectedPlace.id, e)}
-                aria-label="Favoritar"
-                className="absolute top-3 right-3 w-8 h-8 rounded-full bg-white/95 shadow-xs flex items-center justify-center cursor-pointer"
+                onClick={() => toggleFavorite(selectedPlace.id)}
+                aria-label={
+                  favoriteIds.includes(selectedPlace.id)
+                    ? `Remover ${selectedPlace.name} dos favoritos`
+                    : `Favoritar ${selectedPlace.name}`
+                }
+                aria-pressed={favoriteIds.includes(selectedPlace.id)}
+                className="absolute top-3 right-3 w-9 h-9 rounded-full bg-white/95 shadow-sm flex items-center justify-center cursor-pointer"
               >
                 <Heart
                   className={`w-4 h-4 ${
                     favoriteIds.includes(selectedPlace.id)
                       ? 'fill-[#FF533F] text-[#FF533F]'
-                      : 'text-[#687076]'
+                      : 'text-[#525B58]'
                   }`}
+                  aria-hidden="true"
                 />
               </button>
             </div>
 
-            {/* Overlapping Curved White Card Container matching details/[id].tsx */}
-            <div className="-mt-6 rounded-t-[26px] bg-white px-4 pt-9 pb-5 relative flex-1 border-t border-[#EAEAEA]">
-              {/* Circular Avatar Straddling Card Border */}
+            <div className="-mt-6 rounded-t-[24px] bg-white px-4 pt-8 pb-5 relative flex-1">
               <div
-                className="absolute -top-6 left-4 w-12 h-12 rounded-full border-2 border-white shadow-sm flex items-center justify-center text-white font-bold text-xs"
+                className="absolute -top-6 left-4 w-12 h-12 rounded-full ring-4 ring-white shadow-sm flex items-center justify-center text-white font-bold text-xs"
                 style={{ backgroundColor: selectedPlace.logoBg }}
+                aria-hidden="true"
               >
                 {selectedPlace.logoInitials}
               </div>
 
               <div className="space-y-1.5">
-                <h4 className="text-sm font-bold text-[#11181C] leading-snug">
+                <h4 className="text-sm font-bold text-[#181C1B] leading-snug">
                   {selectedPlace.name}
                 </h4>
-                <div className="flex items-center gap-1.5 text-[11px] text-[#687076]">
-                  <Star className="w-3 h-3 fill-[#F7CC33] text-[#F7CC33]" />
-                  <span className="font-bold text-[#11181C]">{selectedPlace.rating}</span>
+                <div className="flex items-center gap-1.5 text-[11px] text-[#525B58]">
+                  <Star className="w-3 h-3 fill-[#E5A910] text-[#E5A910]" aria-hidden="true" />
+                  <span className="font-bold text-[#181C1B]">{selectedPlace.rating}</span>
                   <span>({selectedPlace.reviewCount})</span>
-                  <span>•</span>
+                  <span>·</span>
                   <span>{selectedPlace.distanceFormatted}</span>
                 </div>
 
-                {/* App Flags Row */}
                 <div className="flex flex-wrap gap-1 pt-1">
                   {selectedPlace.flags.slice(0, 3).map((fid) => {
                     const f = DIETARY_FLAGS.find((item) => item.id === fid);
                     return (
                       <span
                         key={fid}
-                        className="font-mono text-[8px] font-bold uppercase px-1.5 py-0.5 rounded-full bg-[#F4FDFB] text-[#007E7F] border border-[#B2DFDB]"
+                        className="text-[10px] font-medium px-2 py-0.5 rounded-full bg-[#E9F3F2] text-[#00696A]"
                       >
                         {f?.shortLabel || fid}
                       </span>
@@ -140,84 +142,90 @@ export const PhoneMockup: React.FC = () => {
                 </div>
               </div>
 
-              {/* "Para você" / "Outros Itens" Segmented Pill Bar */}
-              <div className="grid grid-cols-2 p-0.5 rounded-full bg-[#E0E0E0] text-[10px] font-bold mt-4">
+              {/* Segmented Pill Bar */}
+              <div
+                className="grid grid-cols-2 p-0.5 rounded-full bg-[#E4EAE7] text-[10px] font-semibold mt-4"
+                role="group"
+                aria-label="Separador de cardápio"
+              >
                 <button
                   type="button"
+                  aria-pressed={detailTab === 'for-you'}
                   onClick={() => {
                     setDetailTab('for-you');
                     setShowIngredients(false);
                   }}
                   className={`py-1.5 rounded-full transition-colors cursor-pointer ${
-                    detailTab === 'for-you' ? 'bg-white text-[#11181C]' : 'text-[#687076]'
+                    detailTab === 'for-you' ? 'bg-white text-[#181C1B]' : 'text-[#525B58]'
                   }`}
                 >
                   Para você
                 </button>
                 <button
                   type="button"
+                  aria-pressed={detailTab === 'others'}
                   onClick={() => {
                     setDetailTab('others');
                     setShowIngredients(false);
                   }}
                   className={`py-1.5 rounded-full transition-colors cursor-pointer ${
-                    detailTab === 'others' ? 'bg-white text-[#11181C]' : 'text-[#687076]'
+                    detailTab === 'others' ? 'bg-white text-[#181C1B]' : 'text-[#525B58]'
                   }`}
                 >
                   Outros Itens
                 </button>
               </div>
 
-              {/* Active Dish Card mirroring ProductItem / ProductBottomSheet */}
               {(() => {
                 const dish =
                   detailTab === 'for-you'
                     ? selectedPlace.highlightDish
                     : selectedPlace.otherDish;
                 return (
-                  <div className="mt-3 border border-[#EAEAEA] rounded-xl p-2.5 bg-[#FAFAFA] space-y-2">
+                  <div className="mt-3 rounded-2xl p-3 bg-[#F4F6F5] space-y-2">
                     <div className="flex gap-2.5 items-start">
                       <img
                         src={dish.imageUrl || selectedPlace.imageUrl}
                         alt={dish.name}
-                        className="w-16 h-16 rounded-lg object-cover flex-shrink-0"
+                        className="w-16 h-16 rounded-xl object-cover flex-shrink-0"
                       />
                       <div className="flex-1 min-w-0">
-                        <div className="flex items-start justify-between gap-1">
-                          <span className="text-[11px] font-bold text-[#11181C] leading-tight">
-                            {dish.name}
-                          </span>
-                        </div>
-                        <p className="text-[10px] text-[#687076] line-clamp-2 mt-0.5">
+                        <span className="text-[11px] font-bold text-[#181C1B] leading-tight block">
+                          {dish.name}
+                        </span>
+                        <p className="text-[10px] text-[#525B58] line-clamp-2 mt-0.5">
                           {dish.description}
                         </p>
-                        <span className="text-[11px] font-bold text-[#007E7F] block mt-1">
+                        <span className="text-[11px] font-bold text-[#00696A] block mt-1 tabular-nums">
                           {dish.priceFormatted}
                         </span>
                       </div>
                     </div>
 
-                    {/* BottomSheet Tab Simulator: Descrição vs Ingredientes */}
                     <button
                       type="button"
                       onClick={() => setShowIngredients(!showIngredients)}
-                      className="w-full text-[10px] font-bold text-[#007E7F] text-left cursor-pointer hover:underline"
+                      aria-expanded={showIngredients}
+                      className="w-full text-[11px] font-semibold text-[#00696A] text-left cursor-pointer hover:underline py-1"
                     >
-                      {showIngredients ? 'Ocultar ingredientes ↑' : 'Ver ingredientes & ficha ↓'}
+                      {showIngredients ? 'Ocultar ingredientes' : 'Ver ingredientes'}
                     </button>
 
                     {showIngredients && (
-                      <div className="pt-1.5 border-t border-[#EAEAEA] space-y-1 text-[10px]">
-                        <div className="text-[#333333]">
-                          <strong>Ingredientes:</strong> {dish.ingredients.join(', ')}
+                      <div className="pt-2 border-t border-[#E4EAE7] space-y-1.5 text-[10px]">
+                        <div className="text-[#3A413F]">
+                          <strong className="text-[#181C1B]">Ingredientes:</strong>{' '}
+                          {dish.ingredients.join(', ')}
                         </div>
                         {detailTab === 'for-you' ? (
-                          <div className="inline-flex items-center gap-1 text-[#186A3B] font-bold">
-                            <CheckCircle2 className="w-3 h-3" /> Seguro para o perfil ativo
+                          <div className="inline-flex items-center gap-1 text-[#137333] font-semibold">
+                            <CheckCircle2 className="w-3 h-3" aria-hidden="true" />
+                            <span>Seguro para o perfil ativo</span>
                           </div>
                         ) : (
-                          <div className="inline-flex items-center gap-1 text-[#8C1D1D] font-bold">
-                            <AlertCircle className="w-3 h-3" /> {dish.allergenAlerts?.join(', ')}
+                          <div className="inline-flex items-center gap-1 text-[#7A271A] font-semibold">
+                            <AlertCircle className="w-3 h-3 text-[#B42318]" aria-hidden="true" />
+                            <span>{dish.allergenAlerts?.join(', ')}</span>
                           </div>
                         )}
                       </div>
@@ -226,18 +234,17 @@ export const PhoneMockup: React.FC = () => {
                 );
               })()}
 
-              {/* Geofence Visit CTA matching details/[id] floating button */}
               <div className="mt-4">
                 <button
                   type="button"
                   onClick={() => setVisitToast(true)}
-                  className="w-full py-2.5 px-4 rounded-full bg-[#009C9D] hover:bg-[#007E7F] text-white text-xs font-bold flex items-center justify-center gap-1.5 cursor-pointer transition-colors"
+                  className="w-full py-2.5 px-4 rounded-full bg-[#007677] hover:bg-[#006061] text-white text-xs font-semibold flex items-center justify-center gap-1.5 cursor-pointer transition-colors"
                 >
-                  <Camera className="w-3.5 h-3.5" />
-                  <span>Registrar Visita (raio 100m)</span>
+                  <Camera className="w-3.5 h-3.5" aria-hidden="true" />
+                  <span>Registrar visita (raio 100m)</span>
                 </button>
                 {visitToast && (
-                  <p className="mt-1.5 text-[10px] text-center text-[#007E7F] font-medium">
+                  <p className="mt-1.5 text-[10px] text-center text-[#00696A] font-medium">
                     GPS valida distância ≤ 100m no momento do envio no app.
                   </p>
                 )}
@@ -245,62 +252,54 @@ export const PhoneMockup: React.FC = () => {
             </div>
           </div>
         ) : (
-          /* TAB VIEWS (Início / Lugares / Favoritos / Social) */
+          /* TAB VIEWS */
           <div className="flex-1 overflow-y-auto scrollbar-none pb-16">
-            {/* Floating UserBar inside Map (Início) and Lugares */}
             {(activeTab === 'home' || activeTab === 'places') && (
-              <div className="px-3 pt-2.5 pb-2 sticky top-0 z-20 bg-[#FAFAFA]/90 backdrop-blur-xs">
-                <div className="bg-white rounded-full py-1.5 px-3 border border-[#DDDDDD] shadow-xs flex items-center justify-between gap-2">
+              <div className="px-3 pt-2.5 pb-2 sticky top-0 z-20 bg-[#F4F6F5]/95 backdrop-blur-xs">
+                <div className="bg-white rounded-full py-1.5 px-3 shadow-[0_1px_4px_rgba(24,28,27,0.06)] flex items-center justify-between gap-2">
                   <div className="flex items-center gap-1.5 flex-1 min-w-0">
-                    <MapPin className="w-4 h-4 text-[#009C9D] flex-shrink-0" />
-                    <Search className="w-3 h-3 text-[#9BA1A6] flex-shrink-0" />
-                    <span className="text-[11px] text-[#687076] font-medium truncate">
-                      Batel, Curitiba • Pesquise aqui
+                    <MapPin className="w-4 h-4 text-[#007677] flex-shrink-0" aria-hidden="true" />
+                    <Search className="w-3 h-3 text-[#747D7B] flex-shrink-0" aria-hidden="true" />
+                    <span className="text-[11px] text-[#525B58] font-medium truncate">
+                      Batel, Curitiba
                     </span>
                   </div>
-                  <div className="w-6 h-6 rounded-full bg-[#E0F2F1] text-[#007E7F] font-bold text-[10px] flex items-center justify-center flex-shrink-0">
+                  <div
+                    className="w-6 h-6 rounded-full bg-[#E9F3F2] text-[#00696A] font-bold text-[10px] flex items-center justify-center flex-shrink-0"
+                    aria-hidden="true"
+                  >
                     CM
                   </div>
                 </div>
               </div>
             )}
 
-            {/* TAB 1: INÍCIO (Curitiba Vector Map + Official Pins) */}
+            {/* TAB 1: INÍCIO (Map + Pins) */}
             {activeTab === 'home' && (
               <div className="px-3 pb-3 space-y-2.5">
-                <div className="relative h-[380px] rounded-2xl overflow-hidden border border-[#DDDDDD] bg-[#F1F5F4]">
-                  {/* Stylized clean Curitiba street grid */}
+                <div className="relative h-[380px] rounded-2xl overflow-hidden bg-[#E9EEEC]">
                   <svg
                     viewBox="0 0 300 380"
                     className="w-full h-full object-cover"
                     aria-hidden="true"
                   >
-                    <rect width="300" height="380" fill="#EFF3F2" />
-                    {/* Parks */}
-                    <rect x="20" y="20" width="76" height="58" rx="12" fill="#DDF0E4" />
-                    <rect x="196" y="252" width="84" height="68" rx="14" fill="#DDF0E4" />
-                    {/* Clean street arteries */}
+                    <rect width="300" height="380" fill="#EAEFED" />
+                    <rect x="20" y="20" width="76" height="58" rx="12" fill="#D7EADF" />
+                    <rect x="196" y="252" width="84" height="68" rx="14" fill="#D7EADF" />
                     <path
                       d="M0 95 L300 120 M0 198 L300 178 M0 295 L300 265 M82 0 L98 380 M188 0 L172 380 M246 0 L262 380"
                       stroke="#FFFFFF"
                       strokeWidth="7"
                     />
-                    <path
-                      d="M35 0 L285 380"
-                      stroke="#FFFFFF"
-                      strokeWidth="4"
-                    />
-                    {/* Current User 100m Geofence Radius Pulse */}
-                    <circle cx="145" cy="182" r="34" fill="#009C9D" fillOpacity="0.12" />
-                    <circle cx="145" cy="182" r="6" fill="#009C9D" stroke="#FFFFFF" strokeWidth="2" />
+                    <path d="M35 0 L285 380" stroke="#FFFFFF" strokeWidth="4" />
+                    <circle cx="145" cy="182" r="34" fill="#007677" fillOpacity="0.14" />
+                    <circle cx="145" cy="182" r="6" fill="#007677" stroke="#FFFFFF" strokeWidth="2" />
                   </svg>
 
-                  {/* Street Label */}
-                  <span className="absolute top-3 left-3 bg-white/90 text-[#687076] font-mono text-[9px] font-bold px-2 py-0.5 rounded-full border border-[#EAEAEA]">
-                    CURITIBA • PR
+                  <span className="absolute top-3 left-3 bg-white/95 text-[#181C1B] text-[10px] font-medium px-2.5 py-0.5 rounded-full shadow-xs">
+                    Curitiba, PR
                   </span>
 
-                  {/* Official HelpRest Map Pins from /assets/flags/ */}
                   {SAMPLE_ESTABLISHMENTS.slice(0, 4).map((est, idx) => {
                     const pinAssets = [
                       '/assets/flags/pin_gluten_free.png',
@@ -325,17 +324,18 @@ export const PhoneMockup: React.FC = () => {
                       >
                         <img
                           src={pinAssets[idx]}
-                          alt={est.name}
+                          alt=""
+                          aria-hidden="true"
                           className="w-8 h-8 object-contain drop-shadow-sm"
                         />
                       </button>
                     );
                   })}
 
-                  {/* Bottom Floating Selected Place Card */}
-                  <div
+                  <button
+                    type="button"
                     onClick={() => openDetails(pinTarget)}
-                    className="absolute bottom-3 inset-x-3 bg-white rounded-2xl p-2.5 border border-[#EAEAEA] shadow-md flex items-center gap-2.5 cursor-pointer hover:border-[#009C9D]"
+                    className="absolute bottom-3 inset-x-3 bg-white rounded-2xl p-2.5 shadow-[0_6px_20px_rgba(24,28,27,0.14)] flex items-center gap-2.5 cursor-pointer hover:bg-[#FAFBFB] text-left transition-colors"
                   >
                     <img
                       src={pinTarget.imageUrl}
@@ -343,72 +343,63 @@ export const PhoneMockup: React.FC = () => {
                       className="w-12 h-12 rounded-xl object-cover flex-shrink-0"
                     />
                     <div className="flex-1 min-w-0">
-                      <h5 className="text-xs font-bold text-[#11181C] truncate">
+                      <h5 className="text-xs font-bold text-[#181C1B] truncate">
                         {pinTarget.name}
                       </h5>
-                      <div className="flex items-center gap-1 text-[10px] text-[#687076]">
-                        <Star className="w-3 h-3 fill-[#F7CC33] text-[#F7CC33]" />
-                        <span className="font-bold text-[#11181C]">{pinTarget.rating}</span>
-                        <span>•</span>
+                      <div className="flex items-center gap-1 text-[10px] text-[#525B58]">
+                        <Star className="w-3 h-3 fill-[#E5A910] text-[#E5A910]" aria-hidden="true" />
+                        <span className="font-bold text-[#181C1B]">{pinTarget.rating}</span>
+                        <span>·</span>
                         <span>{pinTarget.distanceFormatted}</span>
                       </div>
                     </div>
-                    <span className="text-[10px] font-bold text-[#007E7F] px-2 py-1 rounded-full bg-[#F4FDFB]">
-                      Abrir
+                    <span className="text-[11px] font-semibold text-[#00696A] px-2.5 py-1 rounded-full bg-[#E9F3F2]">
+                      Ver
                     </span>
-                  </div>
+                  </button>
                 </div>
               </div>
             )}
 
-            {/* TAB 2: LUGARES (Matches (places)/index.tsx & CardHorizontal.tsx) */}
+            {/* TAB 2: LUGARES */}
             {activeTab === 'places' && (
               <div className="px-3.5 space-y-4">
                 <div>
-                  <div className="flex items-center justify-between mb-2">
-                    <h4 className="text-xs font-bold text-[#11181C] lowercase tracking-tight">
-                      para você
-                    </h4>
-                    <span className="text-[10px] font-bold text-[#007E7F]">Match 100%</span>
-                  </div>
+                  <h4 className="text-xs font-bold text-[#181C1B] mb-2">Para você</h4>
 
                   <div className="flex gap-2.5 overflow-x-auto pb-1 scrollbar-none">
                     {SAMPLE_ESTABLISHMENTS.slice(0, 3).map((est) => (
-                      <div
+                      <button
                         key={est.id}
+                        type="button"
                         onClick={() => openDetails(est)}
-                        className="flex-shrink-0 w-[138px] border border-[#DDDDDD] rounded-xl p-1.5 bg-white space-y-1.5 cursor-pointer hover:border-[#009C9D] transition-colors"
+                        className="flex-shrink-0 w-[138px] text-left rounded-2xl p-1.5 bg-white shadow-[0_1px_5px_rgba(24,28,27,0.06)] hover:shadow-[0_4px_12px_rgba(24,28,27,0.1)] space-y-1.5 cursor-pointer transition-shadow"
                       >
-                        <div className="relative h-[96px] rounded-lg overflow-hidden bg-[#F2F4F5]">
+                        <div className="relative h-[94px] rounded-xl overflow-hidden bg-[#EDF1EF]">
                           <img
                             src={est.imageUrl}
                             alt={est.name}
                             className="w-full h-full object-cover"
                           />
                         </div>
-                        <div className="px-0.5 space-y-1">
-                          <h5 className="text-[11px] font-bold text-[#11181C] truncate">
+                        <div className="px-1 space-y-1">
+                          <h5 className="text-[11px] font-bold text-[#181C1B] truncate">
                             {est.name}
                           </h5>
-                          <div className="flex items-center justify-between text-[10px] text-[#687076]">
+                          <div className="flex items-center justify-between gap-1 text-[10px] text-[#525B58]">
                             <span>{est.distanceFormatted}</span>
-                            <span className="font-mono text-[8px] font-bold uppercase px-1.5 py-0.5 rounded-full bg-[#009C9D] text-white">
+                            <span className="text-[9px] font-semibold px-2 py-0.5 rounded-full bg-[#E9F3F2] text-[#00696A] truncate">
                               {DIETARY_FLAGS.find((f) => f.id === est.flags[0])?.shortLabel}
                             </span>
                           </div>
                         </div>
-                      </div>
+                      </button>
                     ))}
                   </div>
                 </div>
 
                 <div>
-                  <div className="flex items-center justify-between mb-2">
-                    <h4 className="text-xs font-bold text-[#11181C] lowercase tracking-tight">
-                      próximos de você
-                    </h4>
-                    <span className="text-[10px] text-[#687076]">Toque para abrir</span>
-                  </div>
+                  <h4 className="text-xs font-bold text-[#181C1B] mb-2">Próximos de você</h4>
 
                   <div className="space-y-2">
                     {SAMPLE_ESTABLISHMENTS.slice(0, 4).map((est) => {
@@ -417,47 +408,57 @@ export const PhoneMockup: React.FC = () => {
                       return (
                         <div
                           key={est.id}
-                          onClick={() => openDetails(est)}
-                          className="flex items-center gap-2.5 bg-white rounded-xl p-2 border border-[#EAEAEA] hover:border-[#009C9D] cursor-pointer transition-colors"
+                          className="relative flex items-center gap-2.5 bg-white rounded-2xl p-2 shadow-[0_1px_5px_rgba(24,28,27,0.06)] hover:bg-[#FAFBFB] transition-colors has-[button.card-open:focus-visible]:outline has-[button.card-open:focus-visible]:outline-2 has-[button.card-open:focus-visible]:outline-[#007677]"
                         >
                           <div
-                            className="w-11 h-11 rounded-full flex items-center justify-center text-white font-bold text-xs flex-shrink-0"
+                            className="w-10 h-10 rounded-full flex items-center justify-center text-white font-bold text-xs flex-shrink-0"
                             style={{ backgroundColor: est.logoBg }}
+                            aria-hidden="true"
                           >
                             {est.logoInitials}
                           </div>
                           <div className="flex-1 min-w-0">
-                            {est.isSponsor && (
-                              <span className="text-[9px] text-[#687076] block leading-none mb-0.5">
-                                Destaque próximo
-                              </span>
-                            )}
-                            <h5 className="text-xs font-bold text-[#11181C] truncate leading-tight">
-                              {est.name}
+                            <h5 className="text-xs font-bold text-[#181C1B] truncate leading-tight">
+                              <button
+                                type="button"
+                                onClick={() => openDetails(est)}
+                                className="card-open text-left w-full truncate focus-visible:outline-none after:content-[''] after:absolute after:inset-0 cursor-pointer"
+                              >
+                                {est.name}
+                              </button>
                             </h5>
-                            <div className="flex items-center gap-1.5 text-[10px] text-[#687076] mt-0.5">
-                              <span className="font-bold text-[#11181C] flex items-center gap-0.5">
-                                <Star className="w-2.5 h-2.5 fill-[#F7CC33] text-[#F7CC33]" />
+                            <div className="flex items-center gap-1.5 text-[10px] text-[#525B58] mt-0.5">
+                              <span className="font-bold text-[#181C1B] flex items-center gap-0.5">
+                                <Star
+                                  className="w-2.5 h-2.5 fill-[#E5A910] text-[#E5A910]"
+                                  aria-hidden="true"
+                                />
                                 {est.rating}
                               </span>
-                              <span>•</span>
+                              <span>·</span>
                               <span>{est.distanceFormatted}</span>
-                              <span>•</span>
-                              <span className="font-mono text-[8px] font-bold uppercase text-[#007E7F]">
+                              <span>·</span>
+                              <span className="font-medium text-[#00696A] truncate">
                                 {firstFlag?.shortLabel}
                               </span>
                             </div>
                           </div>
                           <button
                             type="button"
-                            onClick={(e) => toggleFavorite(est.id, e)}
-                            aria-label={`Favoritar ${est.name}`}
-                            className="p-1.5 cursor-pointer"
+                            onClick={() => toggleFavorite(est.id)}
+                            aria-label={
+                              isFav
+                                ? `Remover ${est.name} dos favoritos`
+                                : `Favoritar ${est.name}`
+                            }
+                            aria-pressed={isFav}
+                            className="relative z-10 w-8 h-8 rounded-full flex items-center justify-center cursor-pointer hover:bg-[#F4F6F5]"
                           >
                             <Heart
                               className={`w-4 h-4 ${
-                                isFav ? 'fill-[#FF533F] text-[#FF533F]' : 'text-[#9BA1A6]'
+                                isFav ? 'fill-[#FF533F] text-[#FF533F]' : 'text-[#747D7B]'
                               }`}
+                              aria-hidden="true"
                             />
                           </button>
                         </div>
@@ -468,26 +469,32 @@ export const PhoneMockup: React.FC = () => {
               </div>
             )}
 
-            {/* TAB 3: FAVORITOS (Matches (favorites)/index.tsx Segmented Locais / Produtos) */}
+            {/* TAB 3: FAVORITOS */}
             {activeTab === 'favorites' && (
               <div className="px-3.5 pt-3 space-y-3">
-                <h4 className="text-sm font-bold text-[#11181C]">Meus Favoritos</h4>
+                <h4 className="text-sm font-bold text-[#181C1B]">Meus Favoritos</h4>
 
-                <div className="grid grid-cols-2 p-0.5 rounded-full bg-[#E0E0E0] text-[11px] font-bold">
+                <div
+                  className="grid grid-cols-2 p-0.5 rounded-full bg-[#E4EAE7] text-[11px] font-semibold"
+                  role="group"
+                  aria-label="Tipo de favoritos"
+                >
                   <button
                     type="button"
+                    aria-pressed={favoriteMode === 'places'}
                     onClick={() => setFavoriteMode('places')}
                     className={`py-1.5 rounded-full transition-colors cursor-pointer ${
-                      favoriteMode === 'places' ? 'bg-white text-[#11181C]' : 'text-[#687076]'
+                      favoriteMode === 'places' ? 'bg-white text-[#181C1B]' : 'text-[#525B58]'
                     }`}
                   >
                     Locais ({favoritePlaces.length})
                   </button>
                   <button
                     type="button"
+                    aria-pressed={favoriteMode === 'products'}
                     onClick={() => setFavoriteMode('products')}
                     className={`py-1.5 rounded-full transition-colors cursor-pointer ${
-                      favoriteMode === 'products' ? 'bg-white text-[#11181C]' : 'text-[#687076]'
+                      favoriteMode === 'products' ? 'bg-white text-[#181C1B]' : 'text-[#525B58]'
                     }`}
                   >
                     Produtos ({favoritePlaces.length})
@@ -495,16 +502,15 @@ export const PhoneMockup: React.FC = () => {
                 </div>
 
                 {favoritePlaces.length === 0 ? (
-                  <div className="py-12 text-center text-xs text-[#687076]">
-                    Toque no coração em Lugares para favoritar.
+                  <div className="py-12 text-center text-xs text-[#525B58]">
+                    Nenhum favorito selecionado ainda.
                   </div>
                 ) : (
                   <div className="space-y-2">
                     {favoritePlaces.map((est) => (
                       <div
                         key={est.id}
-                        onClick={() => openDetails(est)}
-                        className="flex items-center gap-2.5 bg-white p-2.5 rounded-xl border border-[#EAEAEA] cursor-pointer"
+                        className="relative flex items-center gap-2.5 bg-white p-2.5 rounded-2xl shadow-[0_1px_5px_rgba(24,28,27,0.06)] hover:bg-[#FAFBFB] transition-colors has-[button.card-open:focus-visible]:outline has-[button.card-open:focus-visible]:outline-2 has-[button.card-open:focus-visible]:outline-[#007677]"
                       >
                         <img
                           src={
@@ -513,24 +519,32 @@ export const PhoneMockup: React.FC = () => {
                               : est.highlightDish.imageUrl || est.imageUrl
                           }
                           alt={est.name}
-                          className="w-12 h-12 rounded-lg object-cover flex-shrink-0"
+                          className="w-12 h-12 rounded-xl object-cover flex-shrink-0"
                         />
                         <div className="flex-1 min-w-0">
-                          <h5 className="text-xs font-bold text-[#11181C] truncate">
-                            {favoriteMode === 'places' ? est.name : est.highlightDish.name}
+                          <h5 className="text-xs font-bold text-[#181C1B] truncate">
+                            <button
+                              type="button"
+                              onClick={() => openDetails(est)}
+                              className="card-open text-left w-full truncate focus-visible:outline-none after:content-[''] after:absolute after:inset-0 cursor-pointer"
+                            >
+                              {favoriteMode === 'places' ? est.name : est.highlightDish.name}
+                            </button>
                           </h5>
-                          <p className="text-[10px] text-[#687076] truncate">
+                          <p className="text-[10px] text-[#525B58] truncate">
                             {favoriteMode === 'places'
-                              ? `${est.neighborhood} • ${est.distanceFormatted}`
-                              : `${est.name} • ${est.highlightDish.priceFormatted}`}
+                              ? `${est.neighborhood} · ${est.distanceFormatted}`
+                              : `${est.name} · ${est.highlightDish.priceFormatted}`}
                           </p>
                         </div>
                         <button
                           type="button"
-                          onClick={(e) => toggleFavorite(est.id, e)}
-                          className="p-1 cursor-pointer"
+                          onClick={() => toggleFavorite(est.id)}
+                          aria-label={`Remover ${est.name} dos favoritos`}
+                          aria-pressed={true}
+                          className="relative z-10 w-8 h-8 rounded-full flex items-center justify-center cursor-pointer hover:bg-[#F4F6F5]"
                         >
-                          <Heart className="w-4 h-4 fill-[#FF533F] text-[#FF533F]" />
+                          <Heart className="w-4 h-4 fill-[#FF533F] text-[#FF533F]" aria-hidden="true" />
                         </button>
                       </div>
                     ))}
@@ -539,58 +553,59 @@ export const PhoneMockup: React.FC = () => {
               </div>
             )}
 
-            {/* TAB 4: SOCIAL (Matches (social)/index.tsx #F4FDFB NOVA INAUGURAÇÃO + Visits) */}
+            {/* TAB 4: SOCIAL */}
             {activeTab === 'social' && (
               <div className="px-3.5 pt-3 space-y-3">
-                <h4 className="text-sm font-bold text-[#11181C]">Feed Social</h4>
+                <h4 className="text-sm font-bold text-[#181C1B]">Feed Social</h4>
 
-                {/* Authentic #F4FDFB / #B2DFDB New Opening Card */}
-                <div className="rounded-xl p-3 bg-[#F4FDFB] border border-[#B2DFDB] space-y-1.5">
-                  <div className="flex items-center gap-1.5 font-mono text-[9px] font-bold uppercase text-[#007E7F]">
-                    <Sparkles className="w-3 h-3" />
+                <div className="rounded-2xl p-3 bg-[#E9F3F2] space-y-1.5">
+                  <div className="flex items-center gap-1.5 text-[11px] font-semibold text-[#00696A]">
+                    <Sparkles className="w-3.5 h-3.5" aria-hidden="true" />
                     <span>Nova inauguração</span>
                   </div>
                   <div className="flex items-center justify-between gap-2">
                     <div>
-                      <h5 className="text-xs font-bold text-[#11181C]">
+                      <h5 className="text-xs font-bold text-[#181C1B]">
                         Forneria & Café da Praça
                       </h5>
-                      <p className="text-[10px] text-[#687076]">
-                        Centro • Forno exclusivo sem glúten
+                      <p className="text-[10px] text-[#525B58]">
+                        Centro · Forno exclusivo sem glúten
                       </p>
                     </div>
                     <button
                       type="button"
                       onClick={() => openDetails(SAMPLE_ESTABLISHMENTS[2])}
-                      className="text-[10px] font-bold px-2.5 py-1 rounded-full bg-[#009C9D] text-white cursor-pointer"
+                      className="text-[11px] font-semibold px-3 py-1 rounded-full bg-[#007677] text-white cursor-pointer hover:bg-[#006061]"
                     >
                       Ver
                     </button>
                   </div>
                 </div>
 
-                {/* Verified Visit Post */}
-                <div className="bg-white rounded-xl border border-[#EAEAEA] p-3 space-y-2">
+                <div className="bg-white rounded-2xl shadow-[0_1px_5px_rgba(24,28,27,0.06)] p-3 space-y-2">
                   <div className="flex items-center justify-between">
                     <div className="flex items-center gap-2">
-                      <div className="w-7 h-7 rounded-full bg-[#009C9D] text-white text-[10px] font-bold flex items-center justify-center">
+                      <div
+                        className="w-7 h-7 rounded-full bg-[#007677] text-white text-[10px] font-bold flex items-center justify-center"
+                        aria-hidden="true"
+                      >
                         CM
                       </div>
                       <div>
-                        <div className="text-[11px] font-bold text-[#11181C]">Camila Mendonça</div>
-                        <div className="text-[9px] text-[#687076]">Visitou Cantina Verde • há 2d</div>
+                        <div className="text-[11px] font-bold text-[#181C1B]">Camila Mendonça</div>
+                        <div className="text-[9px] text-[#525B58]">Visitou Cantina Verde · há 2d</div>
                       </div>
                     </div>
-                    <span className="font-mono text-[9px] font-bold text-[#007E7F] bg-[#F4FDFB] px-1.5 py-0.5 rounded-full">
-                      GPS 14m
+                    <span className="text-[10px] font-semibold text-[#00696A] bg-[#E9F3F2] px-2 py-0.5 rounded-full">
+                      14 m
                     </span>
                   </div>
                   <img
                     src="/assets/showcase/dish-gluten-free.jpg"
                     alt="Prato visitado"
-                    className="w-full h-32 rounded-lg object-cover"
+                    className="w-full h-32 rounded-xl object-cover"
                   />
-                  <p className="text-[11px] text-[#333333] leading-snug">
+                  <p className="text-[11px] text-[#3A413F] leading-snug">
                     Gnocchi de mandioquinha aprovado. Cardápio “Para você” facilitou tudo!
                   </p>
                 </div>
@@ -599,10 +614,10 @@ export const PhoneMockup: React.FC = () => {
           </div>
         )}
 
-        {/* Bottom 4-Tab Bar mirroring helprest-app/(app)/(tabs)/_layout.tsx */}
+        {/* Bottom 4-Tab Bar */}
         <nav
           aria-label="Navegação do simulador do app"
-          className="absolute bottom-0 inset-x-0 bg-white border-t border-[#EAEAEA] px-4 py-2 flex items-center justify-around z-30"
+          className="absolute bottom-0 inset-x-0 bg-white shadow-[0_-4px_12px_rgba(24,28,27,0.05)] px-4 py-2 flex items-center justify-around z-30"
         >
           <button
             type="button"
@@ -610,11 +625,12 @@ export const PhoneMockup: React.FC = () => {
               setSelectedPlace(null);
               setActiveTab('home');
             }}
-            className={`flex flex-col items-center gap-0.5 text-[9px] font-bold cursor-pointer ${
-              activeTab === 'home' && !selectedPlace ? 'text-[#009C9D]' : 'text-[#687076]'
+            aria-current={activeTab === 'home' && !selectedPlace ? 'page' : undefined}
+            className={`flex flex-col items-center gap-0.5 text-[10px] font-semibold cursor-pointer ${
+              activeTab === 'home' && !selectedPlace ? 'text-[#007677]' : 'text-[#525B58]'
             }`}
           >
-            <Home className="w-4 h-4" />
+            <Home className="w-4 h-4" aria-hidden="true" />
             <span>Início</span>
           </button>
 
@@ -624,11 +640,12 @@ export const PhoneMockup: React.FC = () => {
               setSelectedPlace(null);
               setActiveTab('places');
             }}
-            className={`flex flex-col items-center gap-0.5 text-[9px] font-bold cursor-pointer ${
-              activeTab === 'places' || selectedPlace ? 'text-[#009C9D]' : 'text-[#687076]'
+            aria-current={activeTab === 'places' || selectedPlace ? 'page' : undefined}
+            className={`flex flex-col items-center gap-0.5 text-[10px] font-semibold cursor-pointer ${
+              activeTab === 'places' || selectedPlace ? 'text-[#007677]' : 'text-[#525B58]'
             }`}
           >
-            <UtensilsCrossed className="w-4 h-4" />
+            <UtensilsCrossed className="w-4 h-4" aria-hidden="true" />
             <span>Lugares</span>
           </button>
 
@@ -638,14 +655,16 @@ export const PhoneMockup: React.FC = () => {
               setSelectedPlace(null);
               setActiveTab('favorites');
             }}
-            className={`flex flex-col items-center gap-0.5 text-[9px] font-bold cursor-pointer ${
-              activeTab === 'favorites' && !selectedPlace ? 'text-[#FF533F]' : 'text-[#687076]'
+            aria-current={activeTab === 'favorites' && !selectedPlace ? 'page' : undefined}
+            className={`flex flex-col items-center gap-0.5 text-[10px] font-semibold cursor-pointer ${
+              activeTab === 'favorites' && !selectedPlace ? 'text-[#FF533F]' : 'text-[#525B58]'
             }`}
           >
             <Heart
               className={`w-4 h-4 ${
                 activeTab === 'favorites' && !selectedPlace ? 'fill-[#FF533F]' : ''
               }`}
+              aria-hidden="true"
             />
             <span>Favoritos</span>
           </button>
@@ -656,11 +675,12 @@ export const PhoneMockup: React.FC = () => {
               setSelectedPlace(null);
               setActiveTab('social');
             }}
-            className={`flex flex-col items-center gap-0.5 text-[9px] font-bold cursor-pointer ${
-              activeTab === 'social' && !selectedPlace ? 'text-[#009C9D]' : 'text-[#687076]'
+            aria-current={activeTab === 'social' && !selectedPlace ? 'page' : undefined}
+            className={`flex flex-col items-center gap-0.5 text-[10px] font-semibold cursor-pointer ${
+              activeTab === 'social' && !selectedPlace ? 'text-[#007677]' : 'text-[#525B58]'
             }`}
           >
-            <Users className="w-4 h-4" />
+            <Users className="w-4 h-4" aria-hidden="true" />
             <span>Social</span>
           </button>
         </nav>

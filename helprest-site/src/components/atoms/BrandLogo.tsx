@@ -37,7 +37,8 @@ export const BrandLogo: React.FC<BrandLogoProps> = ({
     <div className={`inline-flex items-center gap-2.5 select-none ${className}`}>
       <img
         src={logoSrc}
-        alt="HelpRest"
+        alt={variant === 'icon-only' ? 'HelpRest' : ''}
+        aria-hidden={variant === 'full'}
         className={`object-contain ${
           tone === 'inverse' ? '' : 'rounded-[10px]'
         } ${iconSizes[size]}`}
@@ -45,11 +46,11 @@ export const BrandLogo: React.FC<BrandLogoProps> = ({
       {variant === 'full' && (
         <span
           className={`font-bold tracking-tight ${textSizes[size]} ${
-            tone === 'inverse' ? 'text-white' : 'text-[#11181C]'
+            tone === 'inverse' ? 'text-white' : 'text-[#181C1B]'
           }`}
         >
           Help
-          <span className={tone === 'inverse' ? 'text-[#E0F2F1]' : 'text-[#009C9D]'}>
+          <span className={tone === 'inverse' ? 'text-[#9CE2E0]' : 'text-[#007677]'}>
             Rest
           </span>
         </span>
@@ -59,7 +60,7 @@ export const BrandLogo: React.FC<BrandLogoProps> = ({
 
   if (clickable) {
     return (
-      <Link to="/" className="inline-flex items-center hover:opacity-90 transition-opacity">
+      <Link to="/" className="inline-flex items-center rounded-lg hover:opacity-90 transition-opacity">
         {content}
       </Link>
     );

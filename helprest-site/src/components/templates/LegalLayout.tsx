@@ -31,96 +31,145 @@ export const LegalLayout: React.FC<LegalLayoutProps> = ({
   const { currentPath } = useRouter();
 
   const legalNavItems = [
-    { label: 'Política de Privacidade', href: '/privacidade', icon: <ShieldCheck className="w-4 h-4" /> },
-    { label: 'Segurança dos Dados', href: '/seguranca-dos-dados', icon: <Lock className="w-4 h-4" /> },
-    { label: 'Exclusão de Conta e Dados', href: '/exclusao-de-dados', icon: <Trash2 className="w-4 h-4 text-[#D93829]" /> },
-    { label: 'Aviso de Saúde & Alérgenos', href: '/aviso-de-saude', icon: <HeartPulse className="w-4 h-4 text-[#D4A710]" /> },
-    { label: 'Termos de Uso', href: '/termos', icon: <FileText className="w-4 h-4" /> },
-    { label: 'Central de Suporte', href: '/suporte', icon: <HelpCircle className="w-4 h-4" /> },
+    {
+      label: 'Política de Privacidade',
+      href: '/privacidade',
+      icon: <ShieldCheck className="w-4 h-4 text-[#007677]" aria-hidden="true" />,
+    },
+    {
+      label: 'Segurança dos Dados',
+      href: '/seguranca-dos-dados',
+      icon: <Lock className="w-4 h-4 text-[#007677]" aria-hidden="true" />,
+    },
+    {
+      label: 'Exclusão de Conta e Dados',
+      href: '/exclusao-de-dados',
+      icon: <Trash2 className="w-4 h-4 text-[#B42318]" aria-hidden="true" />,
+    },
+    {
+      label: 'Aviso de Saúde & Alérgenos',
+      href: '/aviso-de-saude',
+      icon: <HeartPulse className="w-4 h-4 text-[#C43E32]" aria-hidden="true" />,
+    },
+    {
+      label: 'Termos de Uso',
+      href: '/termos',
+      icon: <FileText className="w-4 h-4 text-[#525B58]" aria-hidden="true" />,
+    },
+    {
+      label: 'Central de Suporte',
+      href: '/suporte',
+      icon: <HelpCircle className="w-4 h-4 text-[#007677]" aria-hidden="true" />,
+    },
   ];
 
+  const normalizedPath = currentPath.split('#')[0].replace(/\/$/, '') || '/';
+
   return (
-    <div className="min-h-screen flex flex-col bg-[#FAFAFA] text-[#11181C] font-sans">
+    <div className="min-h-screen flex flex-col bg-[#F4F6F5] text-[#181C1B] font-sans">
+      <a
+        href="#main-content"
+        className="visually-hidden fixed top-3 start-3 z-50 rounded-full bg-[#007677] px-4 py-2.5 text-sm font-semibold text-white shadow-lg"
+      >
+        Ir para o conteúdo principal
+      </a>
+
       <Navbar />
 
-      <main className="flex-1 py-10 sm:py-14">
+      <main id="main-content" tabIndex={-1} className="flex-1 py-10 sm:py-14 focus:outline-none">
         <Container size="lg">
           <Breadcrumb currentPageTitle={title} />
 
-          {/* Clean Header */}
-          <div className="mb-8 pb-6 border-b border-[#EAEAEA]">
-            <div className="inline-flex flex-wrap items-center gap-2 font-mono text-[11px] font-bold uppercase tracking-wider px-3 py-1 rounded-full bg-[#F4FDFB] text-[#007E7F] border border-[#B2DFDB] mb-3">
-              <Clock className="w-3.5 h-3.5" />
-              <span>Atualizado em {lastUpdated} • com.gustavo_lg.helprest</span>
+          {/* Clean Document Header */}
+          <div className="mb-8 space-y-2.5">
+            <div className="inline-flex flex-wrap items-center gap-2 text-xs font-medium text-[#525B58]">
+              <Clock className="w-3.5 h-3.5 text-[#007677]" aria-hidden="true" />
+              <span>
+                Atualizado em {lastUpdated} ·{' '}
+                <code className="font-mono text-[#3A413F]">com.gustavo_lg.helprest</code>
+              </span>
             </div>
-            <h1 className="text-3xl sm:text-4xl font-bold text-[#11181C] tracking-tight">
+            <h1 className="text-3xl sm:text-4xl font-bold text-[#181C1B] tracking-tight leading-tight">
               {title}
             </h1>
-            <p className="mt-2.5 text-base sm:text-lg text-[#687076] max-w-3xl leading-relaxed">
+            <p className="text-base sm:text-[17px] text-[#525B58] max-w-3xl leading-relaxed">
               {subtitle}
             </p>
           </div>
 
-          {/* Mobile Only Compact Nav Strip */}
-          <div className="lg:hidden mb-6 bg-white border border-[#EAEAEA] rounded-2xl p-2">
-            <div className="flex items-center gap-1 overflow-x-auto scrollbar-none">
+          {/* Mobile Only Horizontal Document Nav Strip */}
+          <nav
+            aria-label="Documentos legais"
+            className="lg:hidden mb-6 tonal-surface bg-white rounded-2xl p-2 shadow-[0_2px_10px_-4px_rgba(24,28,27,0.06)]"
+          >
+            <ul className="flex items-center gap-1.5 overflow-x-auto scrollbar-none">
               {legalNavItems.map((item) => {
-                const isActive = currentPath === item.href;
+                const isActive = normalizedPath === item.href;
                 return (
-                  <Link
-                    key={item.href}
-                    to={item.href}
-                    className={`flex items-center gap-1.5 px-3 py-2 rounded-xl text-xs font-bold whitespace-nowrap transition-colors ${
-                      isActive
-                        ? 'bg-[#009C9D] text-white'
-                        : 'text-[#687076] hover:text-[#11181C] hover:bg-[#FAFAFA]'
-                    }`}
-                  >
-                    <span>{item.icon}</span>
-                    <span>{item.label}</span>
-                  </Link>
+                  <li key={item.href} className="flex-shrink-0">
+                    <Link
+                      to={item.href}
+                      aria-current={isActive ? 'page' : undefined}
+                      className={`inline-flex items-center gap-2 px-3.5 py-2.5 min-h-[44px] rounded-xl text-xs whitespace-nowrap transition-colors ${
+                        isActive
+                          ? 'bg-[#E9F3F2] text-[#00696A] font-semibold underline decoration-2 underline-offset-4 decoration-[#007677]'
+                          : 'text-[#3A413F] hover:text-[#181C1B] hover:bg-[#EDF1EF] font-medium'
+                      }`}
+                    >
+                      {item.icon}
+                      <span>{item.label}</span>
+                    </Link>
+                  </li>
                 );
               })}
-            </div>
-          </div>
+            </ul>
+          </nav>
 
-          {/* Desktop 2-Column Layout without duplicate horizontal bar */}
+          {/* Desktop 2-Column Tonal Layout */}
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
             <aside className="hidden lg:block lg:col-span-4">
-              <div className="sticky top-24 bg-white border border-[#EAEAEA] rounded-2xl p-5 space-y-4">
-                <div className="font-mono text-[10px] font-bold uppercase tracking-wider text-[#687076] px-2">
-                  Documentos do Aplicativo
-                </div>
-                <nav className="space-y-1" aria-label="Navegação legal">
-                  {legalNavItems.map((item) => {
-                    const isActive = currentPath === item.href;
-                    return (
-                      <Link
-                        key={item.href}
-                        to={item.href}
-                        className={`flex items-center gap-2.5 px-3 py-2.5 rounded-xl text-sm transition-colors ${
-                          isActive
-                            ? 'bg-[#F4FDFB] text-[#007E7F] font-bold border border-[#B2DFDB]'
-                            : 'text-[#333333] hover:bg-[#FAFAFA] font-medium'
-                        }`}
-                      >
-                        <span className={isActive ? 'text-[#009C9D]' : 'text-[#687076]'}>
-                          {item.icon}
-                        </span>
-                        <span>{item.label}</span>
-                      </Link>
-                    );
-                  })}
+              <div className="sticky top-24 tonal-surface bg-white rounded-3xl p-5 shadow-[0_2px_12px_-4px_rgba(24,28,27,0.06)] space-y-5">
+                <nav aria-label="Navegação legal">
+                  <div className="text-xs font-semibold text-[#525B58] px-3 mb-2">
+                    Documentos do aplicativo
+                  </div>
+                  <ul className="space-y-1">
+                    {legalNavItems.map((item) => {
+                      const isActive = normalizedPath === item.href;
+                      return (
+                        <li key={item.href}>
+                          <Link
+                            to={item.href}
+                            aria-current={isActive ? 'page' : undefined}
+                            className={`flex items-center justify-between gap-2.5 px-3 py-2.5 min-h-[44px] rounded-2xl text-sm transition-colors ${
+                              isActive
+                                ? 'bg-[#E9F3F2] text-[#00696A] font-semibold'
+                                : 'text-[#3A413F] hover:bg-[#EDF1EF] hover:text-[#181C1B] font-medium'
+                            }`}
+                          >
+                            <span className="flex items-center gap-2.5 min-w-0">
+                              {item.icon}
+                              <span className="truncate">{item.label}</span>
+                            </span>
+                            {isActive && (
+                              <span
+                                className="w-1.5 h-4 rounded-full bg-[#007677] flex-shrink-0"
+                                aria-hidden="true"
+                              />
+                            )}
+                          </Link>
+                        </li>
+                      );
+                    })}
+                  </ul>
                 </nav>
 
-                <div className="pt-4 border-t border-[#EAEAEA] px-2 text-xs text-[#687076] space-y-1.5">
-                  <div className="font-bold text-[#11181C]">Controlador & Privacidade</div>
-                  <p className="leading-snug">
-                    HelpRest — Desenvolvedor: Gustavo L. Gregorio
-                  </p>
+                <div className="rounded-2xl bg-[#F4F6F5] p-4 text-xs text-[#525B58] space-y-1.5">
+                  <div className="font-semibold text-[#181C1B]">Controlador & Privacidade</div>
+                  <p className="leading-snug">HelpRest — Desenvolvedor: Gustavo L. Gregorio</p>
                   <a
                     href="mailto:privacidade@helprest.com"
-                    className="text-[#007E7F] hover:underline font-mono text-xs block font-bold"
+                    className="text-[#00696A] hover:underline font-semibold inline-block pt-0.5"
                   >
                     privacidade@helprest.com
                   </a>
@@ -129,7 +178,7 @@ export const LegalLayout: React.FC<LegalLayoutProps> = ({
             </aside>
 
             <div className="lg:col-span-8">
-              <div className="bg-white border border-[#EAEAEA] rounded-2xl p-6 sm:p-9 space-y-7 text-[#333333] leading-relaxed text-sm sm:text-base">
+              <div className="tonal-surface bg-white rounded-3xl p-6 sm:p-10 shadow-[0_2px_12px_-4px_rgba(24,28,27,0.06)] space-y-8 text-[#3A413F] leading-relaxed text-sm sm:text-base">
                 {children}
               </div>
             </div>
