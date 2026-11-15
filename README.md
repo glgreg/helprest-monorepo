@@ -1,6 +1,6 @@
 # HelpRest Monorepo — Software Architecture & Orchestration Guide
 
-Platform for discovering establishments based on dietary restrictions and accessibility requirements. Built as a monorepo containing a Bun-powered REST API and an Expo React Native mobile application.
+Platform for discovering establishments based on dietary restrictions and accessibility requirements. Built as a monorepo containing a Bun/ElysiaJS REST API, an Expo React Native mobile application, and a Vite React web portal.
 
 ---
 
@@ -8,9 +8,10 @@ Platform for discovering establishments based on dietary restrictions and access
 
 ```
 helprest-monorepo/
-├── helprest-api/      # Backend — Bun runtime + TypeScript (Clean Architecture + DDD)
+├── helprest-api/      # Backend — Bun runtime + ElysiaJS + TypeScript (Clean Architecture + DDD)
 ├── helprest-app/      # Mobile — React Native 0.79 + Expo SDK 53 (Expo Router v5)
-├── agent-helprest/    # Engineering Agent Slot & System Memory
+├── helprest-site/     # Web — Vite 6 + React 19 + Tailwind CSS v4 (Landing & Google Play compliance)
+├── .keystone/         # Architectural context & module stones (.stone.*.md)
 ├── resources/         # Canonical documentation, API tests, assets & roadmap
 ├── docker-compose.yml     # Local Development Infrastructure (MongoDB + Redis + API)
 ├── docker-compose.prd.yml # Local Production Simulation (Dockerfile Build)
@@ -128,7 +129,7 @@ bun run app:build:apk:release
 - **Release APK**: `helprest-app/android/app/build/outputs/apk/release/app-release.apk`
 
 ### Automated Prebuild & Signing Patch
-Running `build:apk:*` automatically triggers `prebuild:android`, which executes `scripts/patch-android-signing.js` to:
+Running `build:apk:*` automatically triggers `prebuild:android`, which executes `scripts/patch-android-signing.ts` to:
 1. Link project keystore (`keys/keystore.jks`) so SHA-1 matches Google Sign-In registration.
 2. Patch `styles.xml` with `Theme.EdgeToEdge` style.
 
@@ -142,7 +143,7 @@ bun run app:eas:build-aab         # EAS Production AAB for Google Play
 
 ## 6. Standalone Execution (Subproject Independence)
 
-Both subprojects can operate independently inside their respective directories:
+Each subproject can operate independently inside its respective directory:
 
 ### `helprest-api/`
 ```bash
@@ -151,6 +152,7 @@ bun run dev          # Hot-reload dev server
 bun run start        # Production start
 bun run seed         # Database seed
 bun run test         # Bun test runner
+bun run test:unit    # Isolated unit test suite
 bun run typecheck    # TypeScript strict check
 bun run lint         # ESLint check
 ```
@@ -164,6 +166,16 @@ bun run nuke         # Reset native android project
 bun run build:apk:release # Local APK build
 bun run typecheck    # TypeScript strict check
 bun run lint         # Expo lint
+```
+
+### `helprest-site/`
+```bash
+cd helprest-site
+npm install          # Install Vite/React web dependencies
+npm run dev          # Start Vite dev server
+npm run build        # TypeScript check (tsc -b) + Vite production build
+npm run lint         # ESLint check
+npm run preview      # Preview production bundle
 ```
 
 ---

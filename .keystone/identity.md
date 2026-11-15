@@ -23,16 +23,18 @@ Monorepo containing three application packages and a shared documentation/assets
 
 ## 4. Lifecycle Stage
 
-Active feature development (`1.0.0`, pre-production). Core authentication (local + Google OAuth2), consumer and establishment onboarding flows, geospatial discovery, flag-based recommendation, product catalog management, favorites, and geofenced visit reviews are implemented. API contracts must remain backward-compatible with mobile client expectations, while internal refactoring that strengthens Clean Architecture boundaries and test coverage is encouraged.
+Active feature development (`1.0.0`, pre-production). Core Google OAuth2 authentication, hierarchical RBAC (`Role`: `user`, `establishment_admin`, `admin`, `superadmin`), consumer and establishment onboarding flows, geospatial discovery, flag-based recommendation, product catalog management, favorites, geofenced visit reviews, and admin moderation/audit logging are implemented. API contracts must remain backward-compatible with mobile client expectations, while internal refactoring that strengthens Clean Architecture boundaries and test coverage is encouraged.
 
 ## 5. Project Metadata
 
 - **Versioning**: SemVer (`1.0.0` across `helprest-api` and `helprest-app`).
 - **Source Language**: English for all source code, identifiers, database schemas, route paths, and Git commit messages. Portuguese is used for user-facing UI copy and product documentation.
 - **Canonical Reference Docs**:
+  - [`README.md`](../README.md) — Monorepo orchestration, Docker setup, and APK build guide.
   - [`resources/docs/base.system.md`](../resources/docs/base.system.md) — Product vision, architectural principles, and long-term technical criteria.
   - [`resources/docs/backend.md`](../resources/docs/backend.md) — Backend layer breakdown, endpoints, and environment variables.
   - [`resources/docs/frontend.md`](../resources/docs/frontend.md) — Mobile app architecture, auth/onboarding flows, and storage layer.
   - [`resources/docs/helprest-requirements.md`](../resources/docs/helprest-requirements.md) — Actors and use-case specification (UC1–UC57).
+  - [`resources/docs/todo.plan.md`](../resources/docs/todo.plan.md) — Feature roadmap and completed implementation milestones.
   - [`resources/api/api.http`](../resources/api/api.http) and [`resources/api/insomnia.json`](../resources/api/insomnia.json) — Executable API request collections.
-  - [`agent-execution-runbook.md`](../agent-execution-runbook.md) — Autonomous execution roadmap and operational guardrails.
+  - [`resources/docs/agent-execution-runbook.md`](../resources/docs/agent-execution-runbook.md) — Autonomous execution roadmap and operational guardrails.

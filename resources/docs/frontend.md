@@ -22,7 +22,7 @@ The HelpRest mobile application is built with **React Native 0.79** + **Expo SDK
 | HTTP Client | **`services/api.ts`** | Centralized client with single-flight mutex auto-refresh |
 | Geolocation | **`expo-location` + OpenStreetMap** | Reverse geocoding and device coordinates capture |
 | Maps | **`react-native-maps`** | Interactive vector map with custom restaurant pins |
-| Authentication | **`expo-auth-session`** | Native Google OAuth2 authentication flow |
+| Authentication | **`@react-native-google-signin/google-signin`** | Native Google OAuth2 authentication flow |
 | Visual Assets | **`expo-image`** | Optimized caching and performant image rendering |
 | Micro-interactions | **`react-native-reanimated`** | Gesture-driven bottom sheets and smooth transitions |
 
@@ -33,23 +33,32 @@ The HelpRest mobile application is built with **React Native 0.79** + **Expo SDK
 ```
 helprest-app/
 ├── app/                           # Expo Router file-based route hierarchy
-│   ├── _layout.tsx                # Root layout (QueryClientProvider, AuthGate, GestureHandlerRootView)
-│   ├── index.tsx                  # Initial splash redirect based on auth & onboarding status
+│   ├── _layout.tsx                # Root layout (QueryClientProvider, session & role gate)
 │   ├── (auth)/                    # Unauthenticated route group
-│   │   ├── home.tsx               # Login screen (Google OAuth2 + guest gateway)
-│   │   └── register/              # Multi-step onboarding stack
-│   │       ├── step1.tsx          # Name & basic profile
-│   │       ├── step2.tsx          # Date of birth validation
-│   │       ├── step3.tsx          # Location / default address selection
-│   │       └── step4.tsx          # Dietary restrictions & allergens flag picker
+│   │   ├── home.tsx               # Login screen (Google OAuth2 + consumer/company toggle)
+│   │   ├── register/              # 6-step consumer onboarding stack
+│   │   │   ├── step1.tsx          # Name & basic profile
+│   │   │   ├── step2.tsx          # Date of birth validation
+│   │   │   ├── step3.tsx          # Location / default address selection
+│   │   │   ├── step4.tsx          # Dietary restrictions & allergens flag picker
+│   │   │   ├── step5.tsx          # Additional profile preferences
+│   │   │   └── step6.tsx          # Confirmation step
+│   │   └── register-establishment/# 3-step establishment onboarding stack
+│   │       └── step1..step3.tsx   # Company info, location & supported flags
 │   └── (app)/                     # Protected route group (auth guard enforced)
 │       ├── _layout.tsx            # Protected shell
 │       ├── (tabs)/                # Primary bottom tab navigator
 │       │   ├── (home)/index.tsx   # Interactive map view + nearby establishment discovery
 │       │   ├── (places)/index.tsx # Categorized discovery ("Para Você", "Novidades", "Próximos")
+│       │   ├── (favorites)/index.tsx # Saved establishments & products
 │       │   └── (social)/index.tsx # Social activity feed, reviews & check-in timeline
-│       └── details/
-│           └── [id].tsx           # Detailed establishment profile, menus, flags & reviews
+│       ├── (establishment)/       # Establishment admin portal
+│       │   ├── dashboard.tsx      # Establishment overview
+│       │   ├── menu.tsx           # Menu management
+│       │   └── product-form.tsx   # Product create/edit form
+│       ├── details/[id].tsx       # Detailed establishment profile, menus, flags & reviews
+│       ├── product/[id].tsx       # Product modal view
+│       └── visit/create.tsx       # Visit review & 100m geofenced photo upload
 ├── components/                    # Atomic Component Design System
 │   ├── atoms/                     # Foundational atomic units
 │   │   ├── MiddleDot.tsx          # Separator dot for metadata lines
@@ -70,18 +79,18 @@ helprest-app/
 │   ├── Colors.ts                  # Light / dark design system color tokens
 │   └── queryKeys.ts               # Strongly-typed TanStack Query Key Factory
 ├── hooks/                         # Custom React hooks
-│   ├── queries/                   # Encapsulated query hooks (useFavorites, usePlacesQuery, etc.)
+│   ├── queries/                   # Encapsulated query hooks (useFavorites, usePlacesQuery, useLocationQuery)
 │   ├── usePermissions.ts          # Location permissions requester & handler
 │   ├── useThemeColor.ts           # Dynamic theme resolver
-│   └── useDebounce.ts             # Value debouncer for search bars
+│   └── useDebounce.js             # Value debouncer for search bars
 ├── services/                      # Infrastructure & network abstractions
 │   ├── api.ts                     # HTTP client with single-flight mutex token refresh
 │   ├── auth.ts                    # Google OAuth2 integration service
-│   └── location.ts                # Geolocation and Nominatim reverse geocoding
+│   └── location.ts                # Foreground/background GPS & Haversine distance
 └── storage/                       # Isolated MMKV persistence modules
     ├── keys.ts                    # Strongly typed storage keys and instance identifiers
     ├── authTokens.ts              # JWT Access/Refresh tokens & Google profile
-    ├── userProfile.ts             # Cached user profile & onboarding progress
+    ├── userProfile.ts             # Cached user profile, onboarding check & company flag
     └── userLoginStatus.ts         # Fast-path login flag
 ```
 
@@ -175,5 +184,5 @@ sequenceDiagram
 | Domain / Instance ID | Module | Keys Stored | Purpose |
 |---|---|---|---|
 | `auth-tokens` | `storage/authTokens.ts` | `accessToken`, `refreshToken`, `googleUser` | Secure authentication persistence |
-| `user-profile` | `storage/userProfile.ts` | `profile` | User entity snapshot, dietary flags & profile coordinates |
-| `app-state` | `storage/userLoginStatus.ts` | `userLoginStatus`, `is_company_onboarding` | Fast boolean flags for instant startup checks |
+| `user-profile` | `storage/userProfile.ts` | `profile`, `is_company_onboarding` | User entity snapshot, onboarding mode & profile coordinates |
+| `app-state` | `storage/userLoginStatus.ts` | `userLoginStatus` | Fast boolean flag for UI state |

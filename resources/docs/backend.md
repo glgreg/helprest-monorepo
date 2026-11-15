@@ -2,12 +2,13 @@
 
 ## Overview
 
-The HelpRest API is a RESTful backend built with **Bun** runtime, **MongoDB** (official driver, no ODM), and **Redis** for caching/rate-limiting. It follows **Clean Architecture** with **Domain-Driven Design (DDD)** organization.
+The HelpRest API is a RESTful backend built with **Bun** runtime, **ElysiaJS**, **MongoDB** (official driver, no ODM), and **Redis** for caching/rate-limiting. It follows **Clean Architecture** with **Domain-Driven Design (DDD)** organization.
 
-**Entry point:** `src/index.ts`  
-**Dev command:** `bun run dev` (auto-restarts on changes)  
+**Entry point:** `src/index.ts` (creates Elysia app from `src/app.ts`)  
+**Dev command:** `bun run dev` (auto-restarts on changes via `--hot`)  
 **Seed command:** `bun run seed` (populates database with test data)  
-**Test command:** `bun test`  
+**Test command:** `bun test` (`bun run test:unit` for isolated unit tests)  
+**OpenAPI / Swagger UI:** `GET /swagger`  
 **API test file:** `resources/api/api.http` (VS Code REST Client)  
 **Insomnia collection:** `resources/api/insomnia.json`
 
@@ -17,10 +18,11 @@ The HelpRest API is a RESTful backend built with **Bun** runtime, **MongoDB** (o
 
 ```
 src/
+├── app.ts           → ElysiaJS application wiring Swagger, plugins & modules
 ├── domain/          → Business rules (zero external dependencies)
 ├── application/     → Use cases / orchestration
 ├── infrastructure/  → Database, cache, security implementations
-├── interface/       → HTTP server, middleware, validation
+├── interface/       → ElysiaJS modules, plugins, TypeBox & Zod validation
 └── shared/          → Errors, utilities, types
 ```
 
@@ -34,36 +36,43 @@ src/
 
 | Entity | File | Key Fields |
 |---|---|---|
-| `User` | `entities/User.ts` | name, email, passwordHash?, authProvider (local/google), googleId?, birthDate?, flags (ObjectId[]), location, socialLinks, profilePhoto |
-| `Establishment` | `entities/Establishment.ts` | companyName, location (GeoJSON), flags, logo, rating, ratingCount, isSponsored |
-| `Product` | `entities/Product.ts` | establishmentId, category, name, description, price, imageUrl, isActive |
-| `Flag` | `entities/Flag.ts` | type, identifier, description, tag, backgroundColor, textColor |
-| `Visit` | `entities/Visit.ts` | establishmentId, userId, date, review, rating (1-5) |
+| `User` | `entities/User.ts` | name, email, authProvider (`google` \| `apple`), googleId?, birthDate?, flags (`ObjectId[]`), location, socialLinks, profilePhoto, role (`Role`), status (`active` \| `suspended` \| `banned`), isBanned, banReason, bannedAt |
+| `Establishment` | `entities/Establishment.ts` | companyName, location (GeoJSON), flags, logo, rating, ratingCount, isSponsored, adminId? |
+| `Product` | `entities/Product.ts` | establishmentId, category, name, description, price, ingredients, flags, imageUrl, isActive |
+| `Flag` | `entities/Flag.ts` | type, identifier, description, tag, backgroundColor, textColor, isActive, order |
+| `Visit` | `entities/Visit.ts` | establishmentId, userId, date, review, rating (1-5), photoUrls, isReported, reportCount, reports, isModerated, moderatedReason |
+| `UserFavorite` | `entities/UserFavorite.ts` | userId, referenceId, type (`establishment` \| `product`), createdAt |
+| `AuditLog` | `entities/AuditLog.ts` | adminId, adminEmail, action, targetEntity, targetId, details, ipAddress?, createdAt |
 
 All entities:
 - Are created via static `create()` factory with validation
 - Serialized/deserialized via `toDocument()` / `fromDocument()` for MongoDB
-- Immutable after creation (use `withNewRating()` pattern for updates)
+- Immutable after creation (use `withNewRating()`, `withRole()`, `withBan()`, `withUpdatedProps()` pattern for updates)
 
 ### Value Objects (`value-objects/`)
 
 - **`Location`** — state, city, neighborhood, address, coordinates. Has `toGeoJSON()` for MongoDB 2dsphere queries.
 - **`SocialLinks`** — instagram, facebook, twitter, tiktok, website.
-- **`Rating`** — 0-5 with `fromAverage(total, count)` factory.
+- **`Rating`** — 0-5 with `fromAverage(total, count)` factory and `recalculate(newRating)`.
+- **`Role`** — hierarchical RBAC levels (`user` < `establishment_admin` < `admin` < `superadmin`, mapping legacy `"establishment"` to `"establishment_admin"`).
 
 ### Repository Interfaces (`repositories/`)
 
 Abstract contracts implemented by infrastructure layer:
-- `IUserRepository` — CRUD + `findByEmail()`
-- `IEstablishmentRepository` — CRUD + `findNearby()` (geospatial) + `findByFlags()` + `search()` (text) + `findSponsored()`
-- `IProductRepository` — `findByEstablishmentId()`, `save()`, `delete()`
-- `IFlagRepository` — CRUD + `findByIds()` + `findByType()`
-- `IVisitRepository` — CRUD + `findByUserId()` + `findByEstablishmentId()` + `countByEstablishment()`
+- `IUserRepository` — CRUD + `findByEmail()`, `findByGoogleId()`, `findAll()`, `count()`, `getFlagDistribution()`
+- `IEstablishmentRepository` — CRUD + `findNearby()` (geospatial) + `findByFlags()` + `search()` (text) + `findSponsored()` + `findByAdminId()` + `count()`
+- `ProductRepository` (`application/repositories/`) — `findById()`, `findByEstablishmentId()`, `save()`, `update()`, `delete()`
+- `IFlagRepository` — CRUD + `findAll(includeInactive?)`, `findByIds()`, `findByType()`, `updateOrder()`
+- `IVisitRepository` — CRUD + `findByUserId()`, `findByEstablishmentId()`, `findRecentForSocialFeed()`, `findReported()`, `count()`
+- `IUserFavoriteRepository` — `add()`, `remove()`, `findByUserId()`, `exists()`
+- `IAuditLogRepository` — `create()`, `findAll()`
 
 ### Domain Services (`services/`)
 
 **`RecommendationService`** — Core recommendation algorithm:
-- Score = `flagMatchRatio * 0.5 + ratingNormalized * 0.3 + proximityScore * 0.2 + sponsorBonus`
+- With active user dietary flags: Score = `flagMatchRatio * 0.7 + proximityScore * 0.2 + (rating / 5) * 0.1 + (isSponsored ? 0.05 : 0)`
+- Without user dietary flags: Score = `proximityScore * 0.7 + (rating / 5) * 0.3 + (isSponsored ? 0.05 : 0)`
+- Excludes zero-match establishments (`score = 0`, ignoring `sponsorBonus`) when the user has active dietary flags
 - Uses Haversine formula for distance calculation
 - Stateless, pure logic, no external dependencies
 
@@ -75,16 +84,18 @@ Abstract contracts implemented by infrastructure layer:
 
 | Module | Use Cases |
 |---|---|
-| `auth/` | `RegisterUser`, `LoginUser`, `RefreshToken`, `GoogleAuthUser` |
+| `auth/` | `GoogleAuthUser`, `RefreshToken` |
 | `user/` | `GetUserProfile`, `UpdateUserProfile`, `UpdateUserFlags` |
-| `establishment/` | `ListEstablishments`, `GetEstablishment`, `GetRecommendedEstablishments`, `GetNearbyEstablishments`, `SearchEstablishments`, `CreateEstablishment` |
-| `product/` | `ListEstablishmentProducts` |
-| `flag/` | `ListFlags`, `CreateFlag` |
-| `visit/` | `CreateVisit` (auto-recalculates establishment rating), `ListUserVisits`, `GetEstablishmentVisits` |
+| `establishment/` | `ListEstablishments`, `GetEstablishment`, `GetRecommendedEstablishments`, `GetNearbyEstablishments`, `SearchEstablishments`, `CreateEstablishment`, `GetEstablishmentByAdmin` |
+| `product/` | `CreateProduct`, `UpdateProduct`, `DeleteProduct` |
+| `flag/` | `ListFlags`, `CreateFlag`, `UpdateFlag`, `DeleteFlag`, `ReorderFlags` |
+| `visit/` | `CreateVisit` (auto-recalculates rating + 100m photo geofencing), `ListUserVisits`, `GetEstablishmentVisits`, `GetSocialFeed`, `ReportVisit` |
+| `favorite/` | `AddFavorite`, `RemoveFavorite`, `GetUserFavorites` |
+| `admin/` | `GetAdminDashboardMetrics`, `ListUsers`, `UpdateUserRole`, `BanUser`, `GetUserHistory`, `ListReportedVisits`, `ModerateVisit`, `ListAuditLogs` |
 
 Each use case:
-- Receives validated input (from Zod schemas)
-- Returns DTOs (never exposes domain entities directly)
+- Receives validated input (from Elysia TypeBox / Zod schemas)
+- Returns DTOs (never exposes raw MongoDB documents)
 - Takes repository interfaces via constructor injection
 
 ---
@@ -94,8 +105,8 @@ Each use case:
 ### MongoDB (`database/mongodb/`)
 
 - **`connection.ts`** — Singleton MongoClient with connection pooling (max 10, min 2)
-- **`collections.ts`** — Collection name constants + typed accessor functions
-- **`indexes.ts`** — Creates all indexes on startup:
+- **`collections.ts`** — Collection name constants (`users`, `establishments`, `flags`, `visits`, `products`, `user_favorites`, `audit_logs`) + typed accessor functions
+- **`indexes.ts`** — Creates indexes on startup:
   - `2dsphere` on `establishments.location.coordinates` (geospatial)
   - `text` on `establishments.companyName` (search)
   - `unique` on `users.email`
@@ -109,14 +120,13 @@ Each use case:
 ### Repositories (`repositories/`)
 
 MongoDB implementations of domain contracts:
-- `MongoUserRepository`, `MongoEstablishmentRepository`, `MongoFlagRepository`, `MongoVisitRepository`
+- `MongoUserRepository`, `MongoEstablishmentRepository`, `MongoProductRepository`, `MongoFlagRepository`, `MongoVisitRepository`, `MongoUserFavoriteRepository`, `MongoAuditLogRepository`
 - Establishment repo uses `$geoNear` aggregation pipeline for proximity queries
 - All use `fromDocument()` / `toDocument()` for entity mapping
 
 ### Security (`security/`)
 
-- **`jwt.ts`** — Access tokens (15min) + refresh tokens (7d), rotated. Uses `jose` library with HS256.
-- **`password.ts`** — Argon2id hashing (64MB memory cost, 3 iterations).
+- **`jwt.ts`** — Access tokens (15min) + refresh tokens (7d), rotated (`role` claim embedded). Uses `jose` library with HS256; Google ID token verification via `jose.createRemoteJWKSet`.
 - **`rateLimiter.ts`** — Sliding window via Redis sorted sets. Configs: AUTH (10/min), API (100/min), SEARCH (30/min).
 
 ### Cache (`cache/`)
@@ -127,78 +137,99 @@ MongoDB implementations of domain contracts:
 
 ## Interface Layer (`src/interface/`)
 
-### HTTP Router (`http/router.ts`)
+### ElysiaJS App & Plugins (`src/app.ts`, `src/interface/plugins/`)
 
-Custom URL pattern-matching router for Bun.serve:
-- Supports `:param` URL parameters
-- Routes are registered via `addRoute(method, path, handler)`
-- Automatic Zod validation via helpers `parseBody()` and `parseQuery()`
-- Input sanitization against NoSQL injection on every request body
+Replaces the legacy `Bun.serve` regex router (`src/interface/http/router.ts`, kept deprecated/unused):
 
-### Middleware (`http/middleware/`)
-
-| Middleware | Purpose |
+| Plugin | Purpose |
 |---|---|
-| `auth.middleware.ts` | Extracts Bearer token, verifies JWT, returns `TokenPayload` |
-| `error.middleware.ts` | Catches `AppError` → structured JSON; unknown errors → 500 |
-| `cors.middleware.ts` | Configurable origins via `CORS_ORIGINS` env, handles OPTIONS preflight |
-| `security.middleware.ts` | HSTS, X-Content-Type-Options, X-Frame-Options, Referrer-Policy |
+| `securityPlugin` | Applies CORS, runs recursive `sanitize()` on `body` and `query` against NoSQL operators (`$gt`, `$ne`, etc.), attaches OWASP security headers |
+| `errorPlugin` | Maps `AppError` subclasses, `ValidationError` details, Elysia `VALIDATION` (`400`), `NOT_FOUND` (`404`), and unexpected `500` errors to JSON envelopes |
+| `authPlugin` | Integrates `@elysiajs/bearer` + `@elysiajs/jwt` and provides the declarative `{ role }` macro checked via `Role.hasPermission()` |
 
-### Validation Schemas (`validation/`)
+### Feature Modules (`src/interface/modules/`)
 
-Zod v4 schemas with type inference for each endpoint group:
-- `auth.schema.ts` — register, login, refresh
-- `user.schema.ts` — updateProfile, updateFlags
-- `establishment.schema.ts` — create, list, nearby, search
-- `visit.schema.ts` — create, list
+- `auth.module.ts`, `user.module.ts`, `establishment.module.ts`, `product.module.ts`, `flag.module.ts`, `visit.module.ts`, `favorite.module.ts`, `admin.module.ts`
+- Each exports a `create*Module(...)` factory with optional repository injection for isolated unit tests and Swagger OpenAPI tags (`/swagger`).
 
 ---
 
 ## API Endpoints
 
-### Auth (public)
+### Auth (public — OAuth-Only)
 | Method | Route | Description |
 |---|---|---|
-| `POST` | `/api/auth/register` | Register + return tokens |
-| `POST` | `/api/auth/login` | Login + return tokens |
-| `POST` | `/api/auth/refresh` | Rotate refresh token |
 | `POST` | `/api/auth/google` | Google OAuth2 login (verify ID token, find-or-create user) |
+| `POST` | `/api/auth/refresh` | Rotate refresh token |
 
-### Users (authenticated)
+### Users (authenticated — `role: "user"`)
 | Method | Route | Description |
 |---|---|---|
 | `GET` | `/api/users/me` | Current user profile |
 | `PATCH` | `/api/users/me` | Update profile |
 | `PATCH` | `/api/users/me/flags` | Update dietary flags |
 
-### Establishments (authenticated)
+### Establishments (`role: "user"` / `role: "establishment_admin"`)
 | Method | Route | Description |
 |---|---|---|
 | `GET` | `/api/establishments` | Paginated list |
 | `GET` | `/api/establishments/recommended` | Flag-ranked recommendations |
 | `GET` | `/api/establishments/nearby` | Geospatial proximity |
 | `GET` | `/api/establishments/search` | Text search |
-| `GET` | `/api/establishments/:id` | Detail |
-| `GET` | `/api/establishments/:id/products` | Cardápio (Products) of Establishment |
-| `POST` | `/api/establishments` | Create |
+| `GET` | `/api/establishments/my-establishment` | Managed establishment (`establishment_admin`) |
+| `GET` | `/api/establishments/:id` | Detail (includes products) |
+| `POST` | `/api/establishments` | Create (`establishment_admin`) |
 
-### Flags (public GET)
+### Products (`role: "establishment_admin"`)
 | Method | Route | Description |
 |---|---|---|
-| `GET` | `/api/flags` | List all dietary flags |
-| `POST` | `/api/flags` | Create flag (authenticated) |
+| `POST` | `/api/products` | Create product in establishment menu |
+| `PATCH` | `/api/products/:id` | Update product or toggle active status |
+| `DELETE` | `/api/products/:id` | Delete product |
 
-### Visits (authenticated)
+### Flags (public GET / `role: "admin"` writes)
 | Method | Route | Description |
 |---|---|---|
-| `POST` | `/api/visits` | Create visit/review |
+| `GET` | `/api/flags` | List active dietary & accessibility flags |
+| `GET` | `/api/flags/admin/all` | List all flags including inactive (`admin`) |
+| `POST` | `/api/flags` | Create flag (`admin`) |
+| `PATCH` | `/api/flags/reorder` | Batch reorder flags (`admin`) |
+| `PATCH` | `/api/flags/:id` | Update flag (`admin`) |
+| `DELETE` | `/api/flags/:id` | Delete flag (`admin`) |
+
+### Visits & Social (`role: "user"`)
+| Method | Route | Description |
+|---|---|---|
+| `POST` | `/api/visits` | Create visit/review (100m geofencing when sending photos) |
+| `POST` | `/api/visits/:id/report` | Report offensive or inappropriate review |
 | `GET` | `/api/visits/user/:userId` | User's visit history |
 | `GET` | `/api/visits/establishment/:id` | Establishment reviews |
+| `GET` | `/api/social/feed` | Geolocation-aware social activity feed |
 
-### System
+### Favorites (`role: "user"`)
+| Method | Route | Description |
+|---|---|---|
+| `GET` | `/api/favorites` | List favorited establishments and products |
+| `POST` | `/api/favorites` | Add establishment or product to favorites |
+| `DELETE` | `/api/favorites/:id` | Remove from favorites |
+
+### Admin (`role: "admin"`)
+| Method | Route | Description |
+|---|---|---|
+| `GET` | `/api/admin/dashboard` | Global dashboard metrics & analytics |
+| `GET` | `/api/admin/visits/reported` | List reported visits for moderation |
+| `PATCH` | `/api/admin/visits/:id/moderate` | Hide or unhide reported visit (writes `AuditLog`) |
+| `GET` | `/api/admin/users` | Search/filter paginated users |
+| `PATCH` | `/api/admin/users/:id/role` | Update user role (writes `AuditLog`) |
+| `PATCH` | `/api/admin/users/:id/ban` | Ban/unban user (writes `AuditLog`) |
+| `GET` | `/api/admin/users/:id/history` | Full user profile, visits, favorites history |
+| `GET` | `/api/admin/audit-logs` | Paginated admin action audit logs |
+
+### System & Docs
 | Method | Route | Description |
 |---|---|---|
 | `GET` | `/api/health` | Health check |
+| `GET` | `/swagger` | OpenAPI / Swagger UI documentation |
 
 ---
 
@@ -208,8 +239,8 @@ O arquivo `resources/api/api.http` é o **padrão** para documentar e testar end
 
 **Regras:**
 - Todo novo endpoint **deve** ser adicionado ao `api.http` com um example request.
-- O login request é `@name login` — seu token é propagado automaticamente via `{{accessToken}}`.
-- Agrupe requests por seção (AUTH, USER, ESTABLISHMENTS, etc.).
+- O login request via Google OAuth pode preencher `{{accessToken}}` para requests autenticados.
+- Agrupe requests por seção (AUTH, USER, ESTABLISHMENTS, PRODUCTS, FLAGS, VISITS, FAVORITES, ADMIN).
 - Inclua body de exemplo para POST/PATCH.
 - Para Insomnia/Bruno: importe o `api.http` diretamente.
 
@@ -270,8 +301,8 @@ Configured in `tsconfig.json`:
 
 - **Runner:** Bun Test Runner (configured in `bunfig.toml`)
 - **Setup:** `tests/setup.ts` — sets isolated env vars
-- **Unit tests:** `tests/unit/` — domain entities, value objects, recommendation service
-- **Integration tests:** `tests/integration/` — repositories, HTTP controllers
+- **Unit tests:** `tests/unit/` — domain entities, value objects, `RecommendationService`, admin use cases, Elysia modules/plugins, `sanitize` (`bun run test:unit`)
+- **Integration tests:** `tests/integration/` — geofencing and product catalog flows
 
 ---
 
@@ -281,18 +312,18 @@ Configured in `tsconfig.json`:
 cd helprest-api
 cp .env.example .env      # Configure your MongoDB URI
 bun install
-bun run dev               # Starts with --watch
+bun run dev               # Starts with --hot
 ```
 
 ## Key Design Decisions
 
 1. **No ODM (Mongoose)** — Uses official MongoDB driver for performance and control
-2. **Jose over jsonwebtoken** — Modern ESM-native JWT library, smaller bundle
-3. **Zod v4** — Runtime validation with TypeScript type inference
+2. **Jose + `@elysiajs/jwt`** — Modern ESM-native JWT signing/verification with HS256
+3. **ElysiaJS + TypeBox / Zod v4** — Modular route plugins, OpenAPI (`/swagger`), declarative RBAC (`{ role }`), and typed schema validation
 4. **OAuth-Only Authentication** — Centralized via Google OAuth ID Token verification server-side using `jose.createRemoteJWKSet`, eliminating local password storage/hashing overhead and reducing attack surface
-5. **Repositories as singletons** — Stateless, instantiated once in router
+5. **Module Factories with Singleton Repositories** — `create*Module(...)` instantiates Mongo repositories once while permitting mock injection in unit tests
 6. **Use cases per-request** — Created fresh per handler call for isolation
-7. **Immutable entities** — Updates return new instances (`withNewRating()`)
+7. **Immutable entities** — Updates return new instances (`withNewRating()`, `withRole()`, `withBan()`)
 8. **Google OAuth server-side** — Uses `jose.createRemoteJWKSet` to verify Google ID tokens with Google's public JWK set; no Google SDK required on backend
 
 ---
@@ -451,7 +482,7 @@ erDiagram
         boolean socialLinksEnabled
         object socialLinks
         string profilePhoto
-        string role "user | establishment"
+        string role "user | establishment_admin | admin | superadmin"
         date createdAt
         date updatedAt
     }
@@ -513,6 +544,16 @@ erDiagram
         date createdAt
     }
 
+    audit_logs {
+        objectId _id PK
+        objectId adminId FK
+        string adminEmail
+        string action
+        string targetEntity
+        string targetId
+        date createdAt
+    }
+
     users ||--o{ visits : "writes reviews"
     establishments ||--o{ visits : "receives reviews"
     establishments ||--o{ products : "offers"
@@ -520,6 +561,7 @@ erDiagram
     establishments }|--|{ flags : "supports restrictions"
     products }|--|{ flags : "compatible restrictions"
     users ||--o{ user_favorites : "saves"
+    users ||--o{ audit_logs : "records admin actions"
 ```
 
 ### Data Flow & Sequence Diagrams
@@ -531,7 +573,7 @@ sequenceDiagram
     autonumber
     actor User as Mobile App (Expo)
     participant AuthSDK as Google Sign-In SDK
-    participant Router as Bun HTTP Router
+    participant Router as ElysiaJS App & Plugins
     participant AuthUseCase as GoogleAuthUser UseCase
     participant GoogleJWK as Google Public JWK API
     participant UserRepo as MongoUserRepository
@@ -550,7 +592,7 @@ sequenceDiagram
         AuthUseCase->>UserRepo: create(User.create({ googleId, email, name }))
         UserRepo-->>AuthUseCase: Returns new User
     end
-    AuthUseCase->>JWT: generateTokens({ sub: userId, email })
+    AuthUseCase->>JWT: generateTokens({ sub: userId, email, role })
     JWT-->>AuthUseCase: { accessToken (15m), refreshToken (7d) }
     AuthUseCase-->>Router: Response { accessToken, refreshToken, isNewUser, user }
     Router-->>User: HTTP 200 OK + Tokens saved securely in MMKV
@@ -562,14 +604,14 @@ sequenceDiagram
 sequenceDiagram
     autonumber
     actor User as Mobile App
-    participant Router as Router & Middleware
+    participant Router as ElysiaJS App & authPlugin
     participant RecUseCase as GetRecommendedEstablishments
     participant UserRepo as MongoUserRepository
     participant EstRepo as MongoEstablishmentRepository
     participant Service as RecommendationService
 
     User->>Router: GET /api/establishments/recommended?lat=-25.4412&lng=-49.2894
-    Router->>Router: Authenticate Bearer JWT
+    Router->>Router: Authenticate Bearer JWT (role: user)
     Router->>RecUseCase: execute(userId, lat, lng, limit)
     RecUseCase->>UserRepo: findById(userId)
     UserRepo-->>RecUseCase: Returns User with dietary flags
