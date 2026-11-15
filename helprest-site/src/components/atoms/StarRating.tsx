@@ -45,19 +45,19 @@ export const StarRating: React.FC<StarRatingProps> = ({
             <Star
               key={i}
               className={`${iconSizes[size]} ${
-                filled || half ? 'fill-[#E5A910] text-[#E5A910]' : 'text-[#CBD2CF]'
+                filled || half ? 'fill-[#E5A910] text-[#E5A910]' : 'text-[#D0D5DD]'
               }`}
             />
           );
         })}
       </div>
       {showValue && (
-        <span className={`text-[#181C1B] tabular-nums ${textSizes[size]}`}>
+        <span className={`text-[#11181C] tabular-nums ${textSizes[size]}`}>
           {rating.toFixed(1)}
         </span>
       )}
       {reviewCount !== undefined && (
-        <span className="text-xs text-[#525B58] tabular-nums">({reviewCount})</span>
+        <span className="text-xs text-[#596168] tabular-nums">({reviewCount})</span>
       )}
     </div>
   );

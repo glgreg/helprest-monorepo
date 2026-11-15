@@ -19,7 +19,7 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(
     return (
       <div className="hr-field-group w-full space-y-1.5">
         {label && (
-          <label htmlFor={inputId} className="block text-sm font-medium text-[#181C1B]">
+          <label htmlFor={inputId} className="block text-sm font-medium text-[#11181C]">
             {label}
             {required && (
               <span className="text-[#B42318] ms-1" aria-hidden="true">
@@ -29,13 +29,13 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(
           </label>
         )}
         {helperText && (
-          <p id={hintId} className="text-xs text-[#525B58] leading-snug">
+          <p id={hintId} className="text-xs text-[#596168] leading-snug">
             {helperText}
           </p>
         )}
         <div className="relative rounded-xl">
           {icon && (
-            <div className="absolute inset-y-0 start-0 ps-3.5 flex items-center pointer-events-none text-[#525B58]">
+            <div className="absolute inset-y-0 start-0 ps-3.5 flex items-center pointer-events-none text-[#596168]">
               {icon}
             </div>
           )}
@@ -45,12 +45,12 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(
             required={required}
             aria-invalid={error ? 'true' : 'false'}
             aria-describedby={describedBy}
-            className={`hr-field-control w-full rounded-xl border bg-white px-4 py-2.5 text-[#181C1B] transition-colors placeholder:text-[#66706D] ${
+            className={`hr-field-control w-full rounded-xl border bg-white px-4 py-2.5 text-[#11181C] transition-colors placeholder:text-[#667078] ${
               icon ? 'ps-10' : ''
             } ${
               error
                 ? 'border-[#B42318] bg-[#FDF1EF]'
-                : 'border-[#747D7B] hover:border-[#181C1B] focus:border-[#007677]'
+                : 'border-[#717880] hover:border-[#11181C] focus:border-[#009C9D]'
             } ${className}`}
             {...props}
           />
@@ -85,7 +85,7 @@ export const Textarea = React.forwardRef<HTMLTextAreaElement, TextareaProps>(
     return (
       <div className="hr-field-group w-full space-y-1.5">
         {label && (
-          <label htmlFor={textareaId} className="block text-sm font-medium text-[#181C1B]">
+          <label htmlFor={textareaId} className="block text-sm font-medium text-[#11181C]">
             {label}
             {required && (
               <span className="text-[#B42318] ms-1" aria-hidden="true">
@@ -95,7 +95,7 @@ export const Textarea = React.forwardRef<HTMLTextAreaElement, TextareaProps>(
           </label>
         )}
         {helperText && (
-          <p id={hintId} className="text-xs text-[#525B58] leading-snug">
+          <p id={hintId} className="text-xs text-[#596168] leading-snug">
             {helperText}
           </p>
         )}
@@ -106,10 +106,10 @@ export const Textarea = React.forwardRef<HTMLTextAreaElement, TextareaProps>(
           required={required}
           aria-invalid={error ? 'true' : 'false'}
           aria-describedby={describedBy}
-          className={`hr-field-control w-full rounded-xl border bg-white px-4 py-3 text-[#181C1B] transition-colors placeholder:text-[#66706D] ${
+          className={`hr-field-control w-full rounded-xl border bg-white px-4 py-3 text-[#11181C] transition-colors placeholder:text-[#667078] ${
             error
               ? 'border-[#B42318] bg-[#FDF1EF]'
-              : 'border-[#747D7B] hover:border-[#181C1B] focus:border-[#007677]'
+              : 'border-[#717880] hover:border-[#11181C] focus:border-[#009C9D]'
           } ${className}`}
           {...props}
         />

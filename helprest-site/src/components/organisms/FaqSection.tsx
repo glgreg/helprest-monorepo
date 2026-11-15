@@ -6,7 +6,7 @@ import { FAQS } from '../../data/faqs';
 
 export const FaqSection: React.FC = () => {
   return (
-    <section className="py-16 sm:py-20 bg-[#F4F6F5]">
+    <section className="py-16 sm:py-20 bg-white">
       <Container size="md">
         <div className="text-center max-w-2xl mx-auto mb-10">
           <Heading2>Dúvidas comuns sobre o HelpRest</Heading2>

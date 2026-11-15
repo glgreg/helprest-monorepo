@@ -43,10 +43,10 @@ export const EstablishmentCard: React.FC<EstablishmentCardProps> = ({
 
   return (
     <article
-      className={`group tonal-surface bg-white rounded-3xl shadow-[0_2px_12px_-4px_rgba(24,28,27,0.06)] hover:shadow-[0_14px_30px_-10px_rgba(24,28,27,0.12)] transition-shadow duration-200 overflow-hidden flex flex-col ${className}`}
+      className={`group tonal-surface bg-white rounded-3xl shadow-[0_2px_12px_-4px_rgba(17,24,28,0.06)] hover:shadow-[0_14px_30px_-10px_rgba(17,24,28,0.12)] transition-shadow duration-200 overflow-hidden flex flex-col ${className}`}
     >
       {/* Clean Food Photo without stacked badge overlays */}
-      <div className="relative aspect-[16/10] w-full bg-[#EDF1EF] overflow-hidden">
+      <div className="relative aspect-[16/10] w-full bg-[#F1F2F4] overflow-hidden">
         <img
           src={establishment.imageUrl}
           alt={establishment.name}
@@ -66,11 +66,11 @@ export const EstablishmentCard: React.FC<EstablishmentCardProps> = ({
                 : `Favoritar ${establishment.name}`
             }
             aria-pressed={isFavorite}
-            className="absolute top-3 end-3 w-11 h-11 rounded-full bg-white/95 shadow-[0_2px_10px_rgba(24,28,27,0.14)] flex items-center justify-center cursor-pointer transition-transform active:scale-90 hover:bg-white"
+            className="absolute top-3 end-3 w-11 h-11 rounded-full bg-white/95 shadow-[0_2px_10px_rgba(17,24,28,0.14)] flex items-center justify-center cursor-pointer transition-transform active:scale-90 hover:bg-white"
           >
             <Heart
               className={`w-4 h-4 ${
-                isFavorite ? 'fill-[#FF533F] text-[#FF533F]' : 'text-[#525B58]'
+                isFavorite ? 'fill-[#FF533F] text-[#FF533F]' : 'text-[#596168]'
               }`}
               aria-hidden="true"
             />
@@ -91,10 +91,10 @@ export const EstablishmentCard: React.FC<EstablishmentCardProps> = ({
               {establishment.logoInitials}
             </div>
             <div className="min-w-0 flex-1">
-              <h3 className="text-base font-bold text-[#181C1B] leading-snug truncate">
+              <h3 className="text-base font-bold text-[#11181C] leading-snug truncate">
                 {establishment.name}
               </h3>
-              <p className="text-xs text-[#525B58] truncate mt-0.5">
+              <p className="text-xs text-[#596168] truncate mt-0.5">
                 {establishment.category}
               </p>
             </div>
@@ -107,8 +107,8 @@ export const EstablishmentCard: React.FC<EstablishmentCardProps> = ({
               reviewCount={establishment.reviewCount}
               size="sm"
             />
-            <span className="inline-flex items-center gap-1 text-xs text-[#525B58]">
-              <MapPin className="w-3.5 h-3.5 text-[#007677]" aria-hidden="true" />
+            <span className="inline-flex items-center gap-1 text-xs text-[#596168]">
+              <MapPin className="w-3.5 h-3.5 text-[#009C9D]" aria-hidden="true" />
               <span>
                 {establishment.distanceFormatted} · {establishment.neighborhood} ·{' '}
                 {establishment.priceRange}
@@ -123,12 +123,12 @@ export const EstablishmentCard: React.FC<EstablishmentCardProps> = ({
                 <span
                   className={`inline-flex items-center gap-1.5 text-xs font-semibold px-3 py-1 rounded-full ${
                     isFullMatch
-                      ? 'bg-[#E9F3F2] text-[#00696A]'
-                      : 'bg-[#EDF1EF] text-[#181C1B]'
+                      ? 'bg-[#EFFBFB] text-[#00797A]'
+                      : 'bg-[#F1F2F4] text-[#11181C]'
                   }`}
                 >
                   {isFullMatch && (
-                    <CheckCircle2 className="w-3.5 h-3.5 text-[#007677]" aria-hidden="true" />
+                    <CheckCircle2 className="w-3.5 h-3.5 text-[#009C9D]" aria-hidden="true" />
                   )}
                   <span>
                     {isFullMatch
@@ -138,8 +138,8 @@ export const EstablishmentCard: React.FC<EstablishmentCardProps> = ({
                 </span>
               )}
               {establishment.kitchenCertified && (
-                <span className="inline-flex items-center gap-1 text-xs text-[#3A413F]">
-                  <ShieldCheck className="w-3.5 h-3.5 text-[#007677]" aria-hidden="true" />
+                <span className="inline-flex items-center gap-1 text-xs text-[#3F454A]">
+                  <ShieldCheck className="w-3.5 h-3.5 text-[#009C9D]" aria-hidden="true" />
                   <span>Cozinha verificada</span>
                 </span>
               )}
@@ -156,13 +156,13 @@ export const EstablishmentCard: React.FC<EstablishmentCardProps> = ({
                   key={flagId}
                   className={`inline-flex items-center gap-1.5 text-[11px] px-2.5 py-1 rounded-full ${
                     isUserMatched
-                      ? 'bg-[#E9F3F2] text-[#00696A] font-semibold'
-                      : 'bg-[#EDF1EF] text-[#3A413F] font-medium'
+                      ? 'bg-[#EFFBFB] text-[#00797A] font-semibold'
+                      : 'bg-[#F1F2F4] text-[#3F454A] font-medium'
                   }`}
                 >
                   <span
                     className="w-1.5 h-1.5 rounded-full flex-shrink-0"
-                    style={{ backgroundColor: flag?.swatchColor || '#007677' }}
+                    style={{ backgroundColor: flag?.swatchColor || '#009C9D' }}
                     aria-hidden="true"
                   />
                   <span>{flag?.shortLabel || flagId}</span>
@@ -174,11 +174,11 @@ export const EstablishmentCard: React.FC<EstablishmentCardProps> = ({
 
         {/* Highlight Dish + Interactive Menu Preview on elevated surface */}
         <div className="space-y-2.5 pt-1">
-          <div className="flex items-start justify-between gap-3 rounded-2xl bg-[#F4F6F5] px-3.5 py-2.5">
-            <p className="text-xs font-semibold text-[#181C1B] line-clamp-1">
+          <div className="flex items-start justify-between gap-3 rounded-2xl bg-[#F7F7F8] px-3.5 py-2.5">
+            <p className="text-xs font-semibold text-[#11181C] line-clamp-1">
               {establishment.highlightDish.name}
             </p>
-            <span className="text-xs font-bold text-[#00696A] flex-shrink-0 tabular-nums">
+            <span className="text-xs font-bold text-[#00797A] flex-shrink-0 tabular-nums">
               {establishment.highlightDish.priceFormatted}
             </span>
           </div>
@@ -186,23 +186,23 @@ export const EstablishmentCard: React.FC<EstablishmentCardProps> = ({
           <button
             type="button"
             onClick={() => setMenuOpen(!menuOpen)}
-            className="w-full min-h-[44px] flex items-center justify-between text-xs font-semibold text-[#3A413F] hover:text-[#00696A] px-3.5 py-2 rounded-xl bg-[#EDF1EF] hover:bg-[#E4EAE7] cursor-pointer transition-colors"
+            className="w-full min-h-[44px] flex items-center justify-between text-xs font-semibold text-[#3F454A] hover:text-[#00797A] px-3.5 py-2 rounded-xl bg-[#F1F2F4] hover:bg-[#E6E8EB] cursor-pointer transition-colors"
             aria-expanded={menuOpen}
           >
             <span>Explorar cardápio separado</span>
             <ChevronDown
               className={`w-4 h-4 transition-transform ${
-                menuOpen ? 'rotate-180 text-[#007677]' : 'text-[#525B58]'
+                menuOpen ? 'rotate-180 text-[#009C9D]' : 'text-[#596168]'
               }`}
               aria-hidden="true"
             />
           </button>
 
           {menuOpen && (
-            <div className="tonal-surface rounded-2xl bg-[#F4F6F5] p-3.5 space-y-3">
+            <div className="tonal-surface rounded-2xl bg-[#F7F7F8] p-3.5 space-y-3">
               {/* Segmented Control */}
               <div
-                className="grid grid-cols-2 p-1 rounded-full bg-[#E4EAE7] text-xs font-semibold"
+                className="grid grid-cols-2 p-1 rounded-full bg-[#E6E8EB] text-xs font-semibold"
                 role="group"
                 aria-label="Separador de cardápio"
               >
@@ -212,8 +212,8 @@ export const EstablishmentCard: React.FC<EstablishmentCardProps> = ({
                   onClick={() => setMenuTab('for-you')}
                   className={`py-1.5 min-h-[34px] rounded-full transition-colors cursor-pointer ${
                     menuTab === 'for-you'
-                      ? 'bg-white text-[#181C1B] shadow-2xs'
-                      : 'text-[#525B58] hover:text-[#181C1B]'
+                      ? 'bg-white text-[#11181C] shadow-2xs'
+                      : 'text-[#596168] hover:text-[#11181C]'
                   }`}
                 >
                   Para você
@@ -224,8 +224,8 @@ export const EstablishmentCard: React.FC<EstablishmentCardProps> = ({
                   onClick={() => setMenuTab('others')}
                   className={`py-1.5 min-h-[34px] rounded-full transition-colors cursor-pointer ${
                     menuTab === 'others'
-                      ? 'bg-white text-[#181C1B] shadow-2xs'
-                      : 'text-[#525B58] hover:text-[#181C1B]'
+                      ? 'bg-white text-[#11181C] shadow-2xs'
+                      : 'text-[#596168] hover:text-[#11181C]'
                   }`}
                 >
                   Outros Itens
@@ -234,14 +234,14 @@ export const EstablishmentCard: React.FC<EstablishmentCardProps> = ({
 
               <div className="space-y-1.5">
                 <div className="flex items-start justify-between gap-2">
-                  <span className="text-xs font-bold text-[#181C1B]">{activeDish.name}</span>
-                  <span className="text-xs font-bold text-[#181C1B] tabular-nums flex-shrink-0">
+                  <span className="text-xs font-bold text-[#11181C]">{activeDish.name}</span>
+                  <span className="text-xs font-bold text-[#11181C] tabular-nums flex-shrink-0">
                     {activeDish.priceFormatted}
                   </span>
                 </div>
-                <p className="text-xs text-[#525B58] leading-snug">{activeDish.description}</p>
-                <div className="text-[11px] text-[#525B58]">
-                  <strong className="text-[#181C1B]">Ingredientes:</strong>{' '}
+                <p className="text-xs text-[#596168] leading-snug">{activeDish.description}</p>
+                <div className="text-[11px] text-[#596168]">
+                  <strong className="text-[#11181C]">Ingredientes:</strong>{' '}
                   {activeDish.ingredients.join(', ')}
                 </div>
                 {menuTab === 'for-you' ? (

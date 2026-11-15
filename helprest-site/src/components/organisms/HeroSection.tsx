@@ -20,7 +20,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onOpenDownloadModal })
           {/* Left Content & Clean Editorial Food Showcase */}
           <div className="lg:col-span-6 space-y-6">
             <Heading1>
-              Coma fora com <span className="text-[#007677]">segurança</span> e cardápios feitos para você.
+              Coma fora com <span className="text-[#009C9D]">segurança</span> e cardápios feitos para você.
             </Heading1>
 
             <Paragraph className="max-w-xl">
@@ -36,14 +36,14 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onOpenDownloadModal })
               <img
                 src="/assets/showcase/hero-dining.jpg"
                 alt="Prato artesanal sem glúten servido em restaurante parceiro"
-                className="w-full h-56 sm:h-[268px] rounded-3xl object-cover object-center bg-[#EDF1EF]"
+                className="w-full h-56 sm:h-[268px] rounded-3xl object-cover object-center bg-[#F1F2F4]"
               />
             </div>
           </div>
 
-          {/* Right Interactive Prototype on Soft Tonal Stage */}
+          {/* Right Interactive Prototype on Soft Neutral Stage */}
           <div className="lg:col-span-6 flex flex-col items-center">
-            <div className="w-full max-w-[440px] rounded-[36px] bg-[#EDF1EF] py-8 px-4 sm:px-6 flex flex-col items-center">
+            <div className="w-full max-w-[440px] rounded-[36px] bg-[#F7F7F8] py-8 px-4 sm:px-6 flex flex-col items-center">
               <PhoneMockup />
             </div>
           </div>

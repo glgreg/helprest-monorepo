@@ -126,10 +126,10 @@ export const DownloadModal: React.FC<DownloadModalProps> = ({ isOpen, onClose })
     };
   }, [onClose, requestAnimatedClose]);
 
-  const notifyHref = `mailto:suporte@helprest.com?subject=${encodeURIComponent(
+  const notifyHref = `mailto:suporte@helprest.net?subject=${encodeURIComponent(
     '[HelpRest Android] Solicitação de link / acesso na Google Play'
   )}&body=${encodeURIComponent(
-    `Olá equipe HelpRest,\n\nGostaria de receber o link atualizado do aplicativo HelpRest (com.gustavo_lg.helprest) na Google Play Store.\nE-mail de contato: ${notifyEmail || 'responder neste endereço'}`
+    `Olá equipe HelpRest,\n\nGostaria de receber o link atualizado do aplicativo HelpRest (com.helprest) na Google Play Store.\nE-mail de contato: ${notifyEmail || 'responder neste endereço'}`
   )}`;
 
   const closedByProp: Record<string, string> = { closedby: 'any' };
@@ -141,64 +141,64 @@ export const DownloadModal: React.FC<DownloadModalProps> = ({ isOpen, onClose })
       className="hr-dialog"
       aria-labelledby={titleId}
     >
-      {/* Top header on deep teal surface */}
-      <div className="surface-deep bg-[#0A4E50] px-6 py-5 text-white flex items-center justify-between gap-3">
+      {/* Clean bright header separated by neutral hairline */}
+      <div className="bg-white border-b border-[#E6E8EB] px-6 py-5 text-[#11181C] flex items-center justify-between gap-3">
         <div className="flex items-center gap-3 min-w-0">
           <img
-            src="/assets/logos/logo_bare.png"
+            src="/assets/logos/helprest_logo_green.svg"
             alt=""
             aria-hidden="true"
             className="w-9 h-9 object-contain flex-shrink-0"
           />
           <div className="min-w-0">
-            <h2 id={titleId} className="text-lg font-bold leading-tight text-white truncate">
+            <h2 id={titleId} className="font-display text-lg font-bold leading-tight text-[#11181C] truncate">
               Baixar o HelpRest
             </h2>
-            <p className="text-xs text-[#BCEBE9] truncate">Disponível para Android via Google Play</p>
+            <p className="text-xs text-[#596168] truncate">Disponível para Android via Google Play</p>
           </div>
         </div>
 
         <button
           type="button"
           onClick={() => void requestAnimatedClose()}
-          className="w-11 h-11 rounded-full text-white/90 hover:text-white hover:bg-white/15 flex items-center justify-center flex-shrink-0 transition-colors cursor-pointer"
+          className="w-11 h-11 rounded-full text-[#596168] hover:text-[#11181C] hover:bg-[#F1F2F4] flex items-center justify-center flex-shrink-0 transition-colors cursor-pointer"
           aria-label="Fechar janela"
         >
           <X className="w-5 h-5" aria-hidden="true" />
         </button>
       </div>
 
-      <div className="p-6 space-y-5 bg-white text-[#181C1B]">
-        <p className="text-sm text-[#525B58] leading-relaxed">
+      <div className="p-6 space-y-5 bg-white text-[#11181C]">
+        <p className="text-sm text-[#596168] leading-relaxed">
           O aplicativo Android está configurado no Google Play Console. Consulte os detalhes do pacote e acesse diretamente os documentos de privacidade:
         </p>
 
-        <dl className="tonal-surface bg-[#F4F6F5] rounded-2xl p-4 text-xs space-y-2.5 text-[#3A413F]">
+        <dl className="tonal-surface bg-[#F7F7F8] rounded-2xl p-4 text-xs space-y-2.5 text-[#3F454A]">
           <div className="flex justify-between gap-3">
-            <dt className="text-[#525B58]">Aplicativo</dt>
-            <dd className="font-bold text-[#181C1B]">HelpRest</dd>
+            <dt className="text-[#596168]">Aplicativo</dt>
+            <dd className="font-bold text-[#11181C]">HelpRest</dd>
           </div>
           <div className="flex justify-between gap-3">
-            <dt className="text-[#525B58]">Pacote Android</dt>
+            <dt className="text-[#596168]">Pacote Android</dt>
             <dd>
-              <code className="font-mono font-semibold text-[#181C1B]">com.gustavo_lg.helprest</code>
+              <code className="font-mono font-semibold text-[#11181C]">com.helprest</code>
             </dd>
           </div>
           <div className="flex justify-between gap-3">
-            <dt className="text-[#525B58]">Desenvolvedor</dt>
-            <dd className="font-medium text-[#181C1B]">Gustavo L. Gregorio</dd>
+            <dt className="text-[#596168]">Desenvolvedor</dt>
+            <dd className="font-medium text-[#11181C]">Gustavo L. Gregorio</dd>
           </div>
           <div className="flex justify-between gap-3">
-            <dt className="text-[#525B58]">Versão e preço</dt>
-            <dd className="font-semibold text-[#00696A]">1.0.0 · Gratuito</dd>
+            <dt className="text-[#596168]">Versão e preço</dt>
+            <dd className="font-semibold text-[#00797A]">1.0.0 · Gratuito</dd>
           </div>
         </dl>
 
         <div className="space-y-2">
-          <label htmlFor={emailId} className="block text-sm font-medium text-[#181C1B]">
+          <label htmlFor={emailId} className="block text-sm font-medium text-[#11181C]">
             Receber link ou suporte por e-mail
           </label>
-          <p id={hintId} className="text-xs text-[#525B58]">
+          <p id={hintId} className="text-xs text-[#596168]">
             Abriremos seu aplicativo de e-mail para solicitar o acesso.
           </p>
           <div className="flex flex-col sm:flex-row gap-2.5 pt-0.5">
@@ -216,7 +216,7 @@ export const DownloadModal: React.FC<DownloadModalProps> = ({ isOpen, onClose })
               value={notifyEmail}
               onChange={(e) => setNotifyEmail(e.target.value)}
               placeholder="voce@exemplo.com"
-              className="hr-field-control flex-1 rounded-xl border border-[#747D7B] bg-white px-4 py-2.5 text-[#181C1B] placeholder:text-[#66706D] hover:border-[#181C1B] focus:border-[#007677] transition-colors"
+              className="hr-field-control flex-1 rounded-xl border border-[#717880] bg-white px-4 py-2.5 text-[#11181C] placeholder:text-[#717880] hover:border-[#11181C] focus:border-[#009C9D] transition-colors"
             />
             <a href={notifyHref} className="inline-flex">
               <Button
@@ -232,23 +232,23 @@ export const DownloadModal: React.FC<DownloadModalProps> = ({ isOpen, onClose })
           </div>
         </div>
 
-        <div className="pt-3 border-t border-[#E4EAE7] flex flex-wrap items-center justify-between gap-3 text-xs">
-          <div className="inline-flex items-center gap-1.5 text-[#00696A] font-medium">
-            <ShieldCheck className="w-4 h-4" aria-hidden="true" />
+        <div className="pt-3 border-t border-[#E6E8EB] flex flex-wrap items-center justify-between gap-3 text-xs">
+          <div className="inline-flex items-center gap-1.5 text-[#00797A] font-medium">
+            <ShieldCheck className="w-4 h-4 text-[#009C9D]" aria-hidden="true" />
             <span>Políticas de dados ativas</span>
           </div>
           <Link
             to="/seguranca-dos-dados"
             onClick={() => void requestAnimatedClose()}
-            className="font-semibold text-[#00696A] hover:underline inline-flex items-center gap-1 min-h-[36px]"
+            className="font-semibold text-[#00797A] hover:underline inline-flex items-center gap-1 min-h-[36px]"
           >
             <span>Segurança dos Dados</span>
             <ArrowRight className="w-3.5 h-3.5" aria-hidden="true" />
           </Link>
         </div>
 
-        <div className="flex items-center gap-2 text-xs text-[#525B58]">
-          <Smartphone className="w-4 h-4 flex-shrink-0 text-[#007677]" aria-hidden="true" />
+        <div className="flex items-center gap-2 text-xs text-[#596168]">
+          <Smartphone className="w-4 h-4 flex-shrink-0 text-[#009C9D]" aria-hidden="true" />
           <span>A versão para iOS (App Store) está prevista após a etapa inicial no Android.</span>
         </div>
       </div>

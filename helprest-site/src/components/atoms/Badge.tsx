@@ -21,10 +21,10 @@ export const Badge: React.FC<BadgeProps> = ({
   };
 
   const variantStyles = {
-    brand: 'bg-[#E9F3F2] text-[#00696A]',
-    gold: 'bg-[#EDF1EF] text-[#3A413F]',
+    brand: 'bg-[#EFFBFB] text-[#00797A]',
+    gold: 'bg-[#FFF8E1] text-[#6B4F00]',
     success: 'bg-[#E6F4EA] text-[#137333]',
-    neutral: 'bg-[#EDF1EF] text-[#3A413F]',
+    neutral: 'bg-[#F1F2F4] text-[#3F454A]',
     warning: 'bg-[#FEF2EA] text-[#8A4409]',
     danger: 'bg-[#FDF1EF] text-[#7A271A]',
   };

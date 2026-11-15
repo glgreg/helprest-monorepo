@@ -8,33 +8,33 @@ export const Footer: React.FC = () => {
   const currentYear = new Date().getFullYear();
 
   return (
-    <footer className="surface-footer bg-[#161A19] text-[#C4CCC9] text-sm">
+    <footer className="surface-footer bg-[#11181C] text-[#CBD2D9] text-sm">
       <Container size="lg" className="py-14">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-10">
           {/* Brand & Responsible Developer (4 cols) */}
           <div className="lg:col-span-4 space-y-4">
             <BrandLogo size="md" tone="inverse" />
-            <p className="text-xs sm:text-sm text-[#C4CCC9] leading-relaxed max-w-sm">
+            <p className="text-xs sm:text-sm text-[#CBD2D9] leading-relaxed max-w-sm">
               Aplicativo para descoberta gastronômica adaptada a restrições alimentares, separação de cardápios e avaliações presenciais com geofencing de 100 metros.
             </p>
-            <div className="space-y-2 text-xs pt-1 text-[#DCE2E0]">
+            <div className="space-y-2 text-xs pt-1 text-[#E2E8F0]">
               <div className="flex items-center gap-2">
-                <Mail className="w-3.5 h-3.5 text-[#9CE2E0]" aria-hidden="true" />
-                <a href="mailto:suporte@helprest.com" className="hover:text-white transition-colors">
-                  suporte@helprest.com
+                <Mail className="w-3.5 h-3.5 text-[#26D0D1]" aria-hidden="true" />
+                <a href="mailto:suporte@helprest.net" className="hover:text-white transition-colors">
+                  suporte@helprest.net
                 </a>
               </div>
               <div className="flex items-center gap-2">
-                <ShieldCheck className="w-3.5 h-3.5 text-[#9CE2E0]" aria-hidden="true" />
+                <ShieldCheck className="w-3.5 h-3.5 text-[#26D0D1]" aria-hidden="true" />
                 <a
-                  href="mailto:privacidade@helprest.com"
+                  href="mailto:privacidade@helprest.net"
                   className="hover:text-white transition-colors"
                 >
-                  privacidade@helprest.com
+                  privacidade@helprest.net
                 </a>
               </div>
               <div className="flex items-center gap-2">
-                <MapPin className="w-3.5 h-3.5 text-[#9CE2E0]" aria-hidden="true" />
+                <MapPin className="w-3.5 h-3.5 text-[#26D0D1]" aria-hidden="true" />
                 <span>Curitiba, PR — Brasil</span>
               </div>
             </div>
@@ -42,8 +42,8 @@ export const Footer: React.FC = () => {
 
           {/* Product Links (2 cols) */}
           <nav aria-label="Links do produto" className="lg:col-span-2 space-y-3">
-            <h2 className="text-xs font-semibold text-white">Produto</h2>
-            <ul className="space-y-2.5 text-xs text-[#DCE2E0]">
+            <h2 className="font-sans text-xs font-semibold text-white">Produto</h2>
+            <ul className="space-y-2.5 text-xs text-[#E2E8F0]">
               <li>
                 <Link to="/#restricoes" className="hover:text-white transition-colors">
                   Simulador de Filtros
@@ -69,8 +69,8 @@ export const Footer: React.FC = () => {
 
           {/* Mandatory Google Play URLs (3 cols) */}
           <nav aria-label="Privacidade e termos legais" className="lg:col-span-3 space-y-3">
-            <h2 className="text-xs font-semibold text-white">Privacidade e Termos</h2>
-            <ul className="space-y-2.5 text-xs text-[#DCE2E0]">
+            <h2 className="font-sans text-xs font-semibold text-white">Privacidade e Termos</h2>
+            <ul className="space-y-2.5 text-xs text-[#E2E8F0]">
               <li>
                 <Link to="/privacidade" className="hover:text-white transition-colors">
                   Política de Privacidade
@@ -93,7 +93,7 @@ export const Footer: React.FC = () => {
               </li>
               <li>
                 <Link to="/termos" className="hover:text-white transition-colors">
-                  Termos de Uso e Comunidade
+                  Termos de Uso e Segurança Infantil
                 </Link>
               </li>
             </ul>
@@ -101,31 +101,31 @@ export const Footer: React.FC = () => {
 
           {/* Official Play Console Identification (3 cols) */}
           <div className="lg:col-span-3 space-y-3">
-            <h2 className="text-xs font-semibold text-white">Ficha do Aplicativo</h2>
-            <dl className="bg-[#202524] rounded-2xl p-4 space-y-2 text-xs">
+            <h2 className="font-sans text-xs font-semibold text-white">Ficha do Aplicativo</h2>
+            <dl className="bg-[#1A2227] rounded-2xl p-4 space-y-2 text-xs">
               <div className="flex flex-wrap justify-between gap-2">
-                <dt className="text-[#9AA5A2]">Desenvolvedor</dt>
+                <dt className="text-[#9BA5AE]">Desenvolvedor</dt>
                 <dd className="text-white font-medium">Gustavo L. Gregorio</dd>
               </div>
               <div className="flex flex-wrap justify-between gap-2">
-                <dt className="text-[#9AA5A2]">Pacote Android</dt>
+                <dt className="text-[#9BA5AE]">Pacote Android</dt>
                 <dd>
-                  <code className="font-mono text-white">com.gustavo_lg.helprest</code>
+                  <code className="font-mono text-white">com.helprest</code>
                 </dd>
               </div>
               <div className="flex flex-wrap justify-between gap-2">
-                <dt className="text-[#9AA5A2]">Versão</dt>
+                <dt className="text-[#9BA5AE]">Versão</dt>
                 <dd className="text-white">1.0.0</dd>
               </div>
               <div className="flex flex-wrap justify-between gap-2">
-                <dt className="text-[#9AA5A2]">Regulação</dt>
-                <dd className="text-[#9CE2E0] font-medium">LGPD (Lei 13.709/2018)</dd>
+                <dt className="text-[#9BA5AE]">Regulação</dt>
+                <dd className="text-[#26D0D1] font-medium">LGPD (Lei 13.709/2018)</dd>
               </div>
             </dl>
           </div>
         </div>
 
-        <div className="mt-12 pt-6 border-t border-white/10 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-[#9AA5A2]">
+        <div className="mt-12 pt-6 border-t border-white/10 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-[#9BA5AE]">
           <div>
             &copy; {currentYear} HelpRest — Gustavo L. Gregorio. Todos os direitos reservados.
           </div>

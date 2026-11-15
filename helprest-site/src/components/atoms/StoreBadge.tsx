@@ -15,10 +15,10 @@ export const StoreBadge: React.FC<StoreBadgeProps> = ({
 }) => {
   const surfaceClasses =
     tone === 'light'
-      ? 'bg-white text-[#181C1B] hover:bg-[#E9F3F2]'
-      : 'bg-[#181C1B] text-white hover:bg-[#2C3331]';
+      ? 'bg-white text-[#11181C] hover:bg-[#EFFBFB]'
+      : 'bg-[#11181C] text-white hover:bg-[#222B31]';
 
-  const mutedClasses = tone === 'light' ? 'text-[#525B58]' : 'text-white/80';
+  const mutedClasses = tone === 'light' ? 'text-[#596168]' : 'text-white/80';
 
   if (platform === 'google-play') {
     return (
@@ -64,8 +64,8 @@ export const StoreBadge: React.FC<StoreBadgeProps> = ({
     <div
       className={`tonal-surface inline-flex items-center gap-3 px-5 py-3 min-h-[48px] rounded-full select-none ${
         tone === 'light'
-          ? 'bg-white/14 text-white'
-          : 'bg-[#EDF1EF] text-[#181C1B]'
+          ? 'bg-white/80 text-[#11181C]'
+          : 'bg-[#F1F2F4] text-[#11181C]'
       } ${className}`}
     >
       <div className="w-5 h-5 flex items-center justify-center flex-shrink-0">
@@ -74,11 +74,7 @@ export const StoreBadge: React.FC<StoreBadgeProps> = ({
         </svg>
       </div>
       <div className="flex flex-col text-left">
-        <span
-          className={`text-[11px] font-normal leading-none ${
-            tone === 'light' ? 'text-white/85' : 'text-[#525B58]'
-          }`}
-        >
+        <span className="text-[11px] font-normal leading-none text-[#596168]">
           Em breve na
         </span>
         <span className="text-sm font-semibold tracking-tight leading-tight mt-0.5">

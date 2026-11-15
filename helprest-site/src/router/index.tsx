@@ -21,12 +21,18 @@ export const RouterProvider: React.FC<{ children: React.ReactNode }> = ({ childr
     return () => window.removeEventListener('popstate', handlePopState);
   }, []);
 
-  const navigate = (to: string) => {
-    if (to === currentPath) {
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-      return;
+  useEffect(() => {
+    if (typeof window !== 'undefined' && window.location.hash) {
+      const target = document.querySelector(window.location.hash);
+      if (target) {
+        setTimeout(() => {
+          target.scrollIntoView({ behavior: 'smooth' });
+        }, 80);
+      }
     }
+  }, []);
 
+  const navigate = (to: string) => {
     if (to.startsWith('#')) {
       const element = document.querySelector(to);
       if (element) {
@@ -35,33 +41,39 @@ export const RouterProvider: React.FC<{ children: React.ReactNode }> = ({ childr
       return;
     }
 
-    if (to.startsWith('/#')) {
-      const hash = to.replace('/', '');
-      if (currentPath === '/') {
+    const [rawPath, rawHash] = to.split('#');
+    const targetPath = (rawPath || '/').replace(/\/$/, '') || '/';
+    const hash = rawHash ? `#${rawHash}` : '';
+    const currentNormalized = (currentPath.split('#')[0] || '/').replace(/\/$/, '') || '/';
+
+    if (targetPath === currentNormalized) {
+      if (hash) {
+        window.history.pushState({}, '', to);
         const element = document.querySelector(hash);
         if (element) {
           element.scrollIntoView({ behavior: 'smooth' });
         }
         return;
       }
-      window.history.pushState({}, '', to);
-      startTransition(() => {
-        setCurrentPath('/');
-      });
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+      return;
+    }
+
+    window.history.pushState({}, '', to);
+    startTransition(() => {
+      setCurrentPath(targetPath);
+    });
+
+    if (hash) {
       setTimeout(() => {
         const element = document.querySelector(hash);
         if (element) {
           element.scrollIntoView({ behavior: 'smooth' });
         }
       }, 100);
-      return;
+    } else {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
     }
-
-    window.history.pushState({}, '', to);
-    startTransition(() => {
-      setCurrentPath(to);
-    });
-    window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
   return (

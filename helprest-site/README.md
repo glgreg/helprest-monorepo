@@ -9,7 +9,7 @@ Desenvolvido em **Vite + React 19 + TypeScript + Tailwind CSS** seguindo rigoros
 ## 📱 Visão de Produto
 
 O site apresenta a proposta de valor do aplicativo para consumidores e gestores de restaurantes com uma visão 100% focada em produto:
-- **Redirecionamento para Download**: Botão interativo para download na **Google Play Store** (com fluxo de Acesso Antecipado e especificações do pacote `com.gustavo_lg.helprest`) e indicador "Em breve" para **Apple App Store**.
+- **Redirecionamento para Download**: Botão interativo para download na **Google Play Store** (com fluxo de Acesso Antecipado e especificações do pacote `com.helprest`) e indicador "Em breve" para **Apple App Store**.
 - **Simulador Interativo de Flags**: Demonstração em tempo real de como o algoritmo calcula o `flagMatchRatio`, priorizando locais com **100% de compatibilidade** e excluindo opções inseguras.
 - **Geofencing de 100 Metros**: Destaque para a tecnologia anti-fraude que exige validação de presença física via GPS para publicação de fotos e avaliações comunitárias.
 - **Portal de Empresas & Restaurantes**: Seção dedicada para cadastramento de cozinhas, selos de isolamento contra contaminação cruzada e gestão de cardápios com alérgenos.
@@ -23,12 +23,12 @@ O site disponibiliza todas as páginas públicas obrigatórias para publicação
 | Rota | Documento | Finalidade & Exigência |
 | --- | --- | --- |
 | `/` | **Página Inicial** | Apresentação do produto, simulador de flags, prova social e chamadas para download |
-| `/privacidade` | **Política de Privacidade** | Declaração de tratamento de dados pessoais, permissões (`ACCESS_FINE_LOCATION`), criptografia e direitos LGPD |
-| `/termos` | **Termos de Uso** | Condições gerais, regras comunitárias de reviews, responsabilidade sanitária e foro |
+| `/privacidade` | **Política de Privacidade** | Declaração de tratamento de dados pessoais, permissões (`ACCESS_FINE_LOCATION`, `ACCESS_BACKGROUND_LOCATION`), criptografia e direitos LGPD |
+| `/termos` | **Termos de Uso & Segurança Infantil** | Condições gerais, regras comunitárias de reviews, **Padrões de Segurança Infantil (CSAE/CSAM)** (`#seguranca-infantil`) e foro |
 | `/exclusao-de-dados` | **Exclusão de Conta e Dados** | **Exigência obrigatória Google Play**: Instruções no app e formulário web para solicitar deleção integral |
-| `/seguranca-dos-dados` | **Segurança dos Dados (Data Safety)** | Espelho transparente das declarações do Google Play Console (criptografia TLS 1.3, Argon2id, sem venda de dados) |
-| `/aviso-de-saude` | **Aviso Legal de Saúde & Alérgenos** | Declaração de conformidade com a política de apps de saúde: aviso de ferramenta não-médica e orientações de anafilaxia |
-| `/suporte` | **Central de Suporte & Desenvolvedor** | Dados cadastrais do desenvolvedor (`suporte@helprest.com`, pacote Android, horário de atendimento e formulário) |
+| `/seguranca-dos-dados` | **Segurança dos Dados (Data Safety)** | Espelho transparente das declarações do Google Play Console (criptografia TLS 1.3, Argon2id, sem redes de anúncios nem venda de dados) |
+| `/aviso-de-saude` | **Aviso Legal de Saúde & Alérgenos** | Declaração de conformidade com a política de saúde: aviso de ferramenta não-médica e orientações de anafilaxia |
+| `/suporte` | **Central de Suporte & Desenvolvedor** | Dados cadastrais do desenvolvedor (`suporte@helprest.net`, pacote `com.helprest`, horário de atendimento e formulário) |
 
 ---
 

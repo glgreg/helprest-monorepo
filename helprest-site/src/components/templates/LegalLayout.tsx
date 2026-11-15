@@ -5,15 +5,6 @@ import { Container } from '../atoms/Container';
 import { Breadcrumb } from '../molecules/Breadcrumb';
 import { Link } from '../../router';
 import { useRouter } from '../../router/useRouter';
-import {
-  ShieldCheck,
-  FileText,
-  Trash2,
-  Lock,
-  HeartPulse,
-  HelpCircle,
-  Clock,
-} from 'lucide-react';
 
 export interface LegalLayoutProps {
   title: string;
@@ -31,45 +22,21 @@ export const LegalLayout: React.FC<LegalLayoutProps> = ({
   const { currentPath } = useRouter();
 
   const legalNavItems = [
-    {
-      label: 'Política de Privacidade',
-      href: '/privacidade',
-      icon: <ShieldCheck className="w-4 h-4 text-[#007677]" aria-hidden="true" />,
-    },
-    {
-      label: 'Segurança dos Dados',
-      href: '/seguranca-dos-dados',
-      icon: <Lock className="w-4 h-4 text-[#007677]" aria-hidden="true" />,
-    },
-    {
-      label: 'Exclusão de Conta e Dados',
-      href: '/exclusao-de-dados',
-      icon: <Trash2 className="w-4 h-4 text-[#B42318]" aria-hidden="true" />,
-    },
-    {
-      label: 'Aviso de Saúde & Alérgenos',
-      href: '/aviso-de-saude',
-      icon: <HeartPulse className="w-4 h-4 text-[#C43E32]" aria-hidden="true" />,
-    },
-    {
-      label: 'Termos de Uso',
-      href: '/termos',
-      icon: <FileText className="w-4 h-4 text-[#525B58]" aria-hidden="true" />,
-    },
-    {
-      label: 'Central de Suporte',
-      href: '/suporte',
-      icon: <HelpCircle className="w-4 h-4 text-[#007677]" aria-hidden="true" />,
-    },
+    { label: 'Política de Privacidade', href: '/privacidade' },
+    { label: 'Segurança dos Dados', href: '/seguranca-dos-dados' },
+    { label: 'Exclusão de Conta e Dados', href: '/exclusao-de-dados' },
+    { label: 'Aviso de Saúde & Alérgenos', href: '/aviso-de-saude' },
+    { label: 'Termos de Uso', href: '/termos' },
+    { label: 'Central de Suporte', href: '/suporte' },
   ];
 
   const normalizedPath = currentPath.split('#')[0].replace(/\/$/, '') || '/';
 
   return (
-    <div className="min-h-screen flex flex-col bg-[#F4F6F5] text-[#181C1B] font-sans">
+    <div className="min-h-screen flex flex-col bg-[#F7F7F8] text-[#11181C] font-sans">
       <a
         href="#main-content"
-        className="visually-hidden fixed top-3 start-3 z-50 rounded-full bg-[#007677] px-4 py-2.5 text-sm font-semibold text-white shadow-lg"
+        className="visually-hidden fixed top-3 start-3 z-50 rounded-full bg-[#009C9D] px-4 py-2.5 text-sm font-semibold text-[#09181A] shadow-lg"
       >
         Ir para o conteúdo principal
       </a>
@@ -81,28 +48,25 @@ export const LegalLayout: React.FC<LegalLayoutProps> = ({
           <Breadcrumb currentPageTitle={title} />
 
           {/* Clean Document Header */}
-          <div className="mb-8 space-y-2.5">
-            <div className="inline-flex flex-wrap items-center gap-2 text-xs font-medium text-[#525B58]">
-              <Clock className="w-3.5 h-3.5 text-[#007677]" aria-hidden="true" />
-              <span>
-                Atualizado em {lastUpdated} ·{' '}
-                <code className="font-mono text-[#3A413F]">com.gustavo_lg.helprest</code>
-              </span>
-            </div>
-            <h1 className="text-3xl sm:text-4xl font-bold text-[#181C1B] tracking-tight leading-tight">
+          <header className="mb-8 space-y-2.5">
+            <p className="text-xs font-medium text-[#596168]">
+              Atualizado em {lastUpdated} ·{' '}
+              <span className="font-mono text-[#3F454A]">com.helprest</span>
+            </p>
+            <h1 className="font-display text-3xl sm:text-4xl font-bold text-[#11181C] tracking-tight leading-tight">
               {title}
             </h1>
-            <p className="text-base sm:text-[17px] text-[#525B58] max-w-3xl leading-relaxed">
+            <p className="text-base sm:text-[17px] text-[#596168] max-w-3xl leading-relaxed">
               {subtitle}
             </p>
-          </div>
+          </header>
 
           {/* Mobile Only Horizontal Document Nav Strip */}
           <nav
             aria-label="Documentos legais"
-            className="lg:hidden mb-6 tonal-surface bg-white rounded-2xl p-2 shadow-[0_2px_10px_-4px_rgba(24,28,27,0.06)]"
+            className="lg:hidden mb-6 tonal-surface bg-white rounded-2xl p-2 shadow-[0_2px_10px_-4px_rgba(17,24,28,0.06)]"
           >
-            <ul className="flex items-center gap-1.5 overflow-x-auto scrollbar-none">
+            <ul className="flex items-center gap-1 overflow-x-auto scrollbar-none">
               {legalNavItems.map((item) => {
                 const isActive = normalizedPath === item.href;
                 return (
@@ -110,13 +74,12 @@ export const LegalLayout: React.FC<LegalLayoutProps> = ({
                     <Link
                       to={item.href}
                       aria-current={isActive ? 'page' : undefined}
-                      className={`inline-flex items-center gap-2 px-3.5 py-2.5 min-h-[44px] rounded-xl text-xs whitespace-nowrap transition-colors ${
+                      className={`inline-flex items-center px-3.5 py-2.5 min-h-[44px] rounded-xl text-xs whitespace-nowrap transition-colors ${
                         isActive
-                          ? 'bg-[#E9F3F2] text-[#00696A] font-semibold underline decoration-2 underline-offset-4 decoration-[#007677]'
-                          : 'text-[#3A413F] hover:text-[#181C1B] hover:bg-[#EDF1EF] font-medium'
+                          ? 'bg-[#EFFBFB] text-[#00797A] font-semibold'
+                          : 'text-[#3F454A] hover:text-[#11181C] hover:bg-[#F1F2F4] font-medium'
                       }`}
                     >
-                      {item.icon}
                       <span>{item.label}</span>
                     </Link>
                   </li>
@@ -125,15 +88,15 @@ export const LegalLayout: React.FC<LegalLayoutProps> = ({
             </ul>
           </nav>
 
-          {/* Desktop 2-Column Tonal Layout */}
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
+          {/* Desktop 2-Column Google Safety Center Style Layout */}
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
             <aside className="hidden lg:block lg:col-span-4">
-              <div className="sticky top-24 tonal-surface bg-white rounded-3xl p-5 shadow-[0_2px_12px_-4px_rgba(24,28,27,0.06)] space-y-5">
+              <div className="sticky top-24 tonal-surface bg-white rounded-3xl p-5 shadow-[0_2px_12px_-4px_rgba(17,24,28,0.05)] space-y-5">
                 <nav aria-label="Navegação legal">
-                  <div className="text-xs font-semibold text-[#525B58] px-3 mb-2">
+                  <div className="text-xs font-semibold uppercase tracking-wider text-[#596168] px-3 mb-2.5">
                     Documentos do aplicativo
                   </div>
-                  <ul className="space-y-1">
+                  <ul className="space-y-0.5">
                     {legalNavItems.map((item) => {
                       const isActive = normalizedPath === item.href;
                       return (
@@ -141,22 +104,13 @@ export const LegalLayout: React.FC<LegalLayoutProps> = ({
                           <Link
                             to={item.href}
                             aria-current={isActive ? 'page' : undefined}
-                            className={`flex items-center justify-between gap-2.5 px-3 py-2.5 min-h-[44px] rounded-2xl text-sm transition-colors ${
+                            className={`flex items-center px-3.5 py-2.5 min-h-[44px] text-sm transition-colors ${
                               isActive
-                                ? 'bg-[#E9F3F2] text-[#00696A] font-semibold'
-                                : 'text-[#3A413F] hover:bg-[#EDF1EF] hover:text-[#181C1B] font-medium'
+                                ? 'border-s-[3px] border-[#009C9D] bg-[#EFFBFB] text-[#09181A] font-semibold rounded-e-xl'
+                                : 'border-s-[3px] border-transparent text-[#3F454A] hover:bg-[#F7F7F8] hover:text-[#11181C] font-medium rounded-xl'
                             }`}
                           >
-                            <span className="flex items-center gap-2.5 min-w-0">
-                              {item.icon}
-                              <span className="truncate">{item.label}</span>
-                            </span>
-                            {isActive && (
-                              <span
-                                className="w-1.5 h-4 rounded-full bg-[#007677] flex-shrink-0"
-                                aria-hidden="true"
-                              />
-                            )}
+                            <span className="truncate">{item.label}</span>
                           </Link>
                         </li>
                       );
@@ -164,22 +118,30 @@ export const LegalLayout: React.FC<LegalLayoutProps> = ({
                   </ul>
                 </nav>
 
-                <div className="rounded-2xl bg-[#F4F6F5] p-4 text-xs text-[#525B58] space-y-1.5">
-                  <div className="font-semibold text-[#181C1B]">Controlador & Privacidade</div>
-                  <p className="leading-snug">HelpRest — Desenvolvedor: Gustavo L. Gregorio</p>
-                  <a
-                    href="mailto:privacidade@helprest.com"
-                    className="text-[#00696A] hover:underline font-semibold inline-block pt-0.5"
-                  >
-                    privacidade@helprest.com
-                  </a>
+                <div className="pt-4 border-t border-[#E6E8EB] px-3 text-xs text-[#596168] space-y-1.5">
+                  <div className="font-semibold text-[#11181C]">Controlador &amp; Privacidade</div>
+                  <p className="leading-snug">Gustavo L. Gregorio · Curitiba, PR</p>
+                  <div className="flex flex-col gap-1 pt-0.5">
+                    <a
+                      href="mailto:privacidade@helprest.net"
+                      className="text-[#00797A] hover:underline font-semibold"
+                    >
+                      privacidade@helprest.net
+                    </a>
+                    <a
+                      href="mailto:suporte@helprest.net"
+                      className="text-[#596168] hover:text-[#11181C] hover:underline"
+                    >
+                      suporte@helprest.net
+                    </a>
+                  </div>
                 </div>
               </div>
             </aside>
 
             <div className="lg:col-span-8">
-              <div className="tonal-surface bg-white rounded-3xl p-6 sm:p-10 shadow-[0_2px_12px_-4px_rgba(24,28,27,0.06)] space-y-8 text-[#3A413F] leading-relaxed text-sm sm:text-base">
-                {children}
+              <div className="tonal-surface bg-white rounded-3xl p-6 sm:p-10 shadow-[0_2px_12px_-4px_rgba(17,24,28,0.05)] space-y-8 text-[#3F454A] leading-relaxed text-sm sm:text-base">
+                <div className="max-w-[70ch] space-y-8">{children}</div>
               </div>
             </div>
           </div>

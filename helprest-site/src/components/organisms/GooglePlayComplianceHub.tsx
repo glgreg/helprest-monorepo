@@ -46,7 +46,7 @@ export const GooglePlayComplianceHub: React.FC = () => {
         'Conformidade integral com a LGPD (Lei nº 13.709/2018) e GDPR',
         'Declaração explícita sobre ausência de rastreamento entre apps e sem cookies intrusivos',
         'Direitos dos titulares: confirmação, acesso, correção, anonimização e portabilidade',
-        'Encarregado de Proteção de Dados (DPO) contactável via privacidade@helprest.com',
+        'Encarregado de Proteção de Dados (DPO) contactável via privacidade@helprest.net',
       ],
       docUrl: '/privacidade',
       docButtonText: 'Acessar Política de Privacidade Completa',
@@ -65,7 +65,7 @@ export const GooglePlayComplianceHub: React.FC = () => {
         'Formulário web independente de instalação do app disponível 24/7',
         'Eliminação definitiva de dados pessoais em até 30 dias',
         'Opção de exclusão total ou exclusão parcial (ex.: apenas dados de localização mantendo cadastro)',
-        'Protocolo estruturado encaminhado para privacidade@helprest.com',
+        'Protocolo estruturado encaminhado para privacidade@helprest.net',
       ],
       docUrl: '/exclusao-de-dados',
       docButtonText: 'Acessar Central de Exclusão de Conta e Dados',
@@ -84,7 +84,7 @@ export const GooglePlayComplianceHub: React.FC = () => {
         'Criptografia de tráfego TLS 1.3 / HTTPS obrigatória em todas as requisições à API',
         'Armazenamento seguro de senhas com algoritmo Argon2id e salt criptográfico',
         'Localização aproximada utilizada exclusivamente no momento da consulta de restaurantes',
-        'Sem bibliotecas de terceiros para leilão de publicidade ou profiling comportamental',
+        'Sem SDKs externos de redes de publicidade ou profiling comportamental entre apps',
       ],
       docUrl: '/seguranca-dos-dados',
       docButtonText: 'Ver Declaração Completa de Segurança dos Dados',
@@ -138,8 +138,8 @@ export const GooglePlayComplianceHub: React.FC = () => {
       summary:
         'Atendimento direto para dúvidas sobre o app, reporte de cardápios desatualizados, sugestões e solicitações de privacidade.',
       compliancePoints: [
-        'E-mail oficial de suporte: suporte@helprest.com',
-        'E-mail oficial do DPO/Privacidade: privacidade@helprest.com',
+        'E-mail oficial de suporte: suporte@helprest.net',
+        'E-mail oficial do DPO/Privacidade: privacidade@helprest.net',
         'Atendimento em dias úteis das 09h às 18h (Brasília)',
         'Formulário web integrado para preparo direto de chamados',
       ],
@@ -151,18 +151,18 @@ export const GooglePlayComplianceHub: React.FC = () => {
   const currentTab = tabs.find((t) => t.id === activeTabId) || tabs[0];
 
   return (
-    <section id="conformidade-google-play" className="py-20 bg-[#F4F6F5]">
+    <section id="conformidade-google-play" className="py-20 bg-[#F7F7F8]">
       <Container size="lg">
         <div className="text-center max-w-3xl mx-auto mb-12">
           <Heading2>Central de políticas e transparência no Google Play</Heading2>
           <Paragraph className="mt-3">
             Consulte as diretrizes aplicadas ao pacote{' '}
-            <code className="font-mono text-sm text-[#181C1B]">com.gustavo_lg.helprest</code> em todas as etapas de coleta, permissões e segurança.
+            <code className="font-mono text-sm text-[#11181C]">com.helprest</code> em todas as etapas de coleta, permissões e segurança.
           </Paragraph>
         </div>
 
         {/* Interactive Tonal Navigation Strip */}
-        <div className="tonal-surface bg-white rounded-3xl p-2.5 mb-6 shadow-[0_2px_10px_-4px_rgba(24,28,27,0.06)]">
+        <div className="tonal-surface bg-white rounded-3xl p-2.5 mb-6 shadow-[0_2px_10px_-4px_rgba(17,24,28,0.06)]">
           <div className="flex items-center gap-1.5 overflow-x-auto scrollbar-none">
             {tabs.map((tab) => {
               const isActive = tab.id === activeTabId;
@@ -174,8 +174,8 @@ export const GooglePlayComplianceHub: React.FC = () => {
                   onClick={() => setActiveTabId(tab.id)}
                   className={`flex items-center gap-2 px-4 py-2.5 min-h-[44px] rounded-2xl text-xs sm:text-sm whitespace-nowrap transition-colors cursor-pointer ${
                     isActive
-                      ? 'bg-[#007677] text-white font-semibold'
-                      : 'text-[#3A413F] hover:text-[#181C1B] hover:bg-[#EDF1EF] font-medium'
+                      ? 'bg-[#009C9D] text-[#09181A] font-semibold'
+                      : 'text-[#3F454A] hover:text-[#11181C] hover:bg-[#F1F2F4] font-medium'
                   }`}
                 >
                   {tab.icon}
@@ -187,13 +187,13 @@ export const GooglePlayComplianceHub: React.FC = () => {
         </div>
 
         {/* Active Policy Details Card */}
-        <div className="tonal-surface bg-white rounded-3xl p-6 sm:p-10 shadow-[0_2px_12px_-4px_rgba(24,28,27,0.06)] space-y-6">
+        <div className="tonal-surface bg-white rounded-3xl p-6 sm:p-10 shadow-[0_2px_12px_-4px_rgba(17,24,28,0.06)] space-y-6">
           <div className="flex flex-col lg:flex-row lg:items-start justify-between gap-6">
             <div className="space-y-1.5">
-              <div className="text-xs font-medium text-[#00696A]">{currentTab.policyId}</div>
-              <h3 className="text-2xl font-bold text-[#181C1B]">{currentTab.label}</h3>
-              <p className="text-sm text-[#525B58]">
-                <strong className="text-[#181C1B]">Requisito:</strong>{' '}
+              <div className="text-xs font-medium text-[#00797A]">{currentTab.policyId}</div>
+              <h3 className="text-2xl font-bold text-[#11181C]">{currentTab.label}</h3>
+              <p className="text-sm text-[#596168]">
+                <strong className="text-[#11181C]">Requisito:</strong>{' '}
                 {currentTab.playStoreRequirement}
               </p>
             </div>
@@ -213,15 +213,15 @@ export const GooglePlayComplianceHub: React.FC = () => {
 
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 pt-2">
             <div className="lg:col-span-7 space-y-4">
-              <h4 className="text-xs font-semibold text-[#525B58]">Resumo da declaração</h4>
-              <p className="text-[#3A413F] leading-relaxed text-sm sm:text-base">
+              <h4 className="text-xs font-semibold text-[#596168]">Resumo da declaração</h4>
+              <p className="text-[#3F454A] leading-relaxed text-sm sm:text-base">
                 {currentTab.summary}
               </p>
 
               <div className="pt-2">
                 <Link
                   to={currentTab.docUrl}
-                  className="inline-flex items-center gap-1.5 text-sm font-semibold text-[#00696A] hover:underline"
+                  className="inline-flex items-center gap-1.5 text-sm font-semibold text-[#00797A] hover:underline"
                 >
                   <span>{currentTab.docButtonText}</span>
                   <ExternalLink className="w-3.5 h-3.5" aria-hidden="true" />
@@ -229,13 +229,13 @@ export const GooglePlayComplianceHub: React.FC = () => {
               </div>
             </div>
 
-            <div className="lg:col-span-5 bg-[#F4F6F5] rounded-2xl p-5 space-y-3">
-              <h4 className="text-xs font-semibold text-[#181C1B]">Práticas aplicadas</h4>
+            <div className="lg:col-span-5 bg-[#F7F7F8] rounded-2xl p-5 space-y-3">
+              <h4 className="text-xs font-semibold text-[#11181C]">Práticas aplicadas</h4>
               <ul className="space-y-2.5">
                 {currentTab.compliancePoints.map((point, index) => (
-                  <li key={index} className="flex items-start gap-2.5 text-xs sm:text-sm text-[#3A413F]">
+                  <li key={index} className="flex items-start gap-2.5 text-xs sm:text-sm text-[#3F454A]">
                     <CheckCircle2
-                      className="w-4 h-4 text-[#007677] flex-shrink-0 mt-0.5"
+                      className="w-4 h-4 text-[#009C9D] flex-shrink-0 mt-0.5"
                       aria-hidden="true"
                     />
                     <span>{point}</span>
@@ -245,9 +245,9 @@ export const GooglePlayComplianceHub: React.FC = () => {
             </div>
           </div>
 
-          <div className="rounded-2xl bg-[#F4F6F5] px-4 py-3 flex flex-wrap items-center justify-between gap-3 text-xs text-[#525B58]">
+          <div className="rounded-2xl bg-[#F7F7F8] px-4 py-3 flex flex-wrap items-center justify-between gap-3 text-xs text-[#596168]">
             <span>Páginas públicas relacionadas:</span>
-            <div className="flex flex-wrap items-center gap-3 font-semibold text-[#00696A]">
+            <div className="flex flex-wrap items-center gap-3 font-semibold text-[#00797A]">
               <Link to="/privacidade" className="hover:underline">
                 Privacidade
               </Link>

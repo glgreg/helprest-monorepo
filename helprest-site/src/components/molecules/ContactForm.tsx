@@ -90,13 +90,13 @@ export const ContactForm: React.FC = () => {
     `Nome: ${name}`,
     `E-mail para resposta: ${email}`,
     `Assunto: ${subjectLabels[subject] || subject}`,
-    `Aplicativo: HelpRest (com.gustavo_lg.helprest)`,
+    `Aplicativo: HelpRest (com.helprest)`,
     '',
     'Mensagem:',
     message,
   ].join('\n');
 
-  const mailtoUrl = `mailto:suporte@helprest.com?subject=${encodeURIComponent(
+  const mailtoUrl = `mailto:suporte@helprest.net?subject=${encodeURIComponent(
     `[HelpRest Suporte • ${ticketId}] ${subjectLabels[subject] || subject}`
   )}&body=${encodeURIComponent(ticketBody)}`;
 
@@ -112,32 +112,32 @@ export const ContactForm: React.FC = () => {
 
   if (ticketId) {
     return (
-      <div className="tonal-surface bg-[#E9F3F2] rounded-2xl p-6 sm:p-7 space-y-4">
+      <div className="tonal-surface bg-[#EFFBFB] rounded-2xl p-6 sm:p-7 space-y-4">
         <div role="status" aria-live="polite" className="visually-hidden">
           {liveStatus}
         </div>
         <div className="flex items-start gap-3">
-          <div className="w-10 h-10 bg-[#007677] text-white rounded-full flex items-center justify-center flex-shrink-0">
+          <div className="w-10 h-10 bg-[#009C9D] text-[#09181A] rounded-full flex items-center justify-center flex-shrink-0">
             <CheckCircle2 className="w-5 h-5" aria-hidden="true" />
           </div>
           <div>
-            <h3 className="text-lg font-bold text-[#181C1B]">
+            <h3 className="text-lg font-bold text-[#11181C]">
               Atendimento preparado ({ticketId})
             </h3>
-            <p className="text-sm text-[#3A413F] mt-1 leading-relaxed">
+            <p className="text-sm text-[#3F454A] mt-1 leading-relaxed">
               Envie a mensagem preenchida pelo seu aplicativo de e-mail para{' '}
               <a
-                href="mailto:suporte@helprest.com"
-                className="font-semibold text-[#00696A] hover:underline"
+                href="mailto:suporte@helprest.net"
+                className="font-semibold text-[#00797A] hover:underline"
               >
-                suporte@helprest.com
+                suporte@helprest.net
               </a>{' '}
               ou copie o resumo abaixo.
             </p>
           </div>
         </div>
 
-        <pre className="bg-white rounded-xl p-4 text-xs font-mono text-[#181C1B] whitespace-pre-wrap break-words">
+        <pre className="bg-white rounded-xl p-4 text-xs font-mono text-[#11181C] whitespace-pre-wrap break-words">
           {ticketBody}
         </pre>
 
@@ -181,7 +181,7 @@ export const ContactForm: React.FC = () => {
     <form
       onSubmit={handleSubmit}
       noValidate
-      className="tonal-surface bg-[#F4F6F5] rounded-2xl p-6 sm:p-7 space-y-5"
+      className="tonal-surface bg-[#F7F7F8] rounded-2xl p-6 sm:p-7 space-y-5"
     >
       <div role="status" aria-live="polite" className="visually-hidden">
         {liveStatus}
@@ -234,10 +234,10 @@ export const ContactForm: React.FC = () => {
       </div>
 
       <div className="space-y-1.5">
-        <label htmlFor={subjectId} className="block text-sm font-medium text-[#181C1B]">
+        <label htmlFor={subjectId} className="block text-sm font-medium text-[#11181C]">
           Assunto
         </label>
-        <p id={subjectHintId} className="text-xs text-[#525B58] leading-snug">
+        <p id={subjectHintId} className="text-xs text-[#596168] leading-snug">
           Direciona o atendimento para a fila correta.
         </p>
         <select
@@ -246,7 +246,7 @@ export const ContactForm: React.FC = () => {
           aria-describedby={subjectHintId}
           value={subject}
           onChange={(e) => setSubject(e.target.value)}
-          className="hr-field-control w-full rounded-xl border border-[#747D7B] bg-white px-4 py-2.5 text-[#181C1B] hover:border-[#181C1B] focus:border-[#007677] transition-colors"
+          className="hr-field-control w-full rounded-xl border border-[#717880] bg-white px-4 py-2.5 text-[#11181C] hover:border-[#11181C] focus:border-[#009C9D] transition-colors"
         >
           <option value="duvida">Dúvida sobre o Aplicativo</option>
           <option value="restaurante">Cadastro de Estabelecimento / Parceria</option>
@@ -277,7 +277,7 @@ export const ContactForm: React.FC = () => {
       />
 
       <div className="pt-2 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-        <span className="text-xs text-[#525B58]">Canal direto: suporte@helprest.com</span>
+        <span className="text-xs text-[#596168]">Canal direto: suporte@helprest.net</span>
         <Button
           type="submit"
           variant="primary"
