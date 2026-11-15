@@ -36,19 +36,21 @@
   - Maintain strict null checks (`noUncheckedIndexedAccess: true` in `helprest-api`).
 - **Clean Architecture & Security**:
   - Never import `@infra/*` or `@interface/*` inside `src/domain/`.
-  - Return plain DTOs from Use Cases; never leak raw MongoDB documents or password hashes in HTTP responses.
-  - Validate and sanitize all external inputs with `sanitize()` + Zod v4 schemas (`src/interface/validation/`).
+  - Return plain DTOs from Use Cases; never leak raw MongoDB documents in HTTP responses.
+  - Validate and sanitize all external inputs (`securityPlugin` calls `sanitize()` on body/query, combined with Elysia TypeBox / Zod v4 validation).
   - Never hardcode secrets, API keys, or credentials in source files, stones, or commits.
 
 ## 3. Testing
 
 - **Backend (`helprest-api`)**:
   - Runner: Bun native test runner (`bun test`), configured via `bunfig.toml` and `tests/setup.ts`.
-  - Unit tests (`tests/unit/`) cover Domain Entities, Value Objects, and `RecommendationService` scoring/Haversine formulas.
-  - Integration tests (`tests/integration/`) cover HTTP routes, use cases, geofencing validation, and repository contracts.
+  - Unit tests (`tests/unit/`) cover Domain Entities, Value Objects, `RecommendationService`, Admin Use Cases, Elysia modules/plugins, and `sanitize` (`bun run api:test:unit`).
+  - Integration tests (`tests/integration/`) cover geofencing, product catalog, and recommendation contracts (`bun run api:test`).
   - Target at least 80% coverage on new or modified Use Cases and Domain Services.
+- **Monorepo Quality Gate**:
+  - Run `bun run typecheck` and `bun run lint` from the repository root before finalizing changes.
 - **API Contract Collection**:
-  - Every new or modified HTTP endpoint in `helprest-api` must be documented with an example request in [`resources/api/api.http`](../resources/api/api.http).
+  - Document new or modified HTTP endpoints in [`resources/api/api.http`](../resources/api/api.http) and OpenAPI annotations on Elysia modules (`/swagger`).
 
 ## 4. Documentation
 

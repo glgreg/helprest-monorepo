@@ -99,7 +99,7 @@ export class MongoEstablishmentRepository implements IEstablishmentRepository {
 
     async update(establishment: Establishment): Promise<void> {
         const doc = establishment.toDocument();
-        const { _id, ...updateData } = doc;
+        const { _id: _, ...updateData } = doc;
         await getEstablishmentsCollection().updateOne(
             { _id: establishment.id },
             { $set: { ...updateData, updatedAt: new Date() } },
@@ -117,5 +117,14 @@ export class MongoEstablishmentRepository implements IEstablishmentRepository {
 
     async count(): Promise<number> {
         return getEstablishmentsCollection().countDocuments();
+    }
+
+    async findTopRated(limit: number): Promise<Establishment[]> {
+        const docs = await getEstablishmentsCollection()
+            .find()
+            .sort({ rating: -1, ratingCount: -1 })
+            .limit(limit)
+            .toArray();
+        return docs.map((doc) => Establishment.fromDocument(doc));
     }
 }

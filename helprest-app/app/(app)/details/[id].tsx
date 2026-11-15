@@ -1,15 +1,13 @@
-import { StyleSheet, Text, View, ActivityIndicator, ScrollView, Pressable, Modal, TouchableOpacity } from "react-native";
+import { StyleSheet, Text, View, ActivityIndicator, ScrollView, Pressable, TouchableOpacity } from "react-native";
 import React, { useEffect, useState, useCallback, useMemo } from "react";
-import { BlurView } from "expo-blur";
 import { Image } from "expo-image";
 import IconCircle from "@/components/ui/IconCircle";
 import { Colors } from "@/constants/Colors";
-import Card from "@/components/ui/Card";
 import StarReview from "@/components/ui/StarReview";
 import MiddleDot from "@/components/atoms/MiddleDot";
 import FlagColoredText from "@/components/ui/FlagColoredText";
 import HeartClicable from "@/components/ui/HeartClicable";
-import { useLocalSearchParams, Link, useRouter } from "expo-router";
+import { useLocalSearchParams, useRouter } from "expo-router";
 import { useQuery } from "@tanstack/react-query";
 import { api } from "@/services/api";
 import { getCurrentPosition } from "@/services/location";
@@ -17,6 +15,7 @@ import { loadUserProfile } from "@/storage/userProfile";
 import { useFavorites } from "@/hooks/queries/useFavorites";
 import ProductBottomSheet from "@/components/ui/ProductBottomSheet";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
+import { queryKeys } from "@/constants/queryKeys";
 
 const PLACEHOLDER_LOGO = require("@/assets/images/icon.png");
 const PLACEHOLDER_BANNER = require("@/assets/images/places/3.jpeg");
@@ -109,7 +108,7 @@ const PlaceDetailsScreen = () => {
     useEffect(() => { resolveLocation(); }, [resolveLocation]);
 
     const { data: est, isPending, error } = useQuery<EstablishmentDetailDTO>({
-        queryKey: ["establishment", actualId],
+        queryKey: queryKeys.establishments.detail(actualId),
         queryFn: async () => {
             if (!actualId) throw new Error("ID não fornecido");
             const res = await api.get<EstablishmentDetailDTO>(

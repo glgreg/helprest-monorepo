@@ -31,7 +31,6 @@ import {
     Text,
     TouchableOpacity,
     ActivityIndicator,
-    Image,
 } from "react-native";
 import MapView, { Marker } from "react-native-maps";
 import { useQuery } from "@tanstack/react-query";
@@ -41,6 +40,7 @@ import { useRouter, useFocusEffect } from "expo-router";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { api } from "@/services/api";
 import { usePermissions } from "@/hooks/usePermissions";
+import { queryKeys } from "@/constants/queryKeys";
 import * as FileSystem from "expo-file-system";
 import * as Crypto from "expo-crypto";
 import {
@@ -265,7 +265,7 @@ export default function HomeScreen() {
 
     // ── Data fetching ──────────────────────────────────────────────────────
     const { data: establishmentsData, isPending, error } = useQuery<EstablishmentsResponse>({
-        queryKey: ["places"],
+        queryKey: queryKeys.establishments.all,
         queryFn: async () => {
             const response = await api.get<EstablishmentsResponse>(
                 "/api/establishments?page=1&limit=50",
@@ -325,7 +325,7 @@ export default function HomeScreen() {
         setLocationReady(true);
     }, [permissions.locationForeground]);
 
-    useEffect(() => { requestLocationPermission(); }, []);
+    useEffect(() => { requestLocationPermission(); }, [requestLocationPermission]);
     useEffect(() => { resolveLocation(); }, [resolveLocation]);
 
     useEffect(() => {

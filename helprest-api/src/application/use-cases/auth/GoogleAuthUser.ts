@@ -45,7 +45,7 @@ export class GoogleAuthUser {
                 audience: clientId,
             });
             payload = result.payload;
-        } catch (error) {
+        } catch {
             throw new UnauthorizedError("Invalid Google ID token");
         }
 
@@ -78,7 +78,6 @@ export class GoogleAuthUser {
                     id: user.id,
                     name: user.name,
                     email: user.email,
-                    passwordHash: user.passwordHash,
                     authProvider: "google",
                     googleId,
                     birthDate: user.birthDate,
@@ -111,6 +110,7 @@ export class GoogleAuthUser {
         const tokens: TokenPair = await generateTokens({
             sub: user.id.toHexString(),
             email: user.email,
+            role: user.role.value,
         });
 
         return {

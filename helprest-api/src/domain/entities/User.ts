@@ -1,16 +1,18 @@
 import { ObjectId } from "mongodb";
 import { Location } from "../value-objects/Location";
 import { SocialLinks } from "../value-objects/SocialLinks";
+import { Role } from "../value-objects/Role";
+import type { RoleType } from "../value-objects/Role";
 import type { LocationProps } from "../value-objects/Location";
 import type { SocialLinksProps } from "../value-objects/SocialLinks";
 
-export type AuthProvider = "local" | "google";
+export type AuthProvider = "google" | "apple";
+export type UserStatus = "active" | "suspended" | "banned";
 
 export interface UserProps {
     id?: ObjectId;
     name: string;
     email: string;
-    passwordHash?: string;
     authProvider: AuthProvider;
     googleId?: string;
     birthDate?: Date;
@@ -19,7 +21,11 @@ export interface UserProps {
     socialLinksEnabled: boolean;
     socialLinks?: SocialLinks;
     profilePhoto?: string;
-    role?: "user" | "establishment";
+    role?: Role | RoleType | string;
+    status?: UserStatus;
+    isBanned?: boolean;
+    banReason?: string | null;
+    bannedAt?: Date | null;
     createdAt?: Date;
     updatedAt?: Date;
 }
@@ -28,7 +34,6 @@ export class User {
     readonly id: ObjectId;
     readonly name: string;
     readonly email: string;
-    readonly passwordHash?: string;
     readonly authProvider: AuthProvider;
     readonly googleId?: string;
     readonly birthDate?: Date;
@@ -37,15 +42,18 @@ export class User {
     readonly socialLinksEnabled: boolean;
     readonly socialLinks?: SocialLinks;
     readonly profilePhoto?: string;
-    readonly role: "user" | "establishment";
+    readonly role: Role;
+    readonly status: UserStatus;
+    readonly isBanned: boolean;
+    readonly banReason: string | null;
+    readonly bannedAt: Date | null;
     readonly createdAt: Date;
     readonly updatedAt: Date;
 
-    private constructor(props: UserProps) {
+    private constructor(props: Omit<UserProps, "role"> & { role: Role }) {
         this.id = props.id ?? new ObjectId();
         this.name = props.name;
         this.email = props.email;
-        this.passwordHash = props.passwordHash;
         this.authProvider = props.authProvider;
         this.googleId = props.googleId;
         this.birthDate = props.birthDate;
@@ -54,7 +62,11 @@ export class User {
         this.socialLinksEnabled = props.socialLinksEnabled;
         this.socialLinks = props.socialLinks;
         this.profilePhoto = props.profilePhoto;
-        this.role = props.role ?? "user";
+        this.role = props.role;
+        this.status = props.status ?? (props.isBanned ? "banned" : "active");
+        this.isBanned = props.isBanned ?? false;
+        this.banReason = props.banReason ?? null;
+        this.bannedAt = props.bannedAt ?? null;
         this.createdAt = props.createdAt ?? new Date();
         this.updatedAt = props.updatedAt ?? new Date();
     }
@@ -62,10 +74,6 @@ export class User {
     static create(props: UserProps): User {
         if (!props.name || !props.email) {
             throw new Error("User requires name and email");
-        }
-
-        if (props.authProvider === "local" && !props.passwordHash) {
-            throw new Error("Local auth users require a passwordHash");
         }
 
         if (props.authProvider === "google" && !props.googleId) {
@@ -77,19 +85,25 @@ export class User {
             throw new Error("Invalid email format");
         }
 
-        return new User(props);
+        const roleInstance = props.role instanceof Role 
+            ? props.role 
+            : Role.create(props.role);
+
+        return new User({
+            ...props,
+            role: roleInstance,
+        });
     }
 
     static fromDocument(doc: Record<string, unknown>): User {
         const locationDoc = doc.location as Record<string, unknown> | undefined;
         const socialLinksDoc = doc.socialLinks as Record<string, unknown> | undefined;
 
-        return new User({
+        return User.create({
             id: doc._id as ObjectId,
             name: doc.name as string,
             email: doc.email as string,
-            passwordHash: doc.passwordHash as string | undefined,
-            authProvider: (doc.authProvider as AuthProvider) ?? "local",
+            authProvider: (doc.authProvider as AuthProvider) ?? "google",
             googleId: doc.googleId as string | undefined,
             birthDate: doc.birthDate
                 ? new Date(doc.birthDate as string | number | Date)
@@ -103,9 +117,60 @@ export class User {
                 ? SocialLinks.create(socialLinksDoc as unknown as SocialLinksProps)
                 : undefined,
             profilePhoto: doc.profilePhoto as string | undefined,
-            role: (doc.role as "user" | "establishment") ?? "user",
+            role: doc.role as string | undefined,
+            status: (doc.status as UserStatus) ?? "active",
+            isBanned: (doc.isBanned as boolean) ?? false,
+            banReason: (doc.banReason as string) ?? null,
+            bannedAt: doc.bannedAt ? new Date(doc.bannedAt as string | number | Date) : null,
             createdAt: doc.createdAt ? new Date(doc.createdAt as string | number | Date) : undefined,
             updatedAt: doc.updatedAt ? new Date(doc.updatedAt as string | number | Date) : undefined,
+        });
+    }
+
+    withRole(role: Role | RoleType | string): User {
+        const newRole = role instanceof Role ? role : Role.create(role);
+        return new User({
+            id: this.id,
+            name: this.name,
+            email: this.email,
+            authProvider: this.authProvider,
+            googleId: this.googleId,
+            birthDate: this.birthDate,
+            flags: [...this.flags],
+            location: this.location,
+            socialLinksEnabled: this.socialLinksEnabled,
+            socialLinks: this.socialLinks,
+            profilePhoto: this.profilePhoto,
+            role: newRole,
+            status: this.status,
+            isBanned: this.isBanned,
+            banReason: this.banReason,
+            bannedAt: this.bannedAt,
+            createdAt: this.createdAt,
+            updatedAt: new Date(),
+        });
+    }
+
+    withBan(isBanned: boolean, reason?: string): User {
+        return new User({
+            id: this.id,
+            name: this.name,
+            email: this.email,
+            authProvider: this.authProvider,
+            googleId: this.googleId,
+            birthDate: this.birthDate,
+            flags: [...this.flags],
+            location: this.location,
+            socialLinksEnabled: this.socialLinksEnabled,
+            socialLinks: this.socialLinks,
+            profilePhoto: this.profilePhoto,
+            role: this.role,
+            status: isBanned ? "banned" : "active",
+            isBanned,
+            banReason: isBanned ? (reason ?? "Banido por administrador") : null,
+            bannedAt: isBanned ? new Date() : null,
+            createdAt: this.createdAt,
+            updatedAt: new Date(),
         });
     }
 
@@ -114,7 +179,6 @@ export class User {
             _id: this.id,
             name: this.name,
             email: this.email,
-            passwordHash: this.passwordHash,
             authProvider: this.authProvider,
             googleId: this.googleId,
             birthDate: this.birthDate,
@@ -139,7 +203,11 @@ export class User {
                 }
                 : undefined,
             profilePhoto: this.profilePhoto,
-            role: this.role,
+            role: this.role.value,
+            status: this.status,
+            isBanned: this.isBanned,
+            banReason: this.banReason,
+            bannedAt: this.bannedAt,
             createdAt: this.createdAt,
             updatedAt: this.updatedAt,
         };

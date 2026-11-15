@@ -17,27 +17,16 @@ GET {{baseUrl}}/health
 Content-Type: application/json
 
 ### ═══════════════════════════════════════════════
-###  AUTH
+###  AUTH (OAuth-Only)
 ### ═══════════════════════════════════════════════
 
-### Register User
-POST {{baseUrl}}/auth/register
+### Google OAuth2 Login
+# @name googleLogin
+POST {{baseUrl}}/auth/google
 Content-Type: application/json
 
 {
-  "name": "Teste User",
-  "email": "teste@email.com",
-  "password": "senha123",
-  "birthDate": "1995-06-15"
-}
-
-### Login
-POST {{baseUrl}}/auth/login
-Content-Type: application/json
-
-{
-  "email": "joao@teste.com",
-  "password": "teste123"
+  "googleIdToken": "PASTE_GOOGLE_ID_TOKEN_HERE"
 }
 
 ### Refresh Token
@@ -46,14 +35,6 @@ Content-Type: application/json
 
 {
   "refreshToken": "PASTE_REFRESH_TOKEN_HERE"
-}
-
-### Google OAuth2 Login
-POST {{baseUrl}}/auth/google
-Content-Type: application/json
-
-{
-  "googleIdToken": "PASTE_GOOGLE_ID_TOKEN_HERE"
 }
 
 ### ═══════════════════════════════════════════════
@@ -91,11 +72,16 @@ Authorization: Bearer {{accessToken}}
 ###  FLAGS
 ### ═══════════════════════════════════════════════
 
-### List All Flags
+### List All Active Flags
 GET {{baseUrl}}/flags
 Content-Type: application/json
 
-### Create Flag
+### List All Flags Including Inactive (Admin)
+GET {{baseUrl}}/flags/admin/all
+Content-Type: application/json
+Authorization: Bearer {{accessToken}}
+
+### Create Flag (Admin)
 POST {{baseUrl}}/flags
 Content-Type: application/json
 Authorization: Bearer {{accessToken}}
@@ -109,17 +95,37 @@ Authorization: Bearer {{accessToken}}
   "textColor": "#FFFFFF"
 }
 
+### Update Flag (Admin)
+PATCH {{baseUrl}}/flags/REPLACE_WITH_FLAG_ID
+Content-Type: application/json
+Authorization: Bearer {{accessToken}}
+
+{
+  "tag": "Zero Açúcar",
+  "isActive": true
+}
+
+### Batch Reorder Flags (Admin)
+PATCH {{baseUrl}}/flags/reorder
+Content-Type: application/json
+Authorization: Bearer {{accessToken}}
+
+{
+  "orders": [
+    { "id": "REPLACE_WITH_FLAG_ID", "order": 1 }
+  ]
+}
+
+### Delete Flag (Admin)
+DELETE {{baseUrl}}/flags/REPLACE_WITH_FLAG_ID
+Authorization: Bearer {{accessToken}}
+
 ### ═══════════════════════════════════════════════
 ###  ESTABLISHMENTS
 ### ═══════════════════════════════════════════════
 
 ### List Establishments
 GET {{baseUrl}}/establishments?page=1&limit=5
-Content-Type: application/json
-Authorization: Bearer {{accessToken}}
-
-### Get Single Establishment
-GET {{baseUrl}}/establishments/REPLACE_WITH_ID
 Content-Type: application/json
 Authorization: Bearer {{accessToken}}
 
@@ -138,7 +144,17 @@ GET {{baseUrl}}/establishments/search?q=vegano&page=1&limit=10
 Content-Type: application/json
 Authorization: Bearer {{accessToken}}
 
-### Create Establishment
+### Get My Managed Establishment (Establishment Admin)
+GET {{baseUrl}}/establishments/my-establishment
+Content-Type: application/json
+Authorization: Bearer {{accessToken}}
+
+### Get Single Establishment
+GET {{baseUrl}}/establishments/REPLACE_WITH_ID
+Content-Type: application/json
+Authorization: Bearer {{accessToken}}
+
+### Create Establishment (Establishment Admin)
 POST {{baseUrl}}/establishments
 Content-Type: application/json
 Authorization: Bearer {{accessToken}}
@@ -157,7 +173,39 @@ Authorization: Bearer {{accessToken}}
 }
 
 ### ═══════════════════════════════════════════════
-###  VISITS
+###  PRODUCTS (Establishment Admin)
+### ═══════════════════════════════════════════════
+
+### Create Product
+POST {{baseUrl}}/products
+Content-Type: application/json
+Authorization: Bearer {{accessToken}}
+
+{
+  "establishmentId": "REPLACE_WITH_ESTABLISHMENT_ID",
+  "name": "Bowl Vegano",
+  "description": "Grão-de-bico, quinoa e legumes assados",
+  "price": 39.9,
+  "ingredients": ["grão-de-bico", "quinoa", "abobrinha"],
+  "flags": []
+}
+
+### Update Product
+PATCH {{baseUrl}}/products/REPLACE_WITH_PRODUCT_ID
+Content-Type: application/json
+Authorization: Bearer {{accessToken}}
+
+{
+  "price": 42.9,
+  "isActive": true
+}
+
+### Delete Product
+DELETE {{baseUrl}}/products/REPLACE_WITH_PRODUCT_ID
+Authorization: Bearer {{accessToken}}
+
+### ═══════════════════════════════════════════════
+###  VISITS & SOCIAL
 ### ═══════════════════════════════════════════════
 
 ### Create Visit
@@ -171,6 +219,15 @@ Authorization: Bearer {{accessToken}}
   "review": "Excelente restaurante! Opções veganas deliciosas."
 }
 
+### Report Visit / Review
+POST {{baseUrl}}/visits/REPLACE_WITH_VISIT_ID/report
+Content-Type: application/json
+Authorization: Bearer {{accessToken}}
+
+{
+  "reason": "Conteúdo impróprio ou ofensivo"
+}
+
 ### List User Visits
 GET {{baseUrl}}/visits/user/REPLACE_WITH_USER_ID?page=1&limit=10
 Content-Type: application/json
@@ -178,5 +235,91 @@ Authorization: Bearer {{accessToken}}
 
 ### List Establishment Visits
 GET {{baseUrl}}/visits/establishment/REPLACE_WITH_ID?page=1&limit=10
+Content-Type: application/json
+Authorization: Bearer {{accessToken}}
+
+### Get Social Feed
+GET {{baseUrl}}/social/feed?lat=-25.429&lng=-49.27&page=1&limit=15
+Content-Type: application/json
+Authorization: Bearer {{accessToken}}
+
+### ═══════════════════════════════════════════════
+###  FAVORITES
+### ═══════════════════════════════════════════════
+
+### Get User Favorites
+GET {{baseUrl}}/favorites
+Content-Type: application/json
+Authorization: Bearer {{accessToken}}
+
+### Add Favorite
+POST {{baseUrl}}/favorites
+Content-Type: application/json
+Authorization: Bearer {{accessToken}}
+
+{
+  "referenceId": "REPLACE_WITH_ID",
+  "type": "establishment"
+}
+
+### Remove Favorite
+DELETE {{baseUrl}}/favorites/REPLACE_WITH_REFERENCE_ID
+Authorization: Bearer {{accessToken}}
+
+### ═══════════════════════════════════════════════
+###  ADMIN (role: admin / superadmin)
+### ═══════════════════════════════════════════════
+
+### Admin Dashboard Metrics
+GET {{baseUrl}}/admin/dashboard
+Content-Type: application/json
+Authorization: Bearer {{accessToken}}
+
+### List Reported Visits
+GET {{baseUrl}}/admin/visits/reported?limit=20&skip=0
+Content-Type: application/json
+Authorization: Bearer {{accessToken}}
+
+### Moderate Reported Visit
+PATCH {{baseUrl}}/admin/visits/REPLACE_WITH_VISIT_ID/moderate
+Content-Type: application/json
+Authorization: Bearer {{accessToken}}
+
+{
+  "isModerated": true,
+  "reason": "Violação dos termos de uso"
+}
+
+### List Users
+GET {{baseUrl}}/admin/users?page=1&limit=20
+Content-Type: application/json
+Authorization: Bearer {{accessToken}}
+
+### Update User Role
+PATCH {{baseUrl}}/admin/users/REPLACE_WITH_USER_ID/role
+Content-Type: application/json
+Authorization: Bearer {{accessToken}}
+
+{
+  "role": "establishment_admin"
+}
+
+### Ban / Unban User
+PATCH {{baseUrl}}/admin/users/REPLACE_WITH_USER_ID/ban
+Content-Type: application/json
+Authorization: Bearer {{accessToken}}
+
+{
+  "isBanned": true,
+  "reason": "Spam recorrente"
+}
+
+### Get User History
+GET {{baseUrl}}/admin/users/REPLACE_WITH_USER_ID/history
+Content-Type: application/json
+Authorization: Bearer {{accessToken}}
+
+### List Admin Audit Logs
+GET {{baseUrl}}/admin/audit-logs?page=1&limit=20
 Content-Type: application/json
 Authorization: Bearer {{accessToken}}

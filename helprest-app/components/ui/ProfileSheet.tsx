@@ -18,6 +18,7 @@ import { api } from "@/services/api";
 import { clearAll } from "@/storage/authTokens";
 import { loadUserProfile, clearUserProfile, type CachedUserProfile } from "@/storage/userProfile";
 import { signOutGoogle } from "@/services/auth";
+import { queryKeys } from "@/constants/queryKeys";
 
 interface FlagItem {
     id: string;
@@ -26,15 +27,6 @@ interface FlagItem {
     textColor: string;
 }
 
-interface VisitsResponse {
-    data: unknown[];
-    pagination: { total: number };
-}
-
-/**
- * Self-contained profile sheet modal.
- * Manages its own visibility and fetches its own data.
- */
 const ProfileSheet: React.FC = () => {
     const router = useRouter();
     const queryClient = useQueryClient();
@@ -53,7 +45,7 @@ const ProfileSheet: React.FC = () => {
                 useNativeDriver: true,
             }).start();
         }
-    }, [visible]);
+    }, [visible, panY]);
 
     const panResponder = React.useRef(
         PanResponder.create({
@@ -88,7 +80,7 @@ const ProfileSheet: React.FC = () => {
 
     // Fetch user flags details
     const { data: allFlags } = useQuery<FlagItem[]>({
-        queryKey: ["flags"],
+        queryKey: queryKeys.flags.all,
         queryFn: async () => {
             const response = await api.get<FlagItem[]>("/api/flags");
             if (!response.ok) return [];
