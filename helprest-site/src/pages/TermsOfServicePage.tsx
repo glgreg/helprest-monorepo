@@ -1,41 +1,39 @@
 import React from 'react';
 import { LegalLayout } from '../components/templates/LegalLayout';
-import { FileText, AlertTriangle, ShieldCheck, Scale, CheckCircle2, Users } from 'lucide-react';
+import { Link } from '../router';
 
 export const TermsOfServicePage: React.FC = () => {
   return (
     <LegalLayout
       title="Termos de Uso e Diretrizes da Comunidade"
-      subtitle="Condições que regem o uso do aplicativo HelpRest (com.gustavo_lg.helprest), responsabilidades dos estabelecimentos parceiros e regras de conteúdo gerado por usuários."
+      subtitle="Condições que regem o uso do aplicativo HelpRest (com.helprest), responsabilidades dos estabelecimentos parceiros, regras de conteúdo gerado por usuários e padrões de segurança infantil."
       lastUpdated="Novembro de 2026"
     >
-      <div className="tonal-surface p-4 sm:p-5 rounded-2xl bg-[#F4F6F5] flex items-start gap-3">
-        <Scale className="w-5 h-5 text-[#007677] flex-shrink-0 mt-0.5" aria-hidden="true" />
-        <div className="text-xs sm:text-sm text-[#3A413F] leading-relaxed">
-          Ao instalar ou usar o aplicativo <strong className="text-[#181C1B]">HelpRest</strong> ou suas páginas web associadas, operados por <strong className="text-[#181C1B]">Gustavo L. Gregorio</strong>, você concorda integralmente com estes Termos de Uso e com a{' '}
-          <strong className="text-[#181C1B]">Política de Privacidade</strong>. Para criar uma conta pessoal é necessário ter ao menos <strong className="text-[#181C1B]">13 anos de idade</strong>.
-        </div>
-      </div>
+      <p className="text-sm sm:text-base text-[#11181C] font-medium leading-relaxed">
+        Ao instalar ou usar o aplicativo HelpRest ou suas páginas web associadas, operados por Gustavo L. Gregorio, você concorda integralmente com estes Termos de Uso e com a{' '}
+        <Link to="/privacidade" className="text-[#00797A] font-semibold hover:underline">
+          Política de Privacidade
+        </Link>
+        . Para criar uma conta pessoal é necessário ter ao menos <strong className="font-bold">13 anos de idade</strong>.
+      </p>
 
       <section className="space-y-3">
-        <h2 className="text-lg sm:text-xl font-bold text-[#181C1B] flex items-center gap-2">
-          <FileText className="w-5 h-5 text-[#007677]" aria-hidden="true" />
-          <span>1. Natureza Informativa do Serviço</span>
+        <h2 className="font-display text-lg sm:text-xl font-bold text-[#11181C]">
+          1. Natureza Informativa do Serviço
         </h2>
         <p>
           O HelpRest é uma ferramenta digital de busca gastronômica, filtro por flags de restrição alimentar e compartilhamento comunitário de experiências de visita presencial.
         </p>
         <p>
-          O aplicativo <strong className="text-[#181C1B]">não prepara, não vende e não realiza entregas de alimentos</strong>. A responsabilidade sanitária, nutricional e legal pela produção e manipulação dos alimentos ofertados é exclusivamente de cada estabelecimento comercial listado.
+          O aplicativo <strong className="text-[#11181C]">não prepara, não vende e não realiza entregas de alimentos</strong>. A responsabilidade sanitária, nutricional e legal pela produção e manipulação dos alimentos ofertados é exclusivamente de cada estabelecimento comercial listado.
         </p>
       </section>
 
       <section className="space-y-3">
-        <h2 className="text-lg sm:text-xl font-bold text-[#181C1B] flex items-center gap-2">
-          <AlertTriangle className="w-5 h-5 text-[#B42318]" aria-hidden="true" />
-          <span>2. Alergias Severas e Segurança Alimentar</span>
+        <h2 className="font-display text-lg sm:text-xl font-bold text-[#11181C]">
+          2. Alergias Severas e Segurança Alimentar
         </h2>
-        <div className="tonal-surface bg-[#FDF1EF] border-s-4 border-[#B42318] rounded-2xl p-4 sm:p-5 text-xs sm:text-sm text-[#7A271A] space-y-2">
+        <div className="tonal-surface bg-[#FDF1EF] border-s-[3px] border-[#B42318] rounded-e-2xl px-5 py-4 sm:px-6 sm:py-5 text-xs sm:text-sm text-[#7A271A]">
           <p>
             O HelpRest apoia a escolha cotidiana de locais, mas não substitui consulta médica nem garantia verbal direta do restaurante. Pessoas com risco de anafilaxia, alergias graves ou alta sensibilidade devem sempre confirmar ingredientes e riscos de contaminação cruzada com a cozinha antes do pedido.
           </p>
@@ -43,11 +41,10 @@ export const TermsOfServicePage: React.FC = () => {
       </section>
 
       <section className="space-y-3">
-        <h2 className="text-lg sm:text-xl font-bold text-[#181C1B] flex items-center gap-2">
-          <ShieldCheck className="w-5 h-5 text-[#007677]" aria-hidden="true" />
-          <span>3. Cadastro de Consumidores e Estabelecimentos</span>
+        <h2 className="font-display text-lg sm:text-xl font-bold text-[#11181C]">
+          3. Cadastro de Consumidores e Estabelecimentos
         </h2>
-        <ul className="list-disc ps-6 space-y-1.5 text-xs sm:text-sm text-[#3A413F]">
+        <ul className="list-disc ps-6 space-y-1.5 text-xs sm:text-sm text-[#3F454A]">
           <li>
             O usuário compromete-se a fornecer informações verídicas e zelar pelas credenciais de acesso;
           </li>
@@ -61,37 +58,67 @@ export const TermsOfServicePage: React.FC = () => {
       </section>
 
       <section className="space-y-3">
-        <h2 className="text-lg sm:text-xl font-bold text-[#181C1B] flex items-center gap-2">
-          <Users className="w-5 h-5 text-[#007677]" aria-hidden="true" />
-          <span>4. Conteúdo Gerado pelo Usuário (UGC), Geofencing 100m e Moderação</span>
+        <h2 className="font-display text-lg sm:text-xl font-bold text-[#11181C]">
+          4. Conteúdo Gerado pelo Usuário (UGC), Geofencing 100m e Moderação
         </h2>
         <p>
           O Feed Social e os comentários de visita permitem a publicação de textos e fotos enviados pelos usuários, sob as seguintes regras obrigatórias de comunidade (Google Play UGC Policy):
         </p>
-        <ul className="list-disc ps-6 space-y-1.5 text-xs sm:text-sm text-[#3A413F]">
+        <ul className="list-disc ps-6 space-y-1.5 text-xs sm:text-sm text-[#3F454A]">
           <li>
-            <strong className="text-[#181C1B]">Verificação em 100 metros:</strong> o registro oficial de visita exige confirmação por GPS dentro de 100m do estabelecimento para coibir avaliações falsas ou spam;
+            <strong className="text-[#11181C]">Verificação em 100 metros:</strong> o registro oficial de visita exige confirmação por GPS dentro de 100m do estabelecimento para coibir avaliações falsas ou spam;
           </li>
           <li>
-            <strong className="text-[#181C1B]">Conteúdo estritamente proibido:</strong> discursos de ódio, assédio, nudez, violência, dados pessoais de terceiros, difamação gratuita, publicidade enganosa ou qualquer tentativa de manipulação de coordenadas GPS;
+            <strong className="text-[#11181C]">Conteúdo estritamente proibido:</strong> discursos de ódio, assédio, nudez, violência, dados pessoais de terceiros, difamação gratuita, publicidade enganosa ou qualquer tentativa de manipulação de coordenadas GPS;
           </li>
           <li>
-            <strong className="text-[#181C1B]">Canal de Denúncia & Moderação:</strong> qualquer usuário pode reportar avaliações, fotos ou informações de cardápio inconsistentes pelo e-mail{' '}
-            <a href="mailto:suporte@helprest.com" className="text-[#00696A] font-semibold hover:underline">
-              suporte@helprest.com
+            <strong className="text-[#11181C]">Canal de Denúncia &amp; Moderação:</strong> qualquer usuário pode reportar avaliações, fotos, perfis abusivos ou informações de cardápio inconsistentes pelo e-mail{' '}
+            <a href="mailto:suporte@helprest.net" className="text-[#00797A] font-semibold hover:underline">
+              suporte@helprest.net
             </a>
             . Denúncias são analisadas com remoção do conteúdo abusivo e suspensão ou banimento da conta infratora.
           </li>
         </ul>
       </section>
 
+      <section id="seguranca-infantil" className="space-y-3 scroll-mt-24">
+        <h2 className="font-display text-lg sm:text-xl font-bold text-[#11181C]">
+          5. Padrões de Segurança Infantil (CSAE / CSAM)
+        </h2>
+        <div className="tonal-surface rounded-e-2xl bg-[#EFFBFB] border-s-[3px] border-[#009C9D] px-5 py-4 sm:px-6 sm:py-5 space-y-2 text-xs sm:text-sm text-[#3F454A]">
+          <p>
+            O aplicativo <strong className="text-[#11181C]">HelpRest</strong> (pacote Android{' '}
+            <code className="font-mono text-[0.875em] font-medium text-[#11181C]">com.helprest</code>) adota política pública de{' '}
+            <strong className="text-[#11181C]">tolerância zero</strong> contra qualquer forma de Abuso e Exploração Sexual Infantil (CSAE) e Material de Abuso Sexual Infantil (CSAM), em conformidade com os Padrões de Segurança Infantil do Google Play.
+          </p>
+          <ul className="list-disc ps-5 space-y-1.5">
+            <li>
+              <strong className="text-[#11181C]">Proibição absoluta e bloqueio imediato:</strong> qualquer publicação, comentário, imagem de refeição, avatar ou contato que envolva exploração sexual, aliciamento, sexualização ou exposição indevida de menores resulta em remoção imediata e banimento permanente e irreversível da conta infratora.
+            </li>
+            <li>
+              <strong className="text-[#11181C]">Notificação compulsória às autoridades:</strong> todo indício confirmado de CSAM/CSAE é reportado prontamente às autoridades competentes nacionais e internacionais (Polícia Civil, Polícia Federal, SaferNet Brasil e NCMEC, conforme a legislação aplicável) com preservação dos registros técnicos exigidos por lei.
+            </li>
+            <li>
+              <strong className="text-[#11181C]">Ponto de contato designado para Segurança Infantil:</strong> denúncias urgentes sobre segurança de menores ou conteúdo suspeito na comunidade devem ser enviadas para{' '}
+              <a href="mailto:suporte@helprest.net" className="text-[#00797A] font-semibold hover:underline">
+                suporte@helprest.net
+              </a>{' '}
+              (cópia ao Encarregado/DPO em{' '}
+              <a href="mailto:privacidade@helprest.net" className="text-[#00797A] font-semibold hover:underline">
+                privacidade@helprest.net
+              </a>
+              ), com prioridade máxima de análise.
+            </li>
+          </ul>
+        </div>
+      </section>
+
       <section className="space-y-3">
-        <h2 className="text-lg sm:text-xl font-bold text-[#181C1B] flex items-center gap-2">
-          <CheckCircle2 className="w-5 h-5 text-[#007677]" aria-hidden="true" />
-          <span>5. Propriedade Intelectual e Foro</span>
+        <h2 className="font-display text-lg sm:text-xl font-bold text-[#11181C]">
+          6. Propriedade Intelectual e Foro
         </h2>
         <p>
-          A marca HelpRest, interface, código-fonte e organização visual são protegidos por direitos autorais sob titularidade do desenvolvedor <strong className="text-[#181C1B]">Gustavo L. Gregorio</strong>. Estes Termos são regidos pelas leis da República Federativa do Brasil, elegendo-se o Foro da Comarca de <strong className="text-[#181C1B]">Curitiba, Estado do Paraná</strong>, salvo disposições protetivas de foro do consumidor aplicáveis.
+          A marca HelpRest, interface, código-fonte e organização visual são protegidos por direitos autorais sob titularidade do desenvolvedor <strong className="text-[#11181C]">Gustavo L. Gregorio</strong>. Estes Termos são regidos pelas leis da República Federativa do Brasil, elegendo-se o Foro da Comarca de <strong className="text-[#11181C]">Curitiba, Estado do Paraná</strong>, salvo disposições protetivas de foro do consumidor aplicáveis.
         </p>
       </section>
     </LegalLayout>

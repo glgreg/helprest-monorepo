@@ -1,7 +1,7 @@
 import React, { useId } from 'react';
 import { LegalLayout } from '../components/templates/LegalLayout';
 import { DATA_SAFETY_DECLARATIONS } from '../data/dataSafety';
-import { ShieldCheck, Lock, CheckCircle2, FileCheck2, MapPin, Smartphone } from 'lucide-react';
+import { Lock, CheckCircle2, MapPin } from 'lucide-react';
 import { Link } from '../router';
 
 export const DataSafetyPage: React.FC = () => {
@@ -33,46 +33,43 @@ export const DataSafetyPage: React.FC = () => {
   return (
     <LegalLayout
       title="Segurança dos Dados (Data Safety)"
-      subtitle="Espelho público das práticas de coleta, permissões do pacote Android com.gustavo_lg.helprest, criptografia e SDKs declarados ao Google Play Console."
+      subtitle="Espelho público das práticas de coleta, permissões do pacote Android com.helprest, criptografia e SDKs declarados ao Google Play Console."
       lastUpdated="Novembro de 2026"
     >
-      <div className="tonal-surface p-4 sm:p-5 rounded-2xl bg-[#F4F6F5] flex items-start gap-3">
-        <FileCheck2 className="w-5 h-5 text-[#007677] flex-shrink-0 mt-0.5" aria-hidden="true" />
-        <div className="text-xs sm:text-sm text-[#181C1B] leading-relaxed">
-          <strong>Transparência Google Play Data Safety:</strong> Este documento detalha todos os tipos de dados coletados pelo aplicativo <strong>HelpRest</strong>, quais permissões do Android dão origem à coleta, os parceiros técnicos de infraestrutura e as garantias de criptografia e exclusão.
-        </div>
-      </div>
+      <p className="text-sm sm:text-base text-[#11181C] font-medium leading-relaxed">
+        Este documento espelha integralmente as respostas enviadas ao formulário Data Safety do Google Play Console para o aplicativo HelpRest, detalhando coleta, compartilhamento técnico e controles do usuário.
+      </p>
 
       {/* Prominent Background Location Summary */}
-      <div className="tonal-surface p-4 sm:p-5 rounded-2xl bg-[#E9F3F2] border-s-4 border-[#007677] flex items-start gap-3">
-        <MapPin className="w-5 h-5 text-[#007677] flex-shrink-0 mt-0.5" aria-hidden="true" />
-        <div className="text-xs sm:text-sm text-[#3A413F] leading-relaxed">
-          <strong className="text-[#181C1B]">Localização em Segundo Plano:</strong> A permissão de localização em segundo plano é opcional, ativada apenas mediante escolha expressa de <em>“Permitir o tempo todo”</em>, exibe notificação constante na barra do Android e nunca armazena histórico contínuo de trajetos em nossos bancos de dados.
+      <div className="tonal-surface rounded-e-2xl bg-[#EFFBFB] border-s-[3px] border-[#009C9D] px-5 py-4 sm:px-6 sm:py-5 flex items-start gap-3">
+        <MapPin className="w-5 h-5 text-[#00797A] flex-shrink-0 mt-0.5" aria-hidden="true" />
+        <div className="text-xs sm:text-sm text-[#3F454A] leading-relaxed">
+          <strong className="text-[#11181C]">Localização em Segundo Plano:</strong> A permissão de localização em segundo plano é opcional, ativada apenas mediante escolha expressa de <em>“Permitir o tempo todo”</em>, exibe notificação constante na barra do Android e nunca armazena histórico contínuo de trajetos em nossos bancos de dados.
         </div>
       </div>
 
       {/* Highlights */}
       <section className="space-y-4">
-        <h2 className="text-lg sm:text-xl font-bold text-[#181C1B]">
+        <h2 className="font-display text-lg sm:text-xl font-bold text-[#11181C]">
           Resumo das Práticas Declaradas
         </h2>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
-          <div className="tonal-surface p-4 rounded-2xl bg-[#F4F6F5] flex items-start gap-3">
-            <CheckCircle2 className="w-5 h-5 text-[#007677] flex-shrink-0 mt-0.5" aria-hidden="true" />
+          <div className="tonal-surface p-4 sm:p-5 rounded-2xl bg-[#F7F7F8] flex items-start gap-3">
+            <CheckCircle2 className="w-5 h-5 text-[#009C9D] flex-shrink-0 mt-0.5" aria-hidden="true" />
             <div className="text-xs sm:text-sm">
-              <strong className="text-[#181C1B] block font-bold">Criptografia em Trânsito</strong>
-              <span className="text-[#525B58]">Comunicações sobre HTTPS / TLS 1.3 com hashing Argon2id para senhas.</span>
+              <strong className="text-[#11181C] block font-bold">Criptografia em Trânsito</strong>
+              <span className="text-[#596168]">Comunicações sobre HTTPS / TLS 1.3 com hashing Argon2id para senhas.</span>
             </div>
           </div>
 
-          <div className="tonal-surface p-4 rounded-2xl bg-[#F4F6F5] flex items-start gap-3">
-            <CheckCircle2 className="w-5 h-5 text-[#007677] flex-shrink-0 mt-0.5" aria-hidden="true" />
+          <div className="tonal-surface p-4 sm:p-5 rounded-2xl bg-[#F7F7F8] flex items-start gap-3">
+            <CheckCircle2 className="w-5 h-5 text-[#009C9D] flex-shrink-0 mt-0.5" aria-hidden="true" />
             <div className="text-xs sm:text-sm">
-              <strong className="text-[#181C1B] block font-bold">Solicitação de Exclusão na Web</strong>
-              <span className="text-[#525B58]">
+              <strong className="text-[#11181C] block font-bold">Solicitação de Exclusão na Web</strong>
+              <span className="text-[#596168]">
                 Canal público em{' '}
-                <Link to="/exclusao-de-dados" className="text-[#00696A] font-semibold hover:underline">
+                <Link to="/exclusao-de-dados" className="text-[#00797A] font-semibold hover:underline">
                   /exclusao-de-dados
                 </Link>{' '}
                 com prazo de até 30 dias.
@@ -80,65 +77,59 @@ export const DataSafetyPage: React.FC = () => {
             </div>
           </div>
 
-          <div className="tonal-surface p-4 rounded-2xl bg-[#F4F6F5] flex items-start gap-3">
-            <CheckCircle2 className="w-5 h-5 text-[#007677] flex-shrink-0 mt-0.5" aria-hidden="true" />
+          <div className="tonal-surface p-4 sm:p-5 rounded-2xl bg-[#F7F7F8] flex items-start gap-3">
+            <CheckCircle2 className="w-5 h-5 text-[#009C9D] flex-shrink-0 mt-0.5" aria-hidden="true" />
             <div className="text-xs sm:text-sm">
-              <strong className="text-[#181C1B] block font-bold">Sem Venda de Dados ou Anúncios</strong>
-              <span className="text-[#525B58]">Nenhum dado é vendido a terceiros ou usado por redes de publicidade.</span>
+              <strong className="text-[#11181C] block font-bold">Sem Redes de Anúncios ou Venda</strong>
+              <span className="text-[#596168]">Zero SDKs publicitários de terceiros e nenhuma comercialização de dados.</span>
             </div>
           </div>
 
-          <div className="tonal-surface p-4 rounded-2xl bg-[#F4F6F5] flex items-start gap-3">
-            <CheckCircle2 className="w-5 h-5 text-[#007677] flex-shrink-0 mt-0.5" aria-hidden="true" />
+          <div className="tonal-surface p-4 sm:p-5 rounded-2xl bg-[#F7F7F8] flex items-start gap-3">
+            <CheckCircle2 className="w-5 h-5 text-[#009C9D] flex-shrink-0 mt-0.5" aria-hidden="true" />
             <div className="text-xs sm:text-sm">
-              <strong className="text-[#181C1B] block font-bold">SDKs Limitados ao Essencial</strong>
-              <span className="text-[#525B58]">Apenas Google Maps Platform e Google Sign-In OAuth2.</span>
+              <strong className="text-[#11181C] block font-bold">SDKs &amp; Escopo Restritos</strong>
+              <span className="text-[#596168]">Apenas Google Maps Platform e Google Sign-In OAuth2; sem coleta financeira.</span>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Collected Data List */}
+      {/* Collected Data Catalog — Editorial Divided Layout */}
       <section className="space-y-4 pt-2">
-        <h2 className="text-lg sm:text-xl font-bold text-[#181C1B]">
+        <h2 className="font-display text-lg sm:text-xl font-bold text-[#11181C]">
           Catálogo de Dados Coletados e Retenção
         </h2>
 
-        <div className="space-y-3.5">
+        <div className="divide-y divide-[#E6E8EB] border-t border-b border-[#E6E8EB]">
           {DATA_SAFETY_DECLARATIONS.map((item) => (
-            <div
-              key={item.id}
-              className="tonal-surface rounded-2xl p-4 sm:p-5 bg-[#F4F6F5] space-y-2.5"
-            >
-              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
-                <h3 className="font-bold text-[#181C1B] text-sm sm:text-base flex items-center gap-2">
-                  <ShieldCheck className="w-4 h-4 text-[#007677] flex-shrink-0" aria-hidden="true" />
-                  <span>{item.dataType}</span>
-                </h3>
-                <span className="text-xs font-semibold px-2.5 py-1 rounded-full bg-white text-[#00696A] w-fit">
+            <div key={item.id} className="py-5 space-y-2.5">
+              <div className="flex flex-col sm:flex-row sm:items-baseline justify-between gap-1.5">
+                <h3 className="font-bold text-[#11181C] text-sm sm:text-base">{item.dataType}</h3>
+                <span className="text-xs font-semibold text-[#00797A] flex-shrink-0">
                   {item.optionalOrRequired}
                 </span>
               </div>
 
               {item.androidPermission && (
-                <div className="font-mono text-xs text-[#525B58]">
-                  Origem: <span className="text-[#181C1B] font-medium">{item.androidPermission}</span>
+                <div className="font-mono text-xs text-[#596168]">
+                  Origem: <span className="text-[#11181C] font-medium">{item.androidPermission}</span>
                 </div>
               )}
 
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-3 text-xs sm:text-sm text-[#3A413F] pt-1">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-3 text-xs sm:text-sm text-[#3F454A] pt-0.5">
                 <div>
-                  <strong className="text-[#181C1B] block mb-0.5">Finalidade:</strong>
+                  <strong className="text-[#11181C] block mb-0.5">Finalidade:</strong>
                   {item.purpose}
                 </div>
                 <div>
-                  <strong className="text-[#181C1B] block mb-0.5">Retenção:</strong>
+                  <strong className="text-[#11181C] block mb-0.5">Retenção:</strong>
                   {item.retention}
                 </div>
               </div>
 
-              <div className="flex flex-wrap items-center gap-2 pt-2 text-xs text-[#525B58]">
-                <Lock className="w-3.5 h-3.5 text-[#007677] flex-shrink-0" aria-hidden="true" />
+              <div className="flex items-start gap-2 pt-1 text-xs text-[#596168]">
+                <Lock className="w-3.5 h-3.5 text-[#009C9D] flex-shrink-0 mt-0.5" aria-hidden="true" />
                 <span>{item.securityMechanism}</span>
               </div>
             </div>
@@ -148,9 +139,8 @@ export const DataSafetyPage: React.FC = () => {
 
       {/* Android Permissions Matrix */}
       <section className="space-y-3 pt-2">
-        <h2 className="text-lg sm:text-xl font-bold text-[#181C1B] flex items-center gap-2">
-          <Smartphone className="w-5 h-5 text-[#007677]" aria-hidden="true" />
-          <span>Matriz de Permissões do Aplicativo Android</span>
+        <h2 className="font-display text-lg sm:text-xl font-bold text-[#11181C]">
+          Matriz de Permissões do Aplicativo Android
         </h2>
         <div
           tabIndex={0}
@@ -171,7 +161,7 @@ export const DataSafetyPage: React.FC = () => {
               Matriz de permissões do aplicativo Android, controle do usuário e finalidade prática
             </caption>
             <thead>
-              <tr className="bg-[#EDF1EF] text-[#181C1B]">
+              <tr className="bg-[#F1F2F4] text-[#11181C]">
                 <th scope="col" className="py-3 px-4 font-semibold text-start rounded-ts-2xl">
                   Permissão declarada
                 </th>
@@ -183,12 +173,12 @@ export const DataSafetyPage: React.FC = () => {
                 </th>
               </tr>
             </thead>
-            <tbody className="text-[#3A413F]">
+            <tbody className="text-[#3F454A]">
               {androidPermissions.map((row) => (
                 <tr key={row.perm}>
                   <th
                     scope="row"
-                    className="py-3 px-4 font-mono text-xs font-semibold text-[#00696A]"
+                    className="py-3 px-4 font-mono text-xs font-semibold text-[#00797A]"
                   >
                     {row.perm}
                   </th>
@@ -201,13 +191,17 @@ export const DataSafetyPage: React.FC = () => {
         </div>
       </section>
 
-      {/* Age & Rating */}
+      {/* Age, Category & Declarations */}
       <section className="space-y-2 pt-2">
-        <h2 className="text-lg font-bold text-[#181C1B]">
-          Faixa Etária e Conteúdo
+        <h2 className="font-display text-lg font-bold text-[#11181C]">
+          Faixa Etária, Categoria e Declarações de Plataforma
         </h2>
-        <p className="text-xs sm:text-sm text-[#3A413F]">
-          Aplicativo classificado para público geral sem violência ou jogos de azar, com exigência de idade mínima de <strong className="text-[#181C1B]">13 anos</strong> para cadastro de conta individual.
+        <p className="text-xs sm:text-sm text-[#3F454A]">
+          Aplicativo independente privado (não vinculado a entidade governamental) na categoria de gastronomia (<em>Comer e beber</em>), classificado para público geral com idade mínima de <strong className="text-[#11181C]">13 anos</strong> para cadastro de conta individual e conformidade integral com os{' '}
+          <Link to="/termos#seguranca-infantil" className="text-[#00797A] font-semibold hover:underline">
+            Padrões de Segurança Infantil (CSAE/CSAM)
+          </Link>
+          .
         </p>
       </section>
     </LegalLayout>
