@@ -1,6 +1,6 @@
 # HelpRest Monorepo — Software Architecture & Orchestration Guide
 
-Platform for discovering establishments based on dietary restrictions and accessibility requirements. Built as a monorepo containing a Bun/ElysiaJS REST API, an Expo React Native mobile application, and a Vite React web portal.
+Platform for discovering establishments based on dietary restrictions and accessibility requirements. Built as a monorepo containing a Bun/ElysiaJS REST API, an Expo React Native mobile application, and a Next.js SSG web portal.
 
 ---
 
@@ -10,7 +10,7 @@ Platform for discovering establishments based on dietary restrictions and access
 helprest-monorepo/
 ├── helprest-api/      # Backend — Bun runtime + ElysiaJS + TypeScript (Clean Architecture + DDD)
 ├── helprest-app/      # Mobile — React Native 0.79 + Expo SDK 53 (Expo Router v5)
-├── helprest-site/     # Web — Vite 6 + React 19 + Tailwind CSS v4 (Landing & Google Play compliance)
+├── helprest-site/     # Web — Next.js 16 (App Router SSG) + React 19 + Tailwind CSS v4 (Landing, LGPD & Google Play compliance)
 ├── .keystone/         # Architectural context & module stones (.stone.*.md)
 ├── resources/         # Canonical documentation, API tests, assets & roadmap
 ├── docker-compose.yml     # Local Development Infrastructure (MongoDB + Redis + API)
@@ -171,11 +171,12 @@ bun run lint         # Expo lint
 ### `helprest-site/`
 ```bash
 cd helprest-site
-npm install          # Install Vite/React web dependencies
-npm run dev          # Start Vite dev server
-npm run build        # TypeScript check (tsc -b) + Vite production build
-npm run lint         # ESLint check
-npm run preview      # Preview production bundle
+npm install          # Install Next.js/React web dependencies
+npm run dev          # Start Next.js Turbopack dev server
+npm run typecheck    # TypeScript strict check (tsc --noEmit)
+npm run lint         # Next ESLint check
+npm run build        # Generate static HTML export (out/)
+npm run preview      # Serve static out/ directory locally
 ```
 
 ---
