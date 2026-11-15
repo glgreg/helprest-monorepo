@@ -7,9 +7,9 @@
 
   /* Exact HelpRest brand cyan-teal + warm optimistic accents */
   --color-brand: #009C9D;
-  --color-brand-hover: #1BA6A7;
+  --color-brand-hover: #008A8B;
   --color-brand-text: #00797A;
-  --color-brand-ink-on-fill: #09181A;
+  --color-brand-ink-on-fill: #FFFFFF;
   --color-brand-tint: #EFFBFB;
   --color-brand-container: #D8F3F3;
 
@@ -52,7 +52,7 @@
 
   ::selection {
     background-color: var(--color-brand-container);
-    color: var(--color-brand-ink-on-fill);
+    color: var(--color-ink);
   }
 
   h1,

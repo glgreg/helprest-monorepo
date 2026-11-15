@@ -176,7 +176,7 @@ export const GooglePlayComplianceHub: React.FC = () => {
                   onClick={() => setActiveTabId(tab.id)}
                   className={`flex items-center gap-2 px-4 py-2.5 min-h-[44px] rounded-2xl text-xs sm:text-sm whitespace-nowrap transition-colors cursor-pointer ${
                     isActive
-                      ? 'bg-[#009C9D] text-[#09181A] font-semibold'
+                      ? 'bg-[#009C9D] text-white font-semibold'
                       : 'text-[#3F454A] hover:text-[#11181C] hover:bg-[#F1F2F4] font-medium'
                   }`}
                 >

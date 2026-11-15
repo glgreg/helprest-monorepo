@@ -103,7 +103,7 @@ export const DeleteAccountForm: React.FC = () => {
           {liveStatus}
         </div>
         <div className="flex items-start gap-3">
-          <div className="w-10 h-10 bg-[#009C9D] text-[#09181A] rounded-full flex items-center justify-center flex-shrink-0">
+          <div className="w-10 h-10 bg-[#009C9D] text-white rounded-full flex items-center justify-center flex-shrink-0">
             <CheckCircle2 className="w-5 h-5" aria-hidden="true" />
           </div>
           <div className="space-y-1">

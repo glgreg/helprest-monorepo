@@ -26,7 +26,7 @@ export function getButtonClasses({
   };
 
   const variantStyles: Record<ButtonVariant, string> = {
-    primary: 'bg-[#009C9D] text-[#09181A] hover:bg-[#1BA6A7] font-semibold',
+    primary: 'bg-[#009C9D] text-white hover:bg-[#008A8B] font-semibold',
     secondary: 'bg-[#11181C] text-white hover:bg-[#222B31] font-semibold',
     outline:
       'tonal-surface bg-[#F1F2F4] text-[#11181C] hover:bg-[#E6E8EB] hover:text-[#00797A]',

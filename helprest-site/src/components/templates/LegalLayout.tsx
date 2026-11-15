@@ -32,7 +32,7 @@ export const LegalLayout: React.FC<LegalLayoutProps> = ({
     <div className="min-h-screen flex flex-col bg-[#F7F7F8] text-[#11181C] font-sans">
       <a
         href="#main-content"
-        className="visually-hidden fixed top-3 start-3 z-50 rounded-full bg-[#009C9D] px-4 py-2.5 text-sm font-semibold text-[#09181A] shadow-lg"
+        className="visually-hidden fixed top-3 start-3 z-50 rounded-full bg-[#009C9D] px-4 py-2.5 text-sm font-semibold text-white shadow-lg"
       >
         Ir para o conteúdo principal
       </a>
@@ -102,7 +102,7 @@ export const LegalLayout: React.FC<LegalLayoutProps> = ({
                             aria-current={isActive ? 'page' : undefined}
                             className={`flex items-center px-3.5 py-2.5 min-h-[44px] text-sm transition-colors ${
                               isActive
-                                ? 'border-s-[3px] border-[#009C9D] bg-[#EFFBFB] text-[#09181A] font-semibold rounded-e-xl'
+                                ? 'border-s-[3px] border-[#009C9D] bg-[#EFFBFB] text-[#00797A] font-semibold rounded-e-xl'
                                 : 'border-s-[3px] border-transparent text-[#3F454A] hover:bg-[#F7F7F8] hover:text-[#11181C] font-medium rounded-xl'
                             }`}
                           >
