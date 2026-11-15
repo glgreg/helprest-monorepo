@@ -15,20 +15,20 @@ export const DownloadCtaSection: React.FC<DownloadCtaSectionProps> = ({
   const handleOpenModal = onOpenDownloadModal || openGlobalModal;
 
   return (
-    <section className="py-16 sm:py-20 bg-[#009C9D] text-white">
-      <Container size="md">
-        <div className="text-center space-y-6">
+    <section className="py-16 sm:py-20 bg-white">
+      <Container size="lg">
+        <div className="tonal-surface surface-deep rounded-[32px] bg-[#0A4E50] text-white px-6 py-12 sm:px-12 sm:py-16 text-center space-y-6 shadow-[0_24px_60px_-16px_rgba(10,78,80,0.32)]">
           <img
             src="/assets/logos/logo_bare.png"
             alt="HelpRest"
             className="w-16 h-16 object-contain mx-auto"
           />
 
-          <h2 className="text-3xl sm:text-4xl font-bold tracking-tight text-white">
+          <h2 className="text-3xl sm:text-4xl font-bold tracking-tight text-white max-w-2xl mx-auto leading-tight">
             Encontre opções compatíveis perto de você
           </h2>
 
-          <p className="text-base sm:text-lg text-white/90 max-w-xl mx-auto leading-relaxed">
+          <p className="text-base sm:text-lg text-[#E3F3F2] max-w-xl mx-auto leading-relaxed">
             Configure suas flags alimentares uma vez e descubra restaurantes, pratos separados e avaliações confirmadas por GPS sempre que sair para comer.
           </p>
 
@@ -37,18 +37,18 @@ export const DownloadCtaSection: React.FC<DownloadCtaSectionProps> = ({
             <StoreBadge platform="app-store" tone="light" />
           </div>
 
-          <div className="pt-2 flex flex-wrap items-center justify-center gap-5 text-xs text-white/90">
+          <div className="pt-2 flex flex-wrap items-center justify-center gap-6 text-xs text-[#E3F3F2]">
             <span className="inline-flex items-center gap-1.5">
-              <CheckCircle2 className="w-4 h-4 text-[#F7CC33]" />
-              Gratuito no Android
+              <CheckCircle2 className="w-4 h-4 text-[#9CE2E0]" aria-hidden="true" />
+              <span>Gratuito no Android</span>
             </span>
             <span className="inline-flex items-center gap-1.5">
-              <CheckCircle2 className="w-4 h-4 text-[#F7CC33]" />
-              Zero anúncios invasivos
+              <CheckCircle2 className="w-4 h-4 text-[#9CE2E0]" aria-hidden="true" />
+              <span>Zero anúncios invasivos</span>
             </span>
             <span className="inline-flex items-center gap-1.5">
-              <CheckCircle2 className="w-4 h-4 text-[#F7CC33]" />
-              Políticas de dados transparentes
+              <CheckCircle2 className="w-4 h-4 text-[#9CE2E0]" aria-hidden="true" />
+              <span>Políticas de dados transparentes</span>
             </span>
           </div>
         </div>

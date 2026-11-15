@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useEffect, useId, useRef, useState } from 'react';
 import { BrandLogo } from '../atoms/BrandLogo';
 import { Button } from '../atoms/Button';
 import { Container } from '../atoms/Container';
@@ -25,246 +25,333 @@ export interface NavbarProps {
 export const Navbar: React.FC<NavbarProps> = ({ onOpenDownloadModal }) => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [legalMenuOpen, setLegalMenuOpen] = useState(false);
-  const dropdownRef = useRef<HTMLDivElement>(null);
+  const [isStuck, setIsStuck] = useState(false);
+
+  const sentinelRef = useRef<HTMLDivElement>(null);
+  const triggerRef = useRef<HTMLButtonElement>(null);
+  const popoverRef = useRef<HTMLDivElement>(null);
+
+  const popoverId = useId();
+  const mobileDrawerId = useId();
+
   const { currentPath } = useRouter();
   const { openDownloadModal: openGlobalModal } = useModal();
-
   const handleOpenModal = onOpenDownloadModal || openGlobalModal;
 
+  const normalizedPath = currentPath.split('#')[0].replace(/\/$/, '') || '/';
+
+  // Progressive fallback class (.is-stuck) for browsers without scroll-state container queries
   useEffect(() => {
-    function handleClickOutside(event: MouseEvent) {
-      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
-        setLegalMenuOpen(false);
-      }
-    }
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => document.removeEventListener('mousedown', handleClickOutside);
+    const sentinel = sentinelRef.current;
+    if (!sentinel || typeof IntersectionObserver === 'undefined') return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        setIsStuck(!entry.isIntersecting);
+      },
+      { threshold: [0] }
+    );
+
+    observer.observe(sentinel);
+    return () => observer.disconnect();
   }, []);
+
+  const closePopover = () => {
+    try {
+      popoverRef.current?.hidePopover?.();
+    } catch {
+      // Ignore if already closed or unsupported
+    }
+  };
+
+  const handlePopoverToggle = (e: React.SyntheticEvent<HTMLDivElement>) => {
+    const toggleEvent = e.nativeEvent as ToggleEvent;
+    const isOpen = toggleEvent.newState === 'open';
+    setLegalMenuOpen(isOpen);
+
+    if (
+      isOpen &&
+      triggerRef.current &&
+      popoverRef.current &&
+      !window.CSS?.supports?.('position-area', 'block-end')
+    ) {
+      const triggerRect = triggerRef.current.getBoundingClientRect();
+      const popRect = popoverRef.current.getBoundingClientRect();
+      const gap = 8;
+      const fitsBelow = triggerRect.bottom + gap + popRect.height <= window.innerHeight - 16;
+      const top = fitsBelow
+        ? triggerRect.bottom + gap
+        : Math.max(16, triggerRect.top - gap - popRect.height);
+      const left = Math.max(
+        16,
+        Math.min(triggerRect.right - popRect.width, window.innerWidth - popRect.width - 16)
+      );
+      popoverRef.current.style.top = `${top}px`;
+      popoverRef.current.style.left = `${left}px`;
+    }
+  };
 
   const legalLinks = [
     {
       label: 'Política de Privacidade',
       href: '/privacidade',
-      icon: <ShieldCheck className="w-4 h-4 text-[#009C9D]" />,
+      icon: <ShieldCheck className="w-4 h-4 text-[#007677]" aria-hidden="true" />,
       desc: 'Dados coletados, GPS em segundo plano e LGPD',
     },
     {
       label: 'Segurança dos Dados',
       href: '/seguranca-dos-dados',
-      icon: <Lock className="w-4 h-4 text-[#007E7F]" />,
+      icon: <Lock className="w-4 h-4 text-[#007677]" aria-hidden="true" />,
       desc: 'Permissões Android, criptografia e SDKs terceiros',
     },
     {
       label: 'Exclusão de Conta e Dados',
       href: '/exclusao-de-dados',
-      icon: <Trash2 className="w-4 h-4 text-[#D93829]" />,
+      icon: <Trash2 className="w-4 h-4 text-[#B42318]" aria-hidden="true" />,
       desc: 'Canal oficial web para remoção de conta e histórico',
     },
     {
       label: 'Aviso de Saúde & Alérgenos',
       href: '/aviso-de-saude',
-      icon: <HeartPulse className="w-4 h-4 text-[#D4A710]" />,
+      icon: <HeartPulse className="w-4 h-4 text-[#C43E32]" aria-hidden="true" />,
       desc: 'Isenção médica e prevenção de contaminação cruzada',
     },
     {
       label: 'Termos de Uso',
       href: '/termos',
-      icon: <FileText className="w-4 h-4 text-[#687076]" />,
+      icon: <FileText className="w-4 h-4 text-[#525B58]" aria-hidden="true" />,
       desc: 'Regras da comunidade, geofencing 100m e moderação',
     },
     {
       label: 'Central de Suporte',
       href: '/suporte',
-      icon: <HelpCircle className="w-4 h-4 text-[#009C9D]" />,
+      icon: <HelpCircle className="w-4 h-4 text-[#007677]" aria-hidden="true" />,
       desc: 'Contato direto com suporte@helprest.com',
     },
   ];
 
-  const isLegalActive = legalLinks.some((l) => l.href === currentPath);
+  const isLegalActive = legalLinks.some(
+    (item) => item.href !== '/suporte' && item.href === normalizedPath
+  );
 
   return (
-    <header className="sticky top-0 z-40 w-full bg-white/95 backdrop-blur-xs border-b border-[#EAEAEA]">
-      <Container size="lg">
-        <div className="flex items-center justify-between h-18">
-          <BrandLogo size="md" />
+    <>
+      <div
+        ref={sentinelRef}
+        className="h-px w-full -mb-px pointer-events-none"
+        aria-hidden="true"
+      />
+      <header className={`site-sticky-header w-full ${isStuck ? 'is-stuck' : ''}`}>
+        <div className="site-header-bar">
+          <Container size="lg">
+            <div className="flex items-center justify-between min-h-[72px] gap-4">
+              <BrandLogo size="md" />
 
-          {/* Desktop Navigation */}
-          <nav className="hidden lg:flex items-center gap-1" aria-label="Navegação principal">
-            <Link
-              to="/#restricoes"
-              className="px-3.5 py-2 rounded-full text-sm font-medium text-[#333333] hover:text-[#11181C] hover:bg-[#F5F5F5] transition-colors"
-            >
-              Explorar filtros
-            </Link>
-            <Link
-              to="/#como-funciona"
-              className="px-3.5 py-2 rounded-full text-sm font-medium text-[#333333] hover:text-[#11181C] hover:bg-[#F5F5F5] transition-colors"
-            >
-              Como funciona
-            </Link>
-            <Link
-              to="/#restaurantes"
-              className="px-3.5 py-2 rounded-full text-sm font-medium text-[#333333] hover:text-[#11181C] hover:bg-[#F5F5F5] transition-colors"
-            >
-              Para restaurantes
-            </Link>
+              {/* Desktop Navigation */}
+              <nav className="hidden lg:flex items-center gap-1" aria-label="Navegação principal">
+                <Link
+                  to="/#restricoes"
+                  className="px-3.5 py-2.5 min-h-[44px] inline-flex items-center rounded-full text-sm font-medium text-[#3A413F] hover:text-[#181C1B] hover:bg-[#EDF1EF] transition-colors"
+                >
+                  Explorar filtros
+                </Link>
+                <Link
+                  to="/#como-funciona"
+                  className="px-3.5 py-2.5 min-h-[44px] inline-flex items-center rounded-full text-sm font-medium text-[#3A413F] hover:text-[#181C1B] hover:bg-[#EDF1EF] transition-colors"
+                >
+                  Como funciona
+                </Link>
+                <Link
+                  to="/#restaurantes"
+                  className="px-3.5 py-2.5 min-h-[44px] inline-flex items-center rounded-full text-sm font-medium text-[#3A413F] hover:text-[#181C1B] hover:bg-[#EDF1EF] transition-colors"
+                >
+                  Para restaurantes
+                </Link>
 
-            {/* Legal & Privacy Dropdown */}
-            <div className="relative" ref={dropdownRef}>
-              <button
-                type="button"
-                onClick={() => setLegalMenuOpen(!legalMenuOpen)}
-                aria-expanded={legalMenuOpen}
-                className={`flex items-center gap-1.5 px-3.5 py-2 rounded-full text-sm font-medium transition-colors cursor-pointer ${
-                  isLegalActive
-                    ? 'text-[#007E7F] bg-[#F4FDFB]'
-                    : 'text-[#333333] hover:text-[#11181C] hover:bg-[#F5F5F5]'
-                }`}
-              >
-                <span>Privacidade & Dados</span>
-                <ChevronDown
-                  className={`w-3.5 h-3.5 transition-transform duration-150 ${
-                    legalMenuOpen ? 'rotate-180' : ''
-                  }`}
-                />
-              </button>
+                {/* Native Popover Button Group (not role="menu") */}
+                <div className="relative">
+                  <button
+                    ref={triggerRef}
+                    type="button"
+                    popoverTarget={popoverId}
+                    aria-controls={popoverId}
+                    aria-expanded={legalMenuOpen}
+                    className={`inline-flex items-center gap-1.5 px-3.5 py-2.5 min-h-[44px] rounded-full text-sm transition-colors cursor-pointer ${
+                      isLegalActive
+                        ? 'bg-[#E9F3F2] text-[#00696A] font-semibold underline decoration-2 underline-offset-8 decoration-[#007677]'
+                        : 'font-medium text-[#3A413F] hover:text-[#181C1B] hover:bg-[#EDF1EF]'
+                    }`}
+                  >
+                    <span>Privacidade &amp; Dados</span>
+                    <ChevronDown
+                      className={`w-3.5 h-3.5 transition-transform duration-150 ${
+                        legalMenuOpen ? 'rotate-180 text-[#007677]' : ''
+                      }`}
+                      aria-hidden="true"
+                    />
+                  </button>
 
-              {legalMenuOpen && (
-                <div className="absolute top-full right-0 mt-2 w-80 bg-white rounded-2xl shadow-lg border border-[#EAEAEA] p-2 z-50">
-                  <div className="px-3 py-2 border-b border-[#EAEAEA] mb-1">
-                    <div className="font-mono text-[10px] font-bold uppercase tracking-wider text-[#687076]">
-                      Transparência & Documentos
-                    </div>
-                  </div>
-                  <div className="space-y-0.5">
-                    {legalLinks.map((item) => (
-                      <Link
-                        key={item.href}
-                        to={item.href}
-                        onClick={() => setLegalMenuOpen(false)}
-                        className={`flex items-start gap-3 p-2.5 rounded-xl text-xs transition-colors ${
-                          currentPath === item.href
-                            ? 'bg-[#F4FDFB] text-[#007E7F] font-bold'
-                            : 'text-[#333333] hover:bg-[#FAFAFA]'
-                        }`}
-                      >
-                        <div className="p-1.5 rounded-lg bg-[#FAFAFA] border border-[#EAEAEA] mt-0.5">
-                          {item.icon}
-                        </div>
-                        <div className="flex-1">
-                          <div className="font-bold text-[#11181C]">{item.label}</div>
-                          <p className="text-[11px] text-[#687076] font-normal mt-0.5 leading-snug">
-                            {item.desc}
-                          </p>
-                        </div>
-                      </Link>
-                    ))}
+                  <div
+                    id={popoverId}
+                    ref={popoverRef}
+                    popover="auto"
+                    onToggle={handlePopoverToggle}
+                    className="site-nav-popover tonal-surface w-80 max-w-[calc(100dvw-2rem)] max-h-[calc(100dvh-6rem)] overflow-y-auto bg-white rounded-3xl shadow-[0_18px_40px_-10px_rgba(24,28,27,0.18)] p-2.5 z-50"
+                  >
+                    <ul className="space-y-0.5">
+                      {legalLinks.map((item) => {
+                        const isItemActive = normalizedPath === item.href;
+                        return (
+                          <li key={item.href}>
+                            <Link
+                              to={item.href}
+                              aria-current={isItemActive ? 'page' : undefined}
+                              onClick={closePopover}
+                              className={`flex items-start gap-3 p-2.5 rounded-2xl text-xs transition-colors ${
+                                isItemActive
+                                  ? 'bg-[#E9F3F2] text-[#00696A] font-semibold'
+                                  : 'text-[#3A413F] hover:bg-[#F4F6F5]'
+                              }`}
+                            >
+                              <div className="w-9 h-9 rounded-xl bg-[#EDF1EF] flex items-center justify-center flex-shrink-0">
+                                {item.icon}
+                              </div>
+                              <div className="flex-1 min-w-0">
+                                <div
+                                  className={`text-sm font-semibold leading-snug ${
+                                    isItemActive ? 'text-[#00696A]' : 'text-[#181C1B]'
+                                  }`}
+                                >
+                                  {item.label}
+                                </div>
+                                <p className="text-xs text-[#525B58] font-normal mt-0.5 leading-snug">
+                                  {item.desc}
+                                </p>
+                              </div>
+                            </Link>
+                          </li>
+                        );
+                      })}
+                    </ul>
                   </div>
                 </div>
-              )}
-            </div>
 
-            <Link
-              to="/suporte"
-              className={`px-3.5 py-2 rounded-full text-sm font-medium transition-colors ${
-                currentPath === '/suporte'
-                  ? 'text-[#007E7F] bg-[#F4FDFB] font-bold'
-                  : 'text-[#333333] hover:text-[#11181C] hover:bg-[#F5F5F5]'
-              }`}
-            >
-              Suporte
-            </Link>
-          </nav>
-
-          <div className="hidden sm:flex items-center gap-3">
-            <Button
-              variant="primary"
-              size="md"
-              onClick={handleOpenModal}
-              iconLeft={<Smartphone className="w-4 h-4" />}
-            >
-              Baixar App
-            </Button>
-          </div>
-
-          <div className="flex items-center lg:hidden">
-            <button
-              type="button"
-              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="p-2 rounded-full text-[#333333] hover:bg-[#F5F5F5] cursor-pointer"
-              aria-label="Abrir menu"
-            >
-              {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
-            </button>
-          </div>
-        </div>
-      </Container>
-
-      {mobileMenuOpen && (
-        <div className="lg:hidden border-t border-[#EAEAEA] bg-white px-4 pt-3 pb-6 space-y-4 max-h-[85vh] overflow-y-auto">
-          <nav className="flex flex-col space-y-1">
-            <Link
-              to="/#restricoes"
-              onClick={() => setMobileMenuOpen(false)}
-              className="px-3.5 py-2.5 rounded-xl text-sm font-medium text-[#11181C] hover:bg-[#FAFAFA]"
-            >
-              Explorar filtros
-            </Link>
-            <Link
-              to="/#como-funciona"
-              onClick={() => setMobileMenuOpen(false)}
-              className="px-3.5 py-2.5 rounded-xl text-sm font-medium text-[#11181C] hover:bg-[#FAFAFA]"
-            >
-              Como funciona
-            </Link>
-            <Link
-              to="/#restaurantes"
-              onClick={() => setMobileMenuOpen(false)}
-              className="px-3.5 py-2.5 rounded-xl text-sm font-medium text-[#11181C] hover:bg-[#FAFAFA]"
-            >
-              Para restaurantes
-            </Link>
-          </nav>
-
-          <div className="pt-3 border-t border-[#EAEAEA]">
-            <div className="font-mono text-[10px] font-bold uppercase tracking-wider text-[#687076] px-3 mb-2">
-              Privacidade & Conformidade
-            </div>
-            <div className="space-y-1">
-              {legalLinks.map((item) => (
                 <Link
-                  key={item.href}
-                  to={item.href}
-                  onClick={() => setMobileMenuOpen(false)}
-                  className={`flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs font-medium ${
-                    currentPath === item.href
-                      ? 'bg-[#F4FDFB] text-[#007E7F] font-bold'
-                      : 'text-[#333333] hover:bg-[#FAFAFA]'
+                  to="/suporte"
+                  aria-current={normalizedPath === '/suporte' ? 'page' : undefined}
+                  className={`px-3.5 py-2.5 min-h-[44px] inline-flex items-center rounded-full text-sm transition-colors ${
+                    normalizedPath === '/suporte'
+                      ? 'bg-[#E9F3F2] text-[#00696A] font-semibold underline decoration-2 underline-offset-8 decoration-[#007677]'
+                      : 'font-medium text-[#3A413F] hover:text-[#181C1B] hover:bg-[#EDF1EF]'
                   }`}
                 >
-                  {item.icon}
-                  <span>{item.label}</span>
+                  Suporte
                 </Link>
-              ))}
-            </div>
-          </div>
+              </nav>
 
-          <div className="pt-2 border-t border-[#EAEAEA]">
-            <Button
-              variant="primary"
-              fullWidth
-              size="md"
-              onClick={() => {
-                setMobileMenuOpen(false);
-                handleOpenModal();
-              }}
-              iconLeft={<Smartphone className="w-4 h-4" />}
+              <div className="hidden sm:flex items-center gap-3">
+                <Button
+                  variant="primary"
+                  size="md"
+                  onClick={handleOpenModal}
+                  iconLeft={<Smartphone className="w-4 h-4" aria-hidden="true" />}
+                >
+                  Baixar App
+                </Button>
+              </div>
+
+              <div className="flex items-center lg:hidden">
+                <button
+                  type="button"
+                  onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+                  aria-expanded={mobileMenuOpen}
+                  aria-controls={mobileDrawerId}
+                  aria-label={mobileMenuOpen ? 'Fechar menu' : 'Abrir menu'}
+                  className="min-w-[44px] min-h-[44px] p-2.5 rounded-full text-[#181C1B] hover:bg-[#EDF1EF] flex items-center justify-center cursor-pointer transition-colors"
+                >
+                  {mobileMenuOpen ? (
+                    <X className="w-5 h-5" aria-hidden="true" />
+                  ) : (
+                    <Menu className="w-5 h-5" aria-hidden="true" />
+                  )}
+                </button>
+              </div>
+            </div>
+          </Container>
+
+          {mobileMenuOpen && (
+            <div
+              id={mobileDrawerId}
+              className="lg:hidden bg-[#F4F6F5] px-4 pt-3 pb-6 space-y-4 max-h-[85dvh] overflow-y-auto"
             >
-              Baixar App no Android
-            </Button>
-          </div>
+              <nav aria-label="Menu móvel" className="flex flex-col space-y-1">
+                <Link
+                  to="/#restricoes"
+                  onClick={() => setMobileMenuOpen(false)}
+                  className="px-3.5 py-3 min-h-[44px] inline-flex items-center rounded-2xl text-sm font-medium text-[#181C1B] hover:bg-white transition-colors"
+                >
+                  Explorar filtros
+                </Link>
+                <Link
+                  to="/#como-funciona"
+                  onClick={() => setMobileMenuOpen(false)}
+                  className="px-3.5 py-3 min-h-[44px] inline-flex items-center rounded-2xl text-sm font-medium text-[#181C1B] hover:bg-white transition-colors"
+                >
+                  Como funciona
+                </Link>
+                <Link
+                  to="/#restaurantes"
+                  onClick={() => setMobileMenuOpen(false)}
+                  className="px-3.5 py-3 min-h-[44px] inline-flex items-center rounded-2xl text-sm font-medium text-[#181C1B] hover:bg-white transition-colors"
+                >
+                  Para restaurantes
+                </Link>
+              </nav>
+
+              <div className="rounded-2xl bg-white p-2.5 space-y-1">
+                <div className="text-xs font-semibold text-[#525B58] px-3 py-1.5">
+                  Privacidade e documentos
+                </div>
+                <ul className="space-y-0.5">
+                  {legalLinks.map((item) => {
+                    const isItemActive = normalizedPath === item.href;
+                    return (
+                      <li key={item.href}>
+                        <Link
+                          to={item.href}
+                          aria-current={isItemActive ? 'page' : undefined}
+                          onClick={() => setMobileMenuOpen(false)}
+                          className={`flex items-center gap-2.5 px-3 py-2.5 min-h-[44px] rounded-xl text-xs transition-colors ${
+                            isItemActive
+                              ? 'bg-[#E9F3F2] text-[#00696A] font-semibold'
+                              : 'text-[#3A413F] hover:bg-[#F4F6F5] font-medium'
+                          }`}
+                        >
+                          {item.icon}
+                          <span>{item.label}</span>
+                        </Link>
+                      </li>
+                    );
+                  })}
+                </ul>
+              </div>
+
+              <Button
+                variant="primary"
+                fullWidth
+                size="md"
+                onClick={() => {
+                  setMobileMenuOpen(false);
+                  handleOpenModal();
+                }}
+                iconLeft={<Smartphone className="w-4 h-4" aria-hidden="true" />}
+              >
+                Baixar App no Android
+              </Button>
+            </div>
+          )}
         </div>
-      )}
-    </header>
+      </header>
+    </>
   );
 };

@@ -90,10 +90,10 @@ export const DIETARY_FLAGS: DietaryFlag[] = [
     description:
       'Massas, panificação e molhos preparados sem ovo integral, clara, gema ou albumina.',
     iconName: 'EggOff',
-    swatchColor: '#F2C94C',
-    badgeBg: 'bg-[#FEF9E7]',
-    badgeText: 'text-[#735107]',
-    badgeBorder: 'border-[#F9E6A2]',
+    swatchColor: '#C96A1B',
+    badgeBg: 'bg-[#FDF4EC]',
+    badgeText: 'text-[#854008]',
+    badgeBorder: 'border-[#F4D5B8]',
   },
   {
     id: 'sugar_free',

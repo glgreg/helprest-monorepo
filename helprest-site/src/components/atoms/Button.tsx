@@ -22,27 +22,22 @@ export const Button: React.FC<ButtonProps> = ({
   ...props
 }) => {
   const baseStyles =
-    'inline-flex items-center justify-center font-medium rounded-full transition-colors duration-150 cursor-pointer focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:opacity-55 disabled:cursor-not-allowed select-none active:scale-[0.985]';
+    'inline-flex items-center justify-center font-medium rounded-full transition-colors duration-150 cursor-pointer disabled:opacity-55 disabled:cursor-not-allowed select-none active:scale-[0.985] min-h-[44px]';
 
   const sizeStyles = {
-    sm: 'text-xs px-4 py-2 gap-1.5',
+    sm: 'text-xs px-4 py-2 gap-1.5 min-h-[36px]',
     md: 'text-sm px-5 py-2.5 gap-2',
-    lg: 'text-base px-6 py-3.5 gap-2.5 font-bold',
+    lg: 'text-base px-6 py-3 gap-2.5 font-semibold min-h-[48px]',
   };
 
   const variantStyles = {
-    primary:
-      'bg-[#009C9D] text-white hover:bg-[#007E7F] focus:ring-[#009C9D] shadow-xs',
-    secondary:
-      'bg-[#11181C] text-white hover:bg-[#232D33] focus:ring-[#11181C]',
+    primary: 'bg-[#007677] text-white hover:bg-[#006061]',
+    secondary: 'bg-[#181C1B] text-white hover:bg-[#2C3331]',
     outline:
-      'border border-[#DDDDDD] bg-white text-[#11181C] hover:border-[#009C9D] hover:text-[#007E7F] focus:ring-[#009C9D]',
-    ghost:
-      'text-[#687076] hover:bg-[#F2F4F5] hover:text-[#11181C] focus:ring-[#DDDDDD]',
-    white:
-      'bg-white text-[#007E7F] hover:bg-[#F4FDFB] focus:ring-white font-bold shadow-xs',
-    danger:
-      'bg-[#D93829] text-white hover:bg-[#B82A1D] focus:ring-[#D93829]',
+      'tonal-surface bg-[#EDF1EF] text-[#181C1B] hover:bg-[#E4EAE7] hover:text-[#00696A]',
+    ghost: 'text-[#3A413F] hover:bg-[#EDF1EF] hover:text-[#181C1B]',
+    white: 'bg-white text-[#00696A] hover:bg-[#E9F3F2] font-semibold',
+    danger: 'bg-[#B42318] text-white hover:bg-[#912018]',
   };
 
   return (
@@ -52,7 +47,10 @@ export const Button: React.FC<ButtonProps> = ({
       {...props}
     >
       {isLoading ? (
-        <span className="w-4 h-4 border-2 border-current border-t-transparent rounded-full animate-spin" />
+        <span
+          className="w-4 h-4 border-2 border-current border-t-transparent rounded-full animate-spin"
+          aria-hidden="true"
+        />
       ) : (
         iconLeft
       )}

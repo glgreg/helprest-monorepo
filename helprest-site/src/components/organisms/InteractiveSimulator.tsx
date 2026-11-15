@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Container } from '../atoms/Container';
-import { Heading2, Paragraph, SectionTag } from '../atoms/Typography';
+import { Heading2, Paragraph } from '../atoms/Typography';
 import { FlagChip } from '../molecules/FlagChip';
 import { EstablishmentCard } from '../molecules/EstablishmentCard';
 import { DIETARY_FLAGS } from '../../data/flags';
@@ -51,36 +51,40 @@ export const InteractiveSimulator: React.FC = () => {
   }, [selectedFlags]);
 
   return (
-    <section id="restricoes" className="py-16 sm:py-20 bg-white border-y border-[#EAEAEA]">
+    <section id="restricoes" className="py-16 sm:py-20 bg-[#F4F6F5]">
       <Container size="lg">
         <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-6 mb-10">
           <div className="max-w-2xl">
-            <SectionTag>Filtros por flag alimentar</SectionTag>
             <Heading2>Filtre em tempo real pelas suas restrições</Heading2>
             <Paragraph className="mt-2.5">
               Ative as flags do seu perfil abaixo. O app coloca os locais com 100% de compatibilidade no topo, separa o cardápio seguro e oculta quem não atende nenhuma restrição.
             </Paragraph>
           </div>
           {favoriteIds.length > 0 && (
-            <div className="inline-flex items-center gap-2 px-3.5 py-2 rounded-full bg-[#FAFAFA] border border-[#EAEAEA] text-xs font-medium text-[#333333] w-fit">
-              <Heart className="w-3.5 h-3.5 fill-[#FF533F] text-[#FF533F]" />
+            <div className="tonal-surface inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white text-xs font-medium text-[#181C1B] shadow-[0_2px_10px_-4px_rgba(24,28,27,0.06)] w-fit">
+              <Heart className="w-3.5 h-3.5 fill-[#FF533F] text-[#FF533F]" aria-hidden="true" />
               <span>
-                {favoriteIds.length} {favoriteIds.length === 1 ? 'local salvo' : 'locais salvos'} em Favoritos
+                {favoriteIds.length}{' '}
+                {favoriteIds.length === 1 ? 'local salvo' : 'locais salvos'} em Favoritos
               </span>
             </div>
           )}
         </div>
 
-        {/* App Step 4 Style Flag Selector */}
-        <div className="bg-[#FAFAFA] border border-[#EAEAEA] rounded-2xl p-5 sm:p-6 mb-10">
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-4 pb-3 border-b border-[#EAEAEA]">
-            <div className="flex items-center gap-2">
-              <Filter className="w-4 h-4 text-[#009C9D]" />
-              <span className="text-sm font-bold text-[#11181C]">
+        {/* Elevated White Filter Tray on #F4F6F5 Canvas */}
+        <div
+          role="search"
+          aria-label="Filtrar restaurantes por restrição alimentar"
+          className="tonal-surface bg-white rounded-3xl p-5 sm:p-6 shadow-[0_2px_12px_-4px_rgba(24,28,27,0.06)] mb-10 space-y-5"
+        >
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+            <div className="flex flex-wrap items-center gap-2">
+              <Filter className="w-4 h-4 text-[#007677]" aria-hidden="true" />
+              <span className="text-sm font-bold text-[#181C1B]">
                 Quais restrições definem seu perfil?
               </span>
-              <span className="font-mono text-xs text-[#687076] whitespace-nowrap flex-shrink-0">
-                ({selectedFlags.length} ativa{selectedFlags.length === 1 ? '' : 's'})
+              <span className="text-xs text-[#525B58] tabular-nums whitespace-nowrap">
+                {rankedEstablishments.length} de {SAMPLE_ESTABLISHMENTS.length} locais compatíveis
               </span>
             </div>
 
@@ -88,10 +92,10 @@ export const InteractiveSimulator: React.FC = () => {
               <button
                 type="button"
                 onClick={handleReset}
-                className="inline-flex items-center gap-1.5 text-xs font-bold text-[#007E7F] hover:underline cursor-pointer w-fit"
+                className="inline-flex items-center gap-1.5 text-xs font-semibold text-[#00696A] hover:bg-[#E9F3F2] px-3 py-1.5 min-h-[36px] rounded-full transition-colors cursor-pointer w-fit"
               >
-                <RotateCcw className="w-3.5 h-3.5" />
-                Limpar filtros
+                <RotateCcw className="w-3.5 h-3.5" aria-hidden="true" />
+                <span>Limpar filtros</span>
               </button>
             )}
           </div>
@@ -106,24 +110,15 @@ export const InteractiveSimulator: React.FC = () => {
               />
             ))}
           </div>
-
-          <div className="mt-4 pt-3 border-t border-[#EAEAEA] text-xs text-[#687076] flex flex-wrap items-center justify-between gap-2">
-            <span>
-              Locais exibidos: <strong className="text-[#11181C]">{rankedEstablishments.length}</strong> de {SAMPLE_ESTABLISHMENTS.length} exemplos em Curitiba
-            </span>
-            <span>
-              Toque em <strong>Explorar cardápio separado</strong> em qualquer cartão para ver ingredientes.
-            </span>
-          </div>
         </div>
 
         {rankedEstablishments.length === 0 ? (
-          <div className="text-center py-12 px-4 bg-[#FAFAFA] rounded-2xl border border-[#EAEAEA] space-y-2.5">
-            <AlertCircle className="w-9 h-9 text-[#F2994A] mx-auto" />
-            <h3 className="text-base font-bold text-[#11181C]">
+          <div className="tonal-surface text-center py-12 px-6 bg-white rounded-3xl shadow-[0_2px_12px_-4px_rgba(24,28,27,0.06)] space-y-2.5">
+            <AlertCircle className="w-9 h-9 text-[#C43E32] mx-auto" aria-hidden="true" />
+            <h3 className="text-base font-bold text-[#181C1B]">
               Nenhum estabelecimento atende simultaneamente essa combinação na amostra
             </h3>
-            <p className="text-sm text-[#687076] max-w-md mx-auto">
+            <p className="text-sm text-[#525B58] max-w-md mx-auto">
               Regra de segurança zero-match ativa: restaurantes sem correspondência são ocultados para evitar recomendações enganosas.
             </p>
           </div>

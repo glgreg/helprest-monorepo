@@ -15,18 +15,18 @@ export const StoreBadge: React.FC<StoreBadgeProps> = ({
 }) => {
   const surfaceClasses =
     tone === 'light'
-      ? 'bg-white text-[#11181C] border-[#FFFFFF] hover:bg-[#F4FDFB]'
-      : 'bg-[#11181C] text-white border-[#11181C] hover:bg-[#232D33]';
+      ? 'bg-white text-[#181C1B] hover:bg-[#E9F3F2]'
+      : 'bg-[#181C1B] text-white hover:bg-[#2C3331]';
 
-  const mutedClasses = tone === 'light' ? 'text-[#687076]' : 'text-white/70';
+  const mutedClasses = tone === 'light' ? 'text-[#525B58]' : 'text-white/80';
 
   if (platform === 'google-play') {
     return (
       <button
         type="button"
         onClick={onClick}
-        className={`inline-flex items-center gap-3 px-5 py-3 rounded-full border transition-colors duration-150 cursor-pointer active:scale-[0.985] ${surfaceClasses} ${className}`}
-        aria-label="HelpRest para Android no Google Play"
+        className={`tonal-surface inline-flex items-center gap-3 px-5 py-3 min-h-[48px] rounded-full transition-colors duration-150 cursor-pointer active:scale-[0.985] ${surfaceClasses} ${className}`}
+        aria-label="Baixar HelpRest para Android no Google Play"
       >
         <div className="w-6 h-6 flex items-center justify-center flex-shrink-0">
           <svg className="w-5 h-5" viewBox="0 0 24 24" aria-hidden="true">
@@ -49,10 +49,10 @@ export const StoreBadge: React.FC<StoreBadgeProps> = ({
           </svg>
         </div>
         <div className="flex flex-col text-left">
-          <span className={`text-[10px] font-mono uppercase tracking-wider leading-none ${mutedClasses}`}>
-            Android • v1.0
+          <span className={`text-[11px] font-normal leading-none ${mutedClasses}`}>
+            Disponível no
           </span>
-          <span className="text-sm font-bold tracking-tight leading-tight mt-0.5">
+          <span className="text-sm font-semibold tracking-tight leading-tight mt-0.5">
             Google Play
           </span>
         </div>
@@ -62,12 +62,11 @@ export const StoreBadge: React.FC<StoreBadgeProps> = ({
 
   return (
     <div
-      className={`inline-flex items-center gap-3 px-5 py-3 rounded-full border select-none ${
+      className={`tonal-surface inline-flex items-center gap-3 px-5 py-3 min-h-[48px] rounded-full select-none ${
         tone === 'light'
-          ? 'bg-white/15 text-white border-white/30'
-          : 'bg-white text-[#11181C] border-[#DDDDDD]'
+          ? 'bg-white/14 text-white'
+          : 'bg-[#EDF1EF] text-[#181C1B]'
       } ${className}`}
-      title="Versão iOS em desenvolvimento"
     >
       <div className="w-5 h-5 flex items-center justify-center flex-shrink-0">
         <svg className="w-5 h-5 fill-current" viewBox="0 0 24 24" aria-hidden="true">
@@ -76,13 +75,13 @@ export const StoreBadge: React.FC<StoreBadgeProps> = ({
       </div>
       <div className="flex flex-col text-left">
         <span
-          className={`text-[10px] font-mono uppercase tracking-wider leading-none ${
-            tone === 'light' ? 'text-white/80' : 'text-[#687076]'
+          className={`text-[11px] font-normal leading-none ${
+            tone === 'light' ? 'text-white/85' : 'text-[#525B58]'
           }`}
         >
-          iOS • Em breve
+          Em breve na
         </span>
-        <span className="text-sm font-bold tracking-tight leading-tight mt-0.5">
+        <span className="text-sm font-semibold tracking-tight leading-tight mt-0.5">
           App Store
         </span>
       </div>

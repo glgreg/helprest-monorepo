@@ -31,8 +31,13 @@ export const StarRating: React.FC<StarRatingProps> = ({
   };
 
   return (
-    <div className={`inline-flex items-center gap-1.5 ${className}`}>
-      <div className="flex items-center gap-0.5 text-[#F7CC33]">
+    <div
+      className={`inline-flex items-center gap-1.5 ${className}`}
+      aria-label={`Avaliação ${rating.toFixed(1)} de ${maxStars}${
+        reviewCount !== undefined ? ` baseada em ${reviewCount} avaliações` : ''
+      }`}
+    >
+      <div className="flex items-center gap-0.5 text-[#E5A910]" aria-hidden="true">
         {Array.from({ length: maxStars }).map((_, i) => {
           const filled = i < Math.floor(rating);
           const half = !filled && i < rating;
@@ -40,19 +45,19 @@ export const StarRating: React.FC<StarRatingProps> = ({
             <Star
               key={i}
               className={`${iconSizes[size]} ${
-                filled || half ? 'fill-[#F7CC33] text-[#F7CC33]' : 'text-[#DDDDDD]'
+                filled || half ? 'fill-[#E5A910] text-[#E5A910]' : 'text-[#CBD2CF]'
               }`}
             />
           );
         })}
       </div>
       {showValue && (
-        <span className={`text-[#11181C] tabular-nums ${textSizes[size]}`}>
+        <span className={`text-[#181C1B] tabular-nums ${textSizes[size]}`}>
           {rating.toFixed(1)}
         </span>
       )}
       {reviewCount !== undefined && (
-        <span className="text-xs text-[#687076] tabular-nums">({reviewCount})</span>
+        <span className="text-xs text-[#525B58] tabular-nums">({reviewCount})</span>
       )}
     </div>
   );

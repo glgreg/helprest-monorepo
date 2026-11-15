@@ -1,5 +1,4 @@
-import React, { useState } from 'react';
-import { ChevronDown } from 'lucide-react';
+import React, { useEffect, useRef } from 'react';
 
 export interface AccordionItemProps {
   question: string;
@@ -12,30 +11,23 @@ export const AccordionItem: React.FC<AccordionItemProps> = ({
   answer,
   defaultOpen = false,
 }) => {
-  const [isOpen, setIsOpen] = useState(defaultOpen);
+  const detailsRef = useRef<HTMLDetailsElement>(null);
+
+  useEffect(() => {
+    if (defaultOpen && detailsRef.current) {
+      detailsRef.current.open = true;
+    }
+  }, [defaultOpen]);
 
   return (
-    <div className="border border-[#EAEAEA] rounded-2xl bg-white overflow-hidden transition-colors hover:border-[#009C9D]/50">
-      <button
-        type="button"
-        onClick={() => setIsOpen(!isOpen)}
-        className="w-full flex items-center justify-between p-5 text-left font-bold text-[#11181C] gap-4 cursor-pointer focus:outline-none"
-        aria-expanded={isOpen}
-      >
-        <span className="text-sm sm:text-base leading-snug">{question}</span>
-        <div
-          className={`w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 transition-transform duration-150 ${
-            isOpen ? 'rotate-180 bg-[#E0F2F1] text-[#007E7F]' : 'bg-[#F5F5F5] text-[#687076]'
-          }`}
-        >
-          <ChevronDown className="w-4 h-4" />
-        </div>
-      </button>
-      {isOpen && (
-        <div className="px-5 pb-5 text-[#687076] text-sm leading-relaxed border-t border-[#EAEAEA] pt-3">
-          {answer}
-        </div>
-      )}
-    </div>
+    <details
+      ref={detailsRef}
+      className="faq-item tonal-surface rounded-2xl bg-white p-5 sm:p-6 shadow-[0_2px_10px_-4px_rgba(24,28,27,0.05)] transition-colors hover:bg-[#FAFBFB]"
+    >
+      <summary className="text-sm sm:text-base font-bold text-[#181C1B] leading-snug select-none min-h-[28px]">
+        <span>{question}</span>
+      </summary>
+      <div className="ps-8 pt-3 text-[#525B58] text-sm leading-relaxed">{answer}</div>
+    </details>
   );
 };
