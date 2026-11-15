@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from '../../router';
+import Link from 'next/link';
 
 export interface BrandLogoProps {
   size?: 'sm' | 'md' | 'lg';
@@ -60,7 +60,7 @@ export const BrandLogo: React.FC<BrandLogoProps> = ({
 
   if (clickable) {
     return (
-      <Link to="/" className="inline-flex items-center rounded-lg hover:opacity-90 transition-opacity">
+      <Link href="/" className="inline-flex items-center rounded-lg hover:opacity-90 transition-opacity">
         {content}
       </Link>
     );

@@ -1,6 +1,8 @@
+'use client';
+
 import React, { useId, useRef, useState } from 'react';
 import { Input, Textarea } from '../atoms/Input';
-import { Button } from '../atoms/Button';
+import { Button, getButtonClasses } from '../atoms/Button';
 import { CheckCircle2, Mail, Copy, Send } from 'lucide-react';
 
 interface FieldErrors {
@@ -66,14 +68,17 @@ export const ContactForm: React.FC = () => {
     setErrors(nextErrors);
 
     if (nextErrors.name) {
+      setLiveStatus(nextErrors.name);
       nameRef.current?.focus();
       return;
     }
     if (nextErrors.email) {
+      setLiveStatus(nextErrors.email);
       emailRef.current?.focus();
       return;
     }
     if (nextErrors.message) {
+      setLiveStatus(nextErrors.message);
       messageRef.current?.focus();
       return;
     }
@@ -142,15 +147,9 @@ export const ContactForm: React.FC = () => {
         </pre>
 
         <div className="flex flex-wrap items-center gap-3">
-          <a href={mailtoUrl}>
-            <Button
-              type="button"
-              variant="primary"
-              size="md"
-              iconLeft={<Mail className="w-4 h-4" aria-hidden="true" />}
-            >
-              Abrir no Aplicativo de E-mail
-            </Button>
+          <a href={mailtoUrl} className={getButtonClasses({ variant: 'primary', size: 'md' })}>
+            <Mail className="w-4 h-4" aria-hidden="true" />
+            <span>Abrir no Aplicativo de E-mail</span>
           </a>
           <Button
             type="button"
@@ -181,6 +180,7 @@ export const ContactForm: React.FC = () => {
     <form
       onSubmit={handleSubmit}
       noValidate
+      aria-label="Formulário de contato com o suporte HelpRest"
       className="tonal-surface bg-[#F7F7F8] rounded-2xl p-6 sm:p-7 space-y-5"
     >
       <div role="status" aria-live="polite" className="visually-hidden">

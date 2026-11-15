@@ -1,6 +1,8 @@
+'use client';
+
 import React, { useId, useRef, useState } from 'react';
 import { Input, Textarea } from '../atoms/Input';
-import { Button } from '../atoms/Button';
+import { Button, getButtonClasses } from '../atoms/Button';
 import { AlertCircle, AlertTriangle, CheckCircle2, Mail, Copy, ShieldCheck } from 'lucide-react';
 
 interface DeletionErrors {
@@ -25,8 +27,8 @@ export const DeleteAccountForm: React.FC = () => {
 
   const scopeLabel =
     scope === 'full'
-      ? 'Exclusão Total da Conta e Dados Vinculados'
-      : 'Exclusão Apenas de Dados de Localização e Histórico (manter cadastro)';
+      ? 'Exclusão Total da Conta e Eliminação Definitiva de Dados (incluindo avaliações, fotos e coordenadas)'
+      : 'Exclusão Apenas de Avaliações, Fotos, Histórico de Visitas e Localização Salva (manter cadastro básico)';
 
   const validateEmail = (val: string): string | undefined => {
     return !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(val.trim())
@@ -67,17 +69,17 @@ export const DeleteAccountForm: React.FC = () => {
 
   const mailSubject = encodeURIComponent(
     `[HelpRest • ${protocolId || 'LGPD'}] Solicitação de ${
-      scope === 'full' ? 'Exclusão Total de Conta' : 'Exclusão de Dados'
+      scope === 'full' ? 'Exclusão Total de Conta' : 'Exclusão de Dados e Histórico'
     }`
   );
 
   const requestSummary = [
     `Protocolo de Referência: ${protocolId || 'Pendente'}`,
     `Aplicativo: HelpRest (com.helprest)`,
-    `E-mail da conta cadastrada: ${email}`,
+    `E-mail Google vinculado à conta: ${email}`,
     `Tipo de solicitação: ${scopeLabel}`,
     `Motivo informado: ${reason.trim() || 'Não informado'}`,
-    `Prazo legal máximo (LGPD): 30 dias corridos após verificação de titularidade.`,
+    `Prazo legal máximo (LGPD Art. 18, §5º): atendimento imediato ou em até 15 (quinze) dias corridos após verificação de titularidade.`,
   ].join('\n');
 
   const mailtoHref = `mailto:privacidade@helprest.net?subject=${mailSubject}&body=${encodeURIComponent(
@@ -109,7 +111,7 @@ export const DeleteAccountForm: React.FC = () => {
               Resumo da solicitação pronto para envio ({protocolId})
             </h3>
             <p className="text-sm text-[#3F454A] leading-relaxed">
-              Para confirmar a titularidade do e-mail <strong>{email}</strong> com segurança, finalize o envio pelo botão abaixo no seu aplicativo de e-mail ou envie o texto para{' '}
+              Para confirmar a titularidade do e-mail <strong>{email}</strong> com segurança, finalize o envio pelo botão abaixo usando o mesmo e-mail cadastrado ou envie o texto para{' '}
               <a
                 href="mailto:privacidade@helprest.net"
                 className="font-semibold text-[#00797A] hover:underline"
@@ -126,15 +128,9 @@ export const DeleteAccountForm: React.FC = () => {
         </pre>
 
         <div className="flex flex-wrap items-center gap-3">
-          <a href={mailtoHref}>
-            <Button
-              type="button"
-              variant="primary"
-              size="md"
-              iconLeft={<Mail className="w-4 h-4" aria-hidden="true" />}
-            >
-              Abrir E-mail Oficial de Exclusão
-            </Button>
+          <a href={mailtoHref} className={getButtonClasses({ variant: 'primary', size: 'md' })}>
+            <Mail className="w-4 h-4" aria-hidden="true" />
+            <span>Abrir E-mail Oficial de Exclusão</span>
           </a>
           <Button
             type="button"
@@ -158,8 +154,8 @@ export const DeleteAccountForm: React.FC = () => {
           </Button>
         </div>
 
-        <p className="text-xs text-[#596168]">
-          Após o recebimento da mensagem a partir do endereço titular, o atendimento e o expurgo seguem o prazo máximo de 30 dias corridos conforme a LGPD (Art. 18).
+        <p className="text-xs text-[#596168] leading-relaxed">
+          Após a verificação do e-mail titular, o atendimento e a eliminação definitiva nos bancos operacionais ocorrem de forma imediata ou no prazo máximo legal de <strong>15 (quinze) dias corridos</strong> conforme a LGPD (Lei nº 13.709/2018, Art. 18, §5º e Art. 19, II), respeitando apenas o ciclo técnico de sobrescrita de backups criptografados em até 30 dias corridos.
         </p>
       </div>
     );
@@ -169,17 +165,18 @@ export const DeleteAccountForm: React.FC = () => {
     <form
       onSubmit={handleSubmit}
       noValidate
+      aria-label="Formulário de solicitação de exclusão de conta e dados LGPD"
       className="tonal-surface bg-[#F7F7F8] rounded-2xl p-6 sm:p-7 space-y-5"
     >
       <div role="status" aria-live="polite" className="visually-hidden">
         {liveStatus}
       </div>
 
-      {/* Crisp straight left accent border without curved AI hooks */}
+      {/* Crisp straight left accent border */}
       <div className="flex items-start gap-3 p-4 rounded-e-xl border-s-[3px] border-[#B42318] bg-[#FDF1EF] text-[#7A271A] text-xs sm:text-sm leading-relaxed">
         <AlertTriangle className="w-5 h-5 text-[#B42318] flex-shrink-0 mt-0.5" aria-hidden="true" />
         <div>
-          <strong className="font-bold">Atenção:</strong> A exclusão definitiva da conta remove de forma irreversível suas credenciais, restrições configuradas, favoritos e dados pessoais associados.
+          <strong className="font-bold">Atenção:</strong> A exclusão total da conta elimina de forma definitiva suas credenciais Google OAuth, restrições alimentares configuradas, favoritos, avaliações textuais, fotos de refeições e coordenadas de visitas vinculadas.
         </div>
       </div>
 
@@ -187,7 +184,7 @@ export const DeleteAccountForm: React.FC = () => {
         <Input
           ref={emailRef}
           name="account_email"
-          label="E-mail cadastrado no HelpRest"
+          label="E-mail da conta no HelpRest"
           type="email"
           required
           autoComplete="email"
@@ -211,7 +208,7 @@ export const DeleteAccountForm: React.FC = () => {
             }
           }}
           placeholder="voce@exemplo.com"
-          helperText="Informe o mesmo e-mail utilizado no login tradicional ou no Google Sign-In."
+          helperText="Informe o mesmo e-mail da conta Google (Google Sign-In) utilizada no aplicativo."
         />
 
         <fieldset className="space-y-2.5">
@@ -239,7 +236,7 @@ export const DeleteAccountForm: React.FC = () => {
                   Exclusão total da conta
                 </div>
                 <div className="text-xs text-[#596168] mt-0.5 leading-snug">
-                  Remove login, perfil, restrições, favoritos e histórico vinculado.
+                  Elimina vínculo Google OAuth, perfil, flags de restrições, favoritos, comentários, fotos e visitas vinculadas.
                 </div>
               </div>
             </label>
@@ -264,7 +261,7 @@ export const DeleteAccountForm: React.FC = () => {
                   Apenas dados e histórico
                 </div>
                 <div className="text-xs text-[#596168] mt-0.5 leading-snug">
-                  Limpa registros de visitas e localização mantendo a conta cadastral ativa.
+                  Elimina registros de visitas, avaliações, fotos e localização salva mantendo o acesso cadastral ativo.
                 </div>
               </div>
             </label>
@@ -277,7 +274,7 @@ export const DeleteAccountForm: React.FC = () => {
           enterKeyHint="done"
           value={reason}
           onChange={(e) => setReason(e.target.value)}
-          placeholder="Se desejar, informe detalhes sobre o pedido ou feedback de melhoria..."
+          placeholder="Se desejar, informe detalhes sobre o pedido ou dados específicos que deseja remover..."
           rows={3}
         />
 
@@ -305,7 +302,7 @@ export const DeleteAccountForm: React.FC = () => {
               htmlFor={confirmId}
               className="text-xs sm:text-sm text-[#3F454A] leading-snug cursor-pointer select-none py-0.5"
             >
-              Confirmo que sou o titular da conta informada e estou ciente de que os dados solicitados serão removidos ou anonimizados definitivamente em até 30 dias.{' '}
+              Confirmo que sou o titular da conta informada e solicito a eliminação definitiva dos dados indicados no prazo máximo de 15 dias corridos conforme a LGPD.{' '}
               <span className="text-[#B42318]" aria-hidden="true">
                 *
               </span>
@@ -317,7 +314,10 @@ export const DeleteAccountForm: React.FC = () => {
               className="flex items-center gap-1.5 text-xs text-[#B42318] font-medium ps-8"
             >
               <AlertCircle className="w-3.5 h-3.5 flex-shrink-0" aria-hidden="true" />
-              <span>{errors.confirmation}</span>
+              <span>
+                <span className="visually-hidden">Erro: </span>
+                {errors.confirmation}
+              </span>
             </p>
           )}
         </div>

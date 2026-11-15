@@ -1,9 +1,12 @@
+'use client';
+
 import React, { useEffect, useId, useRef, useState } from 'react';
+import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 import { BrandLogo } from '../atoms/BrandLogo';
 import { Button } from '../atoms/Button';
 import { Container } from '../atoms/Container';
-import { Link } from '../../router';
-import { useRouter } from '../../router/useRouter';
+import { normalizeAppPath } from '../../lib/routes';
 import {
   Menu,
   X,
@@ -34,11 +37,11 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenDownloadModal }) => {
   const popoverId = useId();
   const mobileDrawerId = useId();
 
-  const { currentPath } = useRouter();
+  const pathname = usePathname();
   const { openDownloadModal: openGlobalModal } = useModal();
   const handleOpenModal = onOpenDownloadModal || openGlobalModal;
 
-  const normalizedPath = currentPath.split('#')[0].replace(/\/$/, '') || '/';
+  const normalizedPath = normalizeAppPath(pathname);
 
   // Progressive fallback class (.is-stuck) for browsers without scroll-state container queries
   useEffect(() => {
@@ -150,19 +153,19 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenDownloadModal }) => {
               {/* Desktop Navigation */}
               <nav className="hidden lg:flex items-center gap-1" aria-label="Navegação principal">
                 <Link
-                  to="/#restricoes"
+                  href="/#restricoes"
                   className="px-3.5 py-2.5 min-h-[44px] inline-flex items-center rounded-full text-sm font-medium text-[#3F454A] hover:text-[#11181C] hover:bg-[#F1F2F4] transition-colors"
                 >
                   Explorar filtros
                 </Link>
                 <Link
-                  to="/#como-funciona"
+                  href="/#como-funciona"
                   className="px-3.5 py-2.5 min-h-[44px] inline-flex items-center rounded-full text-sm font-medium text-[#3F454A] hover:text-[#11181C] hover:bg-[#F1F2F4] transition-colors"
                 >
                   Como funciona
                 </Link>
                 <Link
-                  to="/#restaurantes"
+                  href="/#restaurantes"
                   className="px-3.5 py-2.5 min-h-[44px] inline-flex items-center rounded-full text-sm font-medium text-[#3F454A] hover:text-[#11181C] hover:bg-[#F1F2F4] transition-colors"
                 >
                   Para restaurantes
@@ -204,7 +207,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenDownloadModal }) => {
                         return (
                           <li key={item.href}>
                             <Link
-                              to={item.href}
+                              href={item.href}
                               aria-current={isItemActive ? 'page' : undefined}
                               onClick={closePopover}
                               className={`flex items-start gap-3 p-2.5 rounded-2xl text-xs transition-colors ${
@@ -237,7 +240,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenDownloadModal }) => {
                 </div>
 
                 <Link
-                  to="/suporte"
+                  href="/suporte"
                   aria-current={normalizedPath === '/suporte' ? 'page' : undefined}
                   className={`px-3.5 py-2.5 min-h-[44px] inline-flex items-center rounded-full text-sm transition-colors ${
                     normalizedPath === '/suporte'
@@ -286,21 +289,21 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenDownloadModal }) => {
             >
               <nav aria-label="Menu móvel" className="flex flex-col space-y-1">
                 <Link
-                  to="/#restricoes"
+                  href="/#restricoes"
                   onClick={() => setMobileMenuOpen(false)}
                   className="px-3.5 py-3 min-h-[44px] inline-flex items-center rounded-2xl text-sm font-medium text-[#11181C] hover:bg-white transition-colors"
                 >
                   Explorar filtros
                 </Link>
                 <Link
-                  to="/#como-funciona"
+                  href="/#como-funciona"
                   onClick={() => setMobileMenuOpen(false)}
                   className="px-3.5 py-3 min-h-[44px] inline-flex items-center rounded-2xl text-sm font-medium text-[#11181C] hover:bg-white transition-colors"
                 >
                   Como funciona
                 </Link>
                 <Link
-                  to="/#restaurantes"
+                  href="/#restaurantes"
                   onClick={() => setMobileMenuOpen(false)}
                   className="px-3.5 py-3 min-h-[44px] inline-flex items-center rounded-2xl text-sm font-medium text-[#11181C] hover:bg-white transition-colors"
                 >
@@ -318,7 +321,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenDownloadModal }) => {
                     return (
                       <li key={item.href}>
                         <Link
-                          to={item.href}
+                          href={item.href}
                           aria-current={isItemActive ? 'page' : undefined}
                           onClick={() => setMobileMenuOpen(false)}
                           className={`flex items-center gap-2.5 px-3 py-2.5 min-h-[44px] rounded-xl text-xs transition-colors ${

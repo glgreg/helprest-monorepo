@@ -1,20 +1,21 @@
 import React from 'react';
+import Link from 'next/link';
 import { LegalLayout } from '../components/templates/LegalLayout';
-import { Link } from '../router';
 
-export const TermsOfServicePage: React.FC = () => {
+export const TermsOfServiceView: React.FC = () => {
   return (
     <LegalLayout
       title="Termos de Uso e Diretrizes da Comunidade"
       subtitle="Condições que regem o uso do aplicativo HelpRest (com.helprest), responsabilidades dos estabelecimentos parceiros, regras de conteúdo gerado por usuários e padrões de segurança infantil."
+      currentHref="/termos"
       lastUpdated="Novembro de 2026"
     >
       <p className="text-sm sm:text-base text-[#11181C] font-medium leading-relaxed">
         Ao instalar ou usar o aplicativo HelpRest ou suas páginas web associadas, operados por Gustavo L. Gregorio, você concorda integralmente com estes Termos de Uso e com a{' '}
-        <Link to="/privacidade" className="text-[#00797A] font-semibold hover:underline">
+        <Link href="/privacidade" className="text-[#00797A] font-semibold hover:underline">
           Política de Privacidade
         </Link>
-        . Para criar uma conta pessoal é necessário ter ao menos <strong className="font-bold">13 anos de idade</strong>.
+        . O uso de conta pessoal requer idade mínima de <strong className="font-bold">13 anos</strong>, devendo adolescentes entre 13 e menores de 18 anos atuar sob assistência e autorização de pai, mãe ou responsável legal (Art. 14 da LGPD).
       </p>
 
       <section className="space-y-3">
@@ -46,10 +47,10 @@ export const TermsOfServicePage: React.FC = () => {
         </h2>
         <ul className="list-disc ps-6 space-y-1.5 text-xs sm:text-sm text-[#3F454A]">
           <li>
-            O usuário compromete-se a fornecer informações verídicas e zelar pelas credenciais de acesso;
+            O usuário compromete-se a fornecer informações verídicas no perfil Google OAuth2 vinculado e zelar pelo acesso no dispositivo;
           </li>
           <li>
-            Estabelecimentos parceiros devem ser representados por empresas regularmente constituídas, sendo responsáveis pela veracidade do CNPJ, endereço, flags de cozinha declaradas e composição dos pratos exibidos no cardápio;
+            Estabelecimentos parceiros devem ser representados por empresas regularmente constituídas, sendo responsáveis pela veracidade do nome comercial, endereço, documentação empresarial (CNPJ quando aplicável), flags de cozinha declaradas e composição dos pratos exibidos no cardápio;
           </li>
           <li>
             Contas e estabelecimentos que prestem declarações enganosas sobre segurança alergênica estarão sujeitos à suspensão ou remoção imediata.
@@ -66,13 +67,13 @@ export const TermsOfServicePage: React.FC = () => {
         </p>
         <ul className="list-disc ps-6 space-y-1.5 text-xs sm:text-sm text-[#3F454A]">
           <li>
-            <strong className="text-[#11181C]">Verificação em 100 metros:</strong> o registro oficial de visita exige confirmação por GPS dentro de 100m do estabelecimento para coibir avaliações falsas ou spam;
+            <strong className="text-[#11181C]">Verificação em 100 metros:</strong> o envio de fotos em visitas avaliadas exige confirmação por GPS dentro de 100m do estabelecimento para coibir avaliações falsas ou spam;
           </li>
           <li>
             <strong className="text-[#11181C]">Conteúdo estritamente proibido:</strong> discursos de ódio, assédio, nudez, violência, dados pessoais de terceiros, difamação gratuita, publicidade enganosa ou qualquer tentativa de manipulação de coordenadas GPS;
           </li>
           <li>
-            <strong className="text-[#11181C]">Canal de Denúncia &amp; Moderação:</strong> qualquer usuário pode reportar avaliações, fotos, perfis abusivos ou informações de cardápio inconsistentes pelo e-mail{' '}
+            <strong className="text-[#11181C]">Canal de Denúncia &amp; Moderação:</strong> qualquer usuário pode reportar avaliações impróprias diretamente pelo recurso de denúncia no aplicativo ou enviar ocorrências sobre fotos, perfis abusivos ou cardápios inconsistentes para{' '}
             <a href="mailto:suporte@helprest.net" className="text-[#00797A] font-semibold hover:underline">
               suporte@helprest.net
             </a>
@@ -96,7 +97,7 @@ export const TermsOfServicePage: React.FC = () => {
               <strong className="text-[#11181C]">Proibição absoluta e bloqueio imediato:</strong> qualquer publicação, comentário, imagem de refeição, avatar ou contato que envolva exploração sexual, aliciamento, sexualização ou exposição indevida de menores resulta em remoção imediata e banimento permanente e irreversível da conta infratora.
             </li>
             <li>
-              <strong className="text-[#11181C]">Notificação compulsória às autoridades:</strong> todo indício confirmado de CSAM/CSAE é reportado prontamente às autoridades competentes nacionais e internacionais (Polícia Civil, Polícia Federal, SaferNet Brasil e NCMEC, conforme a legislação aplicável) com preservação dos registros técnicos exigidos por lei.
+              <strong className="text-[#11181C]">Notificação compulsória às autoridades:</strong> todo indício confirmado de CSAM/CSAE é reportado prontamente às autoridades competentes nacionais e internacionais (Polícia Civil, Polícia Federal, SaferNet Brasil e NCMEC, conforme a legislação aplicável) com preservação dos registros técnicos estritamente exigidos por lei (LGPD Art. 16, I).
             </li>
             <li>
               <strong className="text-[#11181C]">Ponto de contato designado para Segurança Infantil:</strong> denúncias urgentes sobre segurança de menores ou conteúdo suspeito na comunidade devem ser enviadas para{' '}

@@ -2,11 +2,12 @@ import React from 'react';
 import { LegalLayout } from '../components/templates/LegalLayout';
 import { AlertTriangle } from 'lucide-react';
 
-export const HealthDisclaimerPage: React.FC = () => {
+export const HealthDisclaimerView: React.FC = () => {
   return (
     <LegalLayout
       title="Aviso Legal de Saúde e Alérgenos"
       subtitle="Orientações sobre a natureza informativa do HelpRest, prevenção de contaminação cruzada e cuidados indispensáveis para pessoas com doença celíaca ou alergias graves."
+      currentHref="/aviso-de-saude"
       lastUpdated="Novembro de 2026"
     >
       <div className="tonal-surface rounded-e-2xl bg-[#FDF1EF] border-s-[3px] border-[#B42318] px-5 py-4 sm:px-6 sm:py-5 flex items-start gap-3">

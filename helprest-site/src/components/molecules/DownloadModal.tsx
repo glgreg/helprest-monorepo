@@ -1,6 +1,8 @@
+'use client';
+
 import React, { useCallback, useEffect, useId, useRef, useState } from 'react';
-import { Button } from '../atoms/Button';
-import { Link } from '../../router';
+import Link from 'next/link';
+import { getButtonClasses } from '../atoms/Button';
 import { X, Smartphone, ShieldCheck, Mail, ArrowRight } from 'lucide-react';
 
 export interface DownloadModalProps {
@@ -218,16 +220,16 @@ export const DownloadModal: React.FC<DownloadModalProps> = ({ isOpen, onClose })
               placeholder="voce@exemplo.com"
               className="hr-field-control flex-1 rounded-xl border border-[#717880] bg-white px-4 py-2.5 text-[#11181C] placeholder:text-[#717880] hover:border-[#11181C] focus:border-[#009C9D] transition-colors"
             />
-            <a href={notifyHref} className="inline-flex">
-              <Button
-                type="button"
-                variant="primary"
-                size="md"
-                fullWidth
-                iconLeft={<Mail className="w-4 h-4" aria-hidden="true" />}
-              >
-                Solicitar
-              </Button>
+            <a
+              href={notifyHref}
+              className={getButtonClasses({
+                variant: 'primary',
+                size: 'md',
+                className: 'w-full sm:w-auto',
+              })}
+            >
+              <Mail className="w-4 h-4" aria-hidden="true" />
+              <span>Solicitar</span>
             </a>
           </div>
         </div>
@@ -238,7 +240,7 @@ export const DownloadModal: React.FC<DownloadModalProps> = ({ isOpen, onClose })
             <span>Políticas de dados ativas</span>
           </div>
           <Link
-            to="/seguranca-dos-dados"
+            href="/seguranca-dos-dados"
             onClick={() => void requestAnimatedClose()}
             className="font-semibold text-[#00797A] hover:underline inline-flex items-center gap-1 min-h-[36px]"
           >

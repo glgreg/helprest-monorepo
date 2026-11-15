@@ -1,3 +1,5 @@
+'use client';
+
 import React from 'react';
 import { Container } from '../atoms/Container';
 import { Heading1, Paragraph } from '../atoms/Typography';

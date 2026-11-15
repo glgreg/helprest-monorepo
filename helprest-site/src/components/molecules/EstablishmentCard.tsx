@@ -1,3 +1,5 @@
+'use client';
+
 import React, { useState } from 'react';
 import { Establishment } from '../../types';
 import { DIETARY_FLAGS } from '../../data/flags';

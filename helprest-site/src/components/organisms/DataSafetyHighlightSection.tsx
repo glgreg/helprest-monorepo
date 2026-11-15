@@ -1,26 +1,26 @@
 import React from 'react';
+import Link from 'next/link';
 import { Container } from '../atoms/Container';
 import { Heading2, Paragraph } from '../atoms/Typography';
-import { Link } from '../../router';
 import { ShieldCheck, Lock, Trash2, HeartPulse, MapPin, ArrowRight } from 'lucide-react';
 
 export const DataSafetyHighlightSection: React.FC = () => {
   const docs = [
     {
       title: 'Política de Privacidade',
-      desc: 'Detalhes da LGPD, localização em segundo plano opcional e Google Sign-In.',
+      desc: 'Bases legais LGPD (incluindo dados sensíveis Art. 11), localização em segundo plano opcional e Google Sign-In.',
       href: '/privacidade',
       icon: <ShieldCheck className="w-5 h-5 text-[#009C9D]" aria-hidden="true" />,
     },
     {
       title: 'Segurança dos Dados',
-      desc: 'Permissões Android declaradas, criptografia TLS 1.3 e SDKs integrados.',
+      desc: 'Permissões Android declaradas, transporte HTTPS/TLS e SDKs integrados.',
       href: '/seguranca-dos-dados',
       icon: <Lock className="w-5 h-5 text-[#009C9D]" aria-hidden="true" />,
     },
     {
       title: 'Exclusão de Conta e Dados',
-      desc: 'Solicite a remoção da sua conta ou histórico diretamente pela web.',
+      desc: 'Solicite a eliminação definitiva de conta, avaliações, fotos e histórico em até 15 dias pela web.',
       href: '/exclusao-de-dados',
       icon: <Trash2 className="w-5 h-5 text-[#B42318]" aria-hidden="true" />,
     },
@@ -39,7 +39,7 @@ export const DataSafetyHighlightSection: React.FC = () => {
           <div className="lg:col-span-5 space-y-4">
             <Heading2>Transparência no uso dos seus dados</Heading2>
             <Paragraph>
-              Restrições alimentares e localização são tratadas apenas para filtrar locais e validar visitas presenciais. Não vendemos dados e não exibimos publicidade de redes de anúncios.
+              Restrições alimentares e localização são tratadas com consentimento específico apenas para filtrar locais e validar visitas presenciais. Não vendemos dados e não exibimos publicidade de redes de anúncios.
             </Paragraph>
             <p className="flex items-start gap-2.5 pt-1 text-xs text-[#596168] leading-relaxed">
               <MapPin
@@ -56,7 +56,7 @@ export const DataSafetyHighlightSection: React.FC = () => {
             {docs.map((doc) => (
               <Link
                 key={doc.href}
-                to={doc.href}
+                href={doc.href}
                 className="group tonal-surface bg-white hover:bg-[#EFFBFB] rounded-3xl p-5 sm:p-6 shadow-[0_2px_10px_-4px_rgba(17,24,28,0.05)] flex flex-col justify-between gap-4 transition-colors"
               >
                 <div className="space-y-2.5">

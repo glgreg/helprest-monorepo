@@ -1,3 +1,5 @@
+'use client';
+
 import React from 'react';
 import { DietaryFlag } from '../../types';
 import { Check } from 'lucide-react';

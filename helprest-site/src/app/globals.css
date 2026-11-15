@@ -102,6 +102,20 @@
   white-space: nowrap !important;
 }
 
+/* Breadcrumb CSS separator hidden from screen readers via empty alt text */
+.hr-breadcrumb > ol > li + li {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.hr-breadcrumb > ol > li + li::before {
+  content: "/" / "";
+  color: var(--color-control-stroke);
+  font-weight: 400;
+  user-select: none;
+}
+
 /* Form control typography & interaction-gated validation */
 .hr-field-control {
   font: inherit;
@@ -427,6 +441,10 @@ dialog.hr-dialog::backdrop {
 
   .tonal-chip[aria-pressed="true"] {
     outline: 2px solid Highlight;
+  }
+
+  .hr-breadcrumb a[aria-current="page"] {
+    text-decoration: underline;
   }
 }
 

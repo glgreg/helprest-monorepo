@@ -1,11 +1,11 @@
-import React, { useId } from 'react';
+import React from 'react';
+import Link from 'next/link';
 import { LegalLayout } from '../components/templates/LegalLayout';
 import { DATA_SAFETY_DECLARATIONS } from '../data/dataSafety';
 import { Lock, CheckCircle2, MapPin } from 'lucide-react';
-import { Link } from '../router';
 
-export const DataSafetyPage: React.FC = () => {
-  const permissionsCaptionId = useId();
+export const DataSafetyView: React.FC = () => {
+  const permissionsCaptionId = 'android-permissions-caption';
 
   const androidPermissions = [
     {
@@ -33,11 +33,12 @@ export const DataSafetyPage: React.FC = () => {
   return (
     <LegalLayout
       title="Segurança dos Dados (Data Safety)"
-      subtitle="Espelho público das práticas de coleta, permissões do pacote Android com.helprest, criptografia e SDKs declarados ao Google Play Console."
+      subtitle="Espelho público das práticas de coleta, permissões do pacote Android com.helprest, criptografia em trânsito, autenticação Google OAuth2 e regras de retenção declaradas ao Google Play Console."
+      currentHref="/seguranca-dos-dados"
       lastUpdated="Novembro de 2026"
     >
       <p className="text-sm sm:text-base text-[#11181C] font-medium leading-relaxed">
-        Este documento espelha integralmente as respostas enviadas ao formulário Data Safety do Google Play Console para o aplicativo HelpRest, detalhando coleta, compartilhamento técnico e controles do usuário.
+        Este documento espelha as informações técnicas declaradas no formulário Data Safety do Google Play Console para o aplicativo HelpRest, detalhando coleta, autenticação, compartilhamento técnico limitado e exclusão definitiva.
       </p>
 
       {/* Prominent Background Location Summary */}
@@ -58,21 +59,23 @@ export const DataSafetyPage: React.FC = () => {
           <div className="tonal-surface p-4 sm:p-5 rounded-2xl bg-[#F7F7F8] flex items-start gap-3">
             <CheckCircle2 className="w-5 h-5 text-[#009C9D] flex-shrink-0 mt-0.5" aria-hidden="true" />
             <div className="text-xs sm:text-sm">
-              <strong className="text-[#11181C] block font-bold">Criptografia em Trânsito</strong>
-              <span className="text-[#596168]">Comunicações sobre HTTPS / TLS 1.3 com hashing Argon2id para senhas.</span>
+              <strong className="text-[#11181C] block font-bold">HTTPS/TLS &amp; Google OAuth2</strong>
+              <span className="text-[#596168]">
+                Tráfego criptografado via HTTPS (TLS 1.2/1.3), validação Google JWKS e tokens JWT assinados.
+              </span>
             </div>
           </div>
 
           <div className="tonal-surface p-4 sm:p-5 rounded-2xl bg-[#F7F7F8] flex items-start gap-3">
             <CheckCircle2 className="w-5 h-5 text-[#009C9D] flex-shrink-0 mt-0.5" aria-hidden="true" />
             <div className="text-xs sm:text-sm">
-              <strong className="text-[#11181C] block font-bold">Solicitação de Exclusão na Web</strong>
+              <strong className="text-[#11181C] block font-bold">Exclusão Web em até 15 Dias</strong>
               <span className="text-[#596168]">
-                Canal público em{' '}
-                <Link to="/exclusao-de-dados" className="text-[#00797A] font-semibold hover:underline">
+                Canal estático em{' '}
+                <Link href="/exclusao-de-dados" className="text-[#00797A] font-semibold hover:underline">
                   /exclusao-de-dados
                 </Link>{' '}
-                com prazo de até 30 dias.
+                com eliminação definitiva conforme a LGPD.
               </span>
             </div>
           </div>
@@ -197,8 +200,8 @@ export const DataSafetyPage: React.FC = () => {
           Faixa Etária, Categoria e Declarações de Plataforma
         </h2>
         <p className="text-xs sm:text-sm text-[#3F454A]">
-          Aplicativo independente privado (não vinculado a entidade governamental) na categoria de gastronomia (<em>Comer e beber</em>), classificado para público geral com idade mínima de <strong className="text-[#11181C]">13 anos</strong> para cadastro de conta individual e conformidade integral com os{' '}
-          <Link to="/termos#seguranca-infantil" className="text-[#00797A] font-semibold hover:underline">
+          Aplicativo independente privado (não vinculado a entidade governamental) na categoria de gastronomia (<em>Comer e beber</em>), classificado com idade mínima de <strong className="text-[#11181C]">13 anos</strong> (assistido por pais ou responsáveis para menores de 18 anos nos termos do Art. 14 da LGPD) e conformidade integral com os{' '}
+          <Link href="/termos#seguranca-infantil" className="text-[#00797A] font-semibold hover:underline">
             Padrões de Segurança Infantil (CSAE/CSAM)
           </Link>
           .
