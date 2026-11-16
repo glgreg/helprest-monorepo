@@ -1,11 +1,11 @@
 import React from 'react';
+import Link from 'next/link';
 import { Container } from '../atoms/Container';
 import { BrandLogo } from '../atoms/BrandLogo';
-import { Link } from '../../router';
 import { Mail, MapPin, ShieldCheck } from 'lucide-react';
 
 export const Footer: React.FC = () => {
-  const currentYear = new Date().getFullYear();
+  const currentYear = 2026;
 
   return (
     <footer className="surface-footer bg-[#11181C] text-[#CBD2D9] text-sm">
@@ -45,22 +45,22 @@ export const Footer: React.FC = () => {
             <h2 className="font-sans text-xs font-semibold text-white">Produto</h2>
             <ul className="space-y-2.5 text-xs text-[#E2E8F0]">
               <li>
-                <Link to="/#restricoes" className="hover:text-white transition-colors">
+                <Link href="/#restricoes" className="hover:text-white transition-colors">
                   Simulador de Filtros
                 </Link>
               </li>
               <li>
-                <Link to="/#como-funciona" className="hover:text-white transition-colors">
+                <Link href="/#como-funciona" className="hover:text-white transition-colors">
                   Como Funciona
                 </Link>
               </li>
               <li>
-                <Link to="/#restaurantes" className="hover:text-white transition-colors">
+                <Link href="/#restaurantes" className="hover:text-white transition-colors">
                   Para Restaurantes
                 </Link>
               </li>
               <li>
-                <Link to="/suporte" className="hover:text-white transition-colors">
+                <Link href="/suporte" className="hover:text-white transition-colors">
                   Central de Suporte
                 </Link>
               </li>
@@ -72,27 +72,27 @@ export const Footer: React.FC = () => {
             <h2 className="font-sans text-xs font-semibold text-white">Privacidade e Termos</h2>
             <ul className="space-y-2.5 text-xs text-[#E2E8F0]">
               <li>
-                <Link to="/privacidade" className="hover:text-white transition-colors">
+                <Link href="/privacidade" className="hover:text-white transition-colors">
                   Política de Privacidade
                 </Link>
               </li>
               <li>
-                <Link to="/seguranca-dos-dados" className="hover:text-white transition-colors">
+                <Link href="/seguranca-dos-dados" className="hover:text-white transition-colors">
                   Segurança dos Dados (Data Safety)
                 </Link>
               </li>
               <li>
-                <Link to="/exclusao-de-dados" className="hover:text-white transition-colors">
+                <Link href="/exclusao-de-dados" className="hover:text-white transition-colors">
                   Exclusão de Conta e Dados
                 </Link>
               </li>
               <li>
-                <Link to="/aviso-de-saude" className="hover:text-white transition-colors">
+                <Link href="/aviso-de-saude" className="hover:text-white transition-colors">
                   Aviso Legal de Saúde &amp; Alérgenos
                 </Link>
               </li>
               <li>
-                <Link to="/termos" className="hover:text-white transition-colors">
+                <Link href="/termos" className="hover:text-white transition-colors">
                   Termos de Uso e Segurança Infantil
                 </Link>
               </li>

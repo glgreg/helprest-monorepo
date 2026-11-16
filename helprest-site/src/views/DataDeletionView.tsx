@@ -1,15 +1,16 @@
-import React, { useId } from 'react';
+import React from 'react';
 import { LegalLayout } from '../components/templates/LegalLayout';
 import { DeleteAccountForm } from '../components/molecules/DeleteAccountForm';
 import { ShieldCheck, Clock } from 'lucide-react';
 
-export const DataDeletionPage: React.FC = () => {
-  const retentionCaptionId = useId();
+export const DataDeletionView: React.FC = () => {
+  const retentionCaptionId = 'lgpd-retention-caption';
 
   return (
     <LegalLayout
       title="Exclusão de Conta e Dados Pessoais"
-      subtitle="Recurso oficial na web para solicitar a exclusão definitiva de conta ou de histórico de dados do aplicativo HelpRest (com.helprest), em conformidade com o Google Play Console e a LGPD."
+      subtitle="Canal web oficial e independente para solicitar a eliminação definitiva de sua conta ou histórico de dados no aplicativo HelpRest (com.helprest), em conformidade com a LGPD (Lei nº 13.709/2018) e o Google Play Console."
+      currentHref="/exclusao-de-dados"
       lastUpdated="Novembro de 2026"
     >
       {/* Play Console Identity & Account Deletion Reference */}
@@ -28,7 +29,7 @@ export const DataDeletionPage: React.FC = () => {
             <code className="font-mono font-semibold text-xs text-[#11181C]">com.helprest</code>
           </div>
           <div>
-            <span className="text-[#596168] text-xs block">Desenvolvedor / DPO</span>
+            <span className="text-[#596168] text-xs block">Controlador / DPO</span>
             <strong className="break-words">Gustavo L. Gregorio (privacidade@helprest.net)</strong>
           </div>
         </div>
@@ -48,18 +49,18 @@ export const DataDeletionPage: React.FC = () => {
                 01
               </span>
               <h3 className="text-sm font-bold text-[#11181C]">
-                Solicitação Web e E-mail Oficial
+                Solicitação Web e <span className="whitespace-nowrap">E-mail</span> Oficial (LGPD Art. 18)
               </h3>
             </div>
             <p className="text-xs sm:text-sm text-[#3F454A] leading-relaxed">
-              Ideal mesmo que você já tenha desinstalado o app ou alterado de aparelho. Preencha o formulário abaixo para gerar o protocolo de exclusão integral ou parcial (concluído em até 30 dias) e encaminhar para{' '}
+              Funciona mesmo que você já tenha desinstalado o aplicativo ou trocado de smartphone. Preencha o formulário abaixo para gerar seu protocolo formal e enviar ao DPO em{' '}
               <a
                 href="mailto:privacidade@helprest.net"
                 className="font-semibold text-[#00797A] hover:underline"
               >
                 privacidade@helprest.net
-              </a>
-              .
+              </a>{' '}
+              (atendimento imediato ou em até <strong>15 dias corridos</strong>).
             </p>
           </div>
 
@@ -75,11 +76,14 @@ export const DataDeletionPage: React.FC = () => {
             </div>
             <ol className="list-decimal ps-5 text-xs sm:text-sm text-[#3F454A] space-y-1.5">
               <li>
-                No aplicativo, abra seu perfil tocando no avatar da barra superior e selecione <strong className="text-[#11181C]">Sair</strong> para encerrar os tokens da sessão no dispositivo;
+                No aplicativo, acesse seu perfil tocando no avatar e selecione <strong className="text-[#11181C]">Sair</strong> para revogar os tokens JWT armazenados no aparelho;
               </li>
               <li>
-                Para interromper imediatamente qualquer acesso de localização (inclusive segundo plano), abra{' '}
-                <strong className="text-[#11181C]">Configurações do Android &gt; Aplicativos &gt; HelpRest &gt; Permissões</strong> e defina Localização como <em>Não permitir</em>.
+                Para interromper na hora o acesso de localização (inclusive segundo plano), abra{' '}
+                <strong className="text-[#11181C]">Configurações do Android &gt; Aplicativos &gt; HelpRest &gt; Permissões</strong> e defina Localização como <em>Não permitir</em>;
+              </li>
+              <li>
+                Você também pode gerenciar o vínculo OAuth em sua conta Google (<em>Segurança &gt; Conexões com apps de terceiros</em>).
               </li>
             </ol>
           </div>
@@ -94,10 +98,10 @@ export const DataDeletionPage: React.FC = () => {
         <DeleteAccountForm />
       </section>
 
-      {/* Retention Table */}
+      {/* LGPD Retention Table */}
       <section className="space-y-4 pt-2">
         <h2 className="font-display text-lg sm:text-xl font-bold text-[#11181C]">
-          Dados Excluídos, Retenção e Anonimização
+          Eliminação Definitiva, Estatísticas Anônimas e Prazos LGPD
         </h2>
 
         <div
@@ -116,15 +120,15 @@ export const DataDeletionPage: React.FC = () => {
             }
           >
             <caption id={retentionCaptionId} className="visually-hidden">
-              Tabela de categorias de dados excluídos ou anonimizados e prazos máximos de atendimento
+              Tabela de eliminação de dados pessoais e regras de guarda legal sob a LGPD
             </caption>
             <thead>
               <tr className="bg-[#F1F2F4] text-[#11181C]">
                 <th scope="col" className="py-3 px-4 font-semibold text-start rounded-ts-2xl">
-                  Tipo de Dado
+                  Categoria de Dado
                 </th>
                 <th scope="col" className="py-3 px-4 font-semibold text-start">
-                  Tratamento Aplicado
+                  Tratamento Aplicado (Art. 15, 16 e 18 LGPD)
                 </th>
                 <th scope="col" className="py-3 px-4 font-semibold text-start rounded-te-2xl">
                   Prazo Máximo
@@ -134,42 +138,57 @@ export const DataDeletionPage: React.FC = () => {
             <tbody className="text-[#3F454A]">
               <tr>
                 <th scope="row" className="py-3 px-4 font-semibold text-[#11181C]">
-                  Nome, E-mail, Data de Nascimento e Senha/OAuth
-                </th>
-                <td className="py-3 px-4 text-[#B42318] font-semibold">Exclusão permanente</td>
-                <td className="py-3 px-4">Até 30 dias corridos</td>
-              </tr>
-              <tr>
-                <th scope="row" className="py-3 px-4 font-semibold text-[#11181C]">
-                  Flags de Restrição Alimentar e Foto de Perfil
-                </th>
-                <td className="py-3 px-4 text-[#B42318] font-semibold">Exclusão permanente</td>
-                <td className="py-3 px-4">Até 30 dias corridos</td>
-              </tr>
-              <tr>
-                <th scope="row" className="py-3 px-4 font-semibold text-[#11181C]">
-                  Favoritos (Locais e Produtos)
-                </th>
-                <td className="py-3 px-4 text-[#B42318] font-semibold">Exclusão permanente</td>
-                <td className="py-3 px-4">Até 30 dias corridos</td>
-              </tr>
-              <tr>
-                <th scope="row" className="py-3 px-4 font-semibold text-[#11181C]">
-                  Registros de Visitas e Coordenadas Vinculadas
+                  Nome, E-mail, Data de Nascimento e Vínculo Google OAuth2
                 </th>
                 <td className="py-3 px-4 text-[#B42318] font-semibold">
-                  Exclusão permanente ou desvinculação total
+                  Eliminação definitiva dos bancos operacionais
                 </td>
-                <td className="py-3 px-4">Até 30 dias corridos</td>
+                <td className="py-3 px-4">Imediato ou até 15 dias corridos</td>
               </tr>
               <tr>
                 <th scope="row" className="py-3 px-4 font-semibold text-[#11181C]">
-                  Médias Coletivas de Avaliação
+                  Flags Alimentares (Dados Sensíveis Art. 11), Foto e Links
+                </th>
+                <td className="py-3 px-4 text-[#B42318] font-semibold">
+                  Eliminação definitiva e revogação integral do consentimento
+                </td>
+                <td className="py-3 px-4">Imediato ou até 15 dias corridos</td>
+              </tr>
+              <tr>
+                <th scope="row" className="py-3 px-4 font-semibold text-[#11181C]">
+                  Favoritos (Locais/Produtos) e Localização Salva
+                </th>
+                <td className="py-3 px-4 text-[#B42318] font-semibold">
+                  Eliminação definitiva
+                </td>
+                <td className="py-3 px-4">Imediato ou até 15 dias corridos</td>
+              </tr>
+              <tr>
+                <th scope="row" className="py-3 px-4 font-semibold text-[#11181C]">
+                  Visitas, Avaliações Textuais, Fotos e Coordenadas Vinculadas
+                </th>
+                <td className="py-3 px-4 text-[#B42318] font-semibold">
+                  Eliminação definitiva (textos e fotos não permanecem expostos como “desvinculados”)
+                </td>
+                <td className="py-3 px-4">Imediato ou até 15 dias corridos</td>
+              </tr>
+              <tr>
+                <th scope="row" className="py-3 px-4 font-semibold text-[#11181C]">
+                  Média Numérica Coletiva do Estabelecimento
                 </th>
                 <td className="py-3 px-4 text-[#00797A] font-semibold">
-                  Anonimização sem vínculo pessoal
+                  Apenas recálculo estatístico estritamente anônimo (Art. 12 e 16, IV), ou supressão em baixo volume sem reidentificação
                 </td>
-                <td className="py-3 px-4">Até 30 dias corridos</td>
+                <td className="py-3 px-4">Até 15 dias corridos</td>
+              </tr>
+              <tr>
+                <th scope="row" className="py-3 px-4 font-semibold text-[#11181C]">
+                  Registros de Dever Legal (Art. 16, I) e Backups Cíclicos
+                </th>
+                <td className="py-3 px-4">
+                  Reserva legal isolada apenas quando exigida por lei/ordem judicial; backups criptografados sobrescritos em ciclo automático
+                </td>
+                <td className="py-3 px-4">Backups: até 30 dias · Dever legal: fim do prazo</td>
               </tr>
             </tbody>
           </table>
@@ -178,7 +197,7 @@ export const DataDeletionPage: React.FC = () => {
         <div className="flex items-start sm:items-center gap-2 text-xs text-[#596168]">
           <Clock className="w-4 h-4 text-[#009C9D] flex-shrink-0 mt-0.5 sm:mt-0" aria-hidden="true" />
           <span>
-            Caso opte apenas pela “Exclusão Apenas de Dados / Histórico”, suas credenciais permanecem ativas enquanto registros de visitas e localização associados são apagados.
+            Caso opte apenas pela “Exclusão Apenas de Dados e Histórico”, seus textos de avaliações, fotos e coordenadas são apagados permanentemente enquanto o cadastro básico da conta permanece ativo. Em qualquer hipótese assistida pela LGPD, o titular também pode peticionar diretamente à ANPD (Art. 18, §1º).
           </span>
         </div>
       </section>

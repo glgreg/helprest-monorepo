@@ -1,14 +1,18 @@
+'use client';
+
 import React from 'react';
+import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 import { Navbar } from '../organisms/Navbar';
 import { Footer } from '../organisms/Footer';
 import { Container } from '../atoms/Container';
 import { Breadcrumb } from '../molecules/Breadcrumb';
-import { Link } from '../../router';
-import { useRouter } from '../../router/useRouter';
+import { LEGAL_NAV_ITEMS, normalizeAppPath } from '../../lib/routes';
 
 export interface LegalLayoutProps {
   title: string;
   subtitle: string;
+  currentHref?: string;
   lastUpdated?: string;
   children: React.ReactNode;
 }
@@ -16,27 +20,19 @@ export interface LegalLayoutProps {
 export const LegalLayout: React.FC<LegalLayoutProps> = ({
   title,
   subtitle,
+  currentHref,
   lastUpdated = 'Novembro de 2026',
   children,
 }) => {
-  const { currentPath } = useRouter();
-
-  const legalNavItems = [
-    { label: 'Política de Privacidade', href: '/privacidade' },
-    { label: 'Segurança dos Dados', href: '/seguranca-dos-dados' },
-    { label: 'Exclusão de Conta e Dados', href: '/exclusao-de-dados' },
-    { label: 'Aviso de Saúde & Alérgenos', href: '/aviso-de-saude' },
-    { label: 'Termos de Uso', href: '/termos' },
-    { label: 'Central de Suporte', href: '/suporte' },
-  ];
-
-  const normalizedPath = currentPath.split('#')[0].replace(/\/$/, '') || '/';
+  const pathname = usePathname();
+  const normalizedPath = normalizeAppPath(pathname);
+  const resolvedHref = currentHref || normalizedPath;
 
   return (
     <div className="min-h-screen flex flex-col bg-[#F7F7F8] text-[#11181C] font-sans">
       <a
         href="#main-content"
-        className="visually-hidden fixed top-3 start-3 z-50 rounded-full bg-[#009C9D] px-4 py-2.5 text-sm font-semibold text-[#09181A] shadow-lg"
+        className="visually-hidden fixed top-3 start-3 z-50 rounded-full bg-[#009C9D] px-4 py-2.5 text-sm font-semibold text-white shadow-lg"
       >
         Ir para o conteúdo principal
       </a>
@@ -45,7 +41,7 @@ export const LegalLayout: React.FC<LegalLayoutProps> = ({
 
       <main id="main-content" tabIndex={-1} className="flex-1 py-10 sm:py-14 focus:outline-none">
         <Container size="lg">
-          <Breadcrumb currentPageTitle={title} />
+          <Breadcrumb currentPageTitle={title} currentHref={resolvedHref} />
 
           {/* Clean Document Header */}
           <header className="mb-8 space-y-2.5">
@@ -67,12 +63,12 @@ export const LegalLayout: React.FC<LegalLayoutProps> = ({
             className="lg:hidden mb-6 tonal-surface bg-white rounded-2xl p-2 shadow-[0_2px_10px_-4px_rgba(17,24,28,0.06)]"
           >
             <ul className="flex items-center gap-1 overflow-x-auto scrollbar-none">
-              {legalNavItems.map((item) => {
+              {LEGAL_NAV_ITEMS.map((item) => {
                 const isActive = normalizedPath === item.href;
                 return (
                   <li key={item.href} className="flex-shrink-0">
                     <Link
-                      to={item.href}
+                      href={item.href}
                       aria-current={isActive ? 'page' : undefined}
                       className={`inline-flex items-center px-3.5 py-2.5 min-h-[44px] rounded-xl text-xs whitespace-nowrap transition-colors ${
                         isActive
@@ -97,16 +93,16 @@ export const LegalLayout: React.FC<LegalLayoutProps> = ({
                     Documentos do aplicativo
                   </div>
                   <ul className="space-y-0.5">
-                    {legalNavItems.map((item) => {
+                    {LEGAL_NAV_ITEMS.map((item) => {
                       const isActive = normalizedPath === item.href;
                       return (
                         <li key={item.href}>
                           <Link
-                            to={item.href}
+                            href={item.href}
                             aria-current={isActive ? 'page' : undefined}
                             className={`flex items-center px-3.5 py-2.5 min-h-[44px] text-sm transition-colors ${
                               isActive
-                                ? 'border-s-[3px] border-[#009C9D] bg-[#EFFBFB] text-[#09181A] font-semibold rounded-e-xl'
+                                ? 'border-s-[3px] border-[#009C9D] bg-[#EFFBFB] text-[#00797A] font-semibold rounded-e-xl'
                                 : 'border-s-[3px] border-transparent text-[#3F454A] hover:bg-[#F7F7F8] hover:text-[#11181C] font-medium rounded-xl'
                             }`}
                           >

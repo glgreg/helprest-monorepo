@@ -1,3 +1,5 @@
+'use client';
+
 import React, { useState } from 'react';
 import { DownloadModal } from '../components/molecules/DownloadModal';
 import { ModalContext } from './useModal';

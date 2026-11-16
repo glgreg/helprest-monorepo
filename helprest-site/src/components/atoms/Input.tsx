@@ -1,3 +1,5 @@
+'use client';
+
 import React, { useId } from 'react';
 import { AlertCircle } from 'lucide-react';
 
@@ -58,7 +60,10 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(
         {error && (
           <p id={errorId} className="flex items-center gap-1.5 text-xs text-[#B42318] font-medium pt-0.5">
             <AlertCircle className="w-3.5 h-3.5 flex-shrink-0" aria-hidden="true" />
-            <span>{error}</span>
+            <span>
+              <span className="visually-hidden">Erro: </span>
+              {error}
+            </span>
           </p>
         )}
       </div>
@@ -116,7 +121,10 @@ export const Textarea = React.forwardRef<HTMLTextAreaElement, TextareaProps>(
         {error && (
           <p id={errorId} className="flex items-center gap-1.5 text-xs text-[#B42318] font-medium pt-0.5">
             <AlertCircle className="w-3.5 h-3.5 flex-shrink-0" aria-hidden="true" />
-            <span>{error}</span>
+            <span>
+              <span className="visually-hidden">Erro: </span>
+              {error}
+            </span>
           </p>
         )}
       </div>

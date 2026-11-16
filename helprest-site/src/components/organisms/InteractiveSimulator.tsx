@@ -1,3 +1,5 @@
+'use client';
+
 import React, { useState } from 'react';
 import { Container } from '../atoms/Container';
 import { Heading2, Paragraph } from '../atoms/Typography';
@@ -72,10 +74,9 @@ export const InteractiveSimulator: React.FC = () => {
         </div>
 
         {/* Elevated White Filter Tray on #F7F7F8 Canvas */}
-        <div
-          role="search"
+        <search
           aria-label="Filtrar restaurantes por restrição alimentar"
-          className="tonal-surface bg-white rounded-3xl p-5 sm:p-6 shadow-[0_2px_12px_-4px_rgba(17,24,28,0.06)] mb-10 space-y-5"
+          className="block tonal-surface bg-white rounded-3xl p-5 sm:p-6 shadow-[0_2px_12px_-4px_rgba(17,24,28,0.06)] mb-10 space-y-5"
         >
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
             <div className="flex flex-wrap items-center gap-2">
@@ -110,7 +111,7 @@ export const InteractiveSimulator: React.FC = () => {
               />
             ))}
           </div>
-        </div>
+        </search>
 
         {rankedEstablishments.length === 0 ? (
           <div className="tonal-surface text-center py-12 px-6 bg-white rounded-3xl shadow-[0_2px_12px_-4px_rgba(17,24,28,0.06)] space-y-2.5">

@@ -1,3 +1,5 @@
+'use client';
+
 import React, { useState } from 'react';
 import {
   MapPin,
@@ -238,7 +240,7 @@ export const PhoneMockup: React.FC = () => {
                 <button
                   type="button"
                   onClick={() => setVisitToast(true)}
-                  className="w-full py-2.5 px-4 rounded-full bg-[#009C9D] hover:bg-[#1BA6A7] text-[#09181A] text-xs font-semibold flex items-center justify-center gap-1.5 cursor-pointer transition-colors"
+                  className="w-full py-2.5 px-4 rounded-full bg-[#009C9D] hover:bg-[#008A8B] text-white text-xs font-semibold flex items-center justify-center gap-1.5 cursor-pointer transition-colors"
                 >
                   <Camera className="w-3.5 h-3.5" aria-hidden="true" />
                   <span>Registrar visita (raio 100m)</span>
@@ -575,7 +577,7 @@ export const PhoneMockup: React.FC = () => {
                     <button
                       type="button"
                       onClick={() => openDetails(SAMPLE_ESTABLISHMENTS[2])}
-                      className="text-[11px] font-semibold px-3 py-1 rounded-full bg-[#009C9D] text-[#09181A] cursor-pointer hover:bg-[#1BA6A7]"
+                      className="text-[11px] font-semibold px-3 py-1 rounded-full bg-[#009C9D] text-white cursor-pointer hover:bg-[#008A8B]"
                     >
                       Ver
                     </button>
@@ -586,7 +588,7 @@ export const PhoneMockup: React.FC = () => {
                   <div className="flex items-center justify-between">
                     <div className="flex items-center gap-2">
                       <div
-                        className="w-7 h-7 rounded-full bg-[#009C9D] text-[#09181A] text-[10px] font-bold flex items-center justify-center"
+                        className="w-7 h-7 rounded-full bg-[#009C9D] text-white text-[10px] font-bold flex items-center justify-center"
                         aria-hidden="true"
                       >
                         CM

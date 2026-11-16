@@ -1,83 +1,79 @@
 # HelpRest Site Web
 
-Portal institucional e landing page oficial do **HelpRest** — plataforma mobile-first inteligente para busca, descoberta e recomendação gastronômica orientada a restrições alimentares (doença celíaca, intolerância a lactose, dietas veganas/vegetarianas e alergias severas).
+Portal institucional e hub oficial de conformidade do **HelpRest** — plataforma mobile-first inteligente para busca, descoberta e recomendação gastronômica orientada a restrições alimentares (doença celíaca, intolerância a lactose, dietas veganas/vegetarianas e alergias severas).
 
-Desenvolvido em **Vite + React 19 + TypeScript + Tailwind CSS** seguindo rigorosos padrões de **Design Atômico**, Clean Code e total conformidade com as diretrizes do **Google Play Console** e da **Lei Geral de Proteção de Dados (LGPD)**.
+Construído em **Next.js 16 (App Router com Static Site Generation via `output: 'export'`) + React 19 + TypeScript + Tailwind CSS v4**, gerando arquivos `.html` estáticos pré-renderizados (**HTTP 200 OK** direto por rota) em total conformidade com o **Google Play Console** e a **LGPD (Lei nº 13.709/2018)**.
 
 ---
 
 ## 📱 Visão de Produto
 
-O site apresenta a proposta de valor do aplicativo para consumidores e gestores de restaurantes com uma visão 100% focada em produto:
-- **Redirecionamento para Download**: Botão interativo para download na **Google Play Store** (com fluxo de Acesso Antecipado e especificações do pacote `com.helprest`) e indicador "Em breve" para **Apple App Store**.
-- **Simulador Interativo de Flags**: Demonstração em tempo real de como o algoritmo calcula o `flagMatchRatio`, priorizando locais com **100% de compatibilidade** e excluindo opções inseguras.
-- **Geofencing de 100 Metros**: Destaque para a tecnologia anti-fraude que exige validação de presença física via GPS para publicação de fotos e avaliações comunitárias.
-- **Portal de Empresas & Restaurantes**: Seção dedicada para cadastramento de cozinhas, selos de isolamento contra contaminação cruzada e gestão de cardápios com alérgenos.
+O portal apresenta a proposta de valor do aplicativo para consumidores e gestores de restaurantes:
+- **Redirecionamento para Download**: Diálogo modal nativo para download na **Google Play Store** (com especificações do pacote `com.helprest`) e indicador "Em breve" para **Apple App Store**.
+- **Simulador Interativo de Flags**: Demonstração em tempo real do ranqueamento `flagMatchRatio` e regra de exclusão *zero-match*.
+- **Geofencing de 100 Metros**: Destaque para a verificação de presença física via GPS ao enviar fotos em visitas avaliadas.
+- **Portal de Empresas & Restaurantes**: Seção dedicada para cadastro de cozinhas, gestão de cardápios separados (*"Para você"* / *"Outros Itens"*) e alérgenos.
 
 ---
 
-## 🛡️ Páginas e Conformidade com o Google Play Console
+## 🛡️ Páginas Estáticas (SSG) e Conformidade Google Play / LGPD
 
-O site disponibiliza todas as páginas públicas obrigatórias para publicação e homologação de aplicativos na Google Play Store:
+Todas as rotas geram HTML estático real em `out/` (além dos aliases em inglês com `rel="canonical"` apontando para as URLs em português):
 
-| Rota | Documento | Finalidade & Exigência |
-| --- | --- | --- |
-| `/` | **Página Inicial** | Apresentação do produto, simulador de flags, prova social e chamadas para download |
-| `/privacidade` | **Política de Privacidade** | Declaração de tratamento de dados pessoais, permissões (`ACCESS_FINE_LOCATION`, `ACCESS_BACKGROUND_LOCATION`), criptografia e direitos LGPD |
-| `/termos` | **Termos de Uso & Segurança Infantil** | Condições gerais, regras comunitárias de reviews, **Padrões de Segurança Infantil (CSAE/CSAM)** (`#seguranca-infantil`) e foro |
-| `/exclusao-de-dados` | **Exclusão de Conta e Dados** | **Exigência obrigatória Google Play**: Instruções no app e formulário web para solicitar deleção integral |
-| `/seguranca-dos-dados` | **Segurança dos Dados (Data Safety)** | Espelho transparente das declarações do Google Play Console (criptografia TLS 1.3, Argon2id, sem redes de anúncios nem venda de dados) |
-| `/aviso-de-saude` | **Aviso Legal de Saúde & Alérgenos** | Declaração de conformidade com a política de saúde: aviso de ferramenta não-médica e orientações de anafilaxia |
-| `/suporte` | **Central de Suporte & Desenvolvedor** | Dados cadastrais do desenvolvedor (`suporte@helprest.net`, pacote `com.helprest`, horário de atendimento e formulário) |
+| Rota Canônica | Aliases | Documento | Finalidade & Exigência |
+| --- | --- | --- | --- |
+| `/` | — | **Página Inicial** | Apresentação do produto, simulador de flags, prova social e download |
+| `/privacidade` | `/privacy` | **Política de Privacidade** | DPO (Art. 41), dados sensíveis alimentares (Art. 11, I), permissões Android (`ACCESS_BACKGROUND_LOCATION`), OAuth2 Google, transferência internacional (Art. 33 / Res. ANPD 19/2024), prazo LGPD de **15 dias** e Art. 14 / 20 |
+| `/exclusao-de-dados` | `/data-deletion` | **Exclusão de Conta e Dados** | Canal web oficial independente para eliminação definitiva em até **15 dias corridos** (incluindo expurgo de avaliações textuais, fotos e coordenadas vinculadas) via `privacidade@helprest.net` |
+| `/seguranca-dos-dados` | `/data-safety` | **Segurança dos Dados** | Espelho do formulário Data Safety (HTTPS TLS 1.2/1.3, Google OAuth2 JWKS/JWT, matriz de permissões Android, sem redes de anúncios nem coleta financeira) |
+| `/aviso-de-saude` | `/health-disclaimer` | **Aviso de Saúde & Alérgenos** | Natureza informativa (não médica, sem Health Connect), alerta de contaminação cruzada e cuidados de anafilaxia |
+| `/termos` | `/terms` | **Termos de Uso & CSAE** | Condições gerais, moderação/denúncia de UGC, geofencing 100m, faixa etária (`13+`, Art. 14) e **Padrões de Segurança Infantil (CSAE/CSAM)** em `#seguranca-infantil` |
+| `/suporte` | `/support`, `/contato` | **Central de Suporte** | Dados do desenvolvedor (`Gustavo L. Gregorio`), e-mails `@helprest.net`, pacote `com.helprest` e formulário de contato |
+
+Também são gerados estaticamente: `out/404.html`, `out/sitemap.xml` e `out/robots.txt`.
 
 ---
 
-## 🏛️ Arquitetura de Componentes (Design Atômico)
+## 🏛️ Arquitetura de Diretórios
 
-A interface é construída em camadas atômicas estritas, sem elementos HTML crus no ponto de entrada (`main.tsx`):
-
-```
+```text
 src/
-├── assets/                  # Logos e recursos visuais locais
+├── app/                     # Next.js App Router (layout, globals.css, providers, not-found, sitemap, robots, **/page.tsx)
+├── views/                   # Composições de página renderizadas pelas rotas App Router
 ├── components/
-│   ├── atoms/              # Button, Badge, BrandLogo, Container, Typography, StarRating, StoreBadge, Input
-│   ├── molecules/          # FlagChip, EstablishmentCard, PhoneMockup, Accordion, Breadcrumb, DeleteAccountForm, ContactForm, DownloadModal
-│   ├── organisms/          # Navbar, HeroSection, InteractiveSimulator, HowItWorksSection, AppFeaturesSection, ForEstablishmentsSection, ReviewsSection, DataSafetyHighlightSection, FaqSection, DownloadCtaSection, Footer
-│   └── templates/          # MainLayout, LegalLayout
-├── context/                # ModalContext, useModal (controle global de modais e downloads)
-├── data/                   # Mock e dados reais de flags, restaurantes, avaliações, FAQs e Data Safety
-├── pages/                  # HomePage, PrivacyPolicyPage, TermsOfServicePage, DataDeletionPage, DataSafetyPage, HealthDisclaimerPage, SupportPage
-├── router/                 # RouterProvider, Link, useRouter (roteamento leve e fluido com histórico e scroll)
-├── types/                  # Definições TypeScript estritas de entidades e formulários
-├── App.tsx                 # Composição de rotas
-├── index.css               # Tema Tailwind CSS e tokens visuais
-└── main.tsx                # Montagem pura da aplicação React via createRoot
+│   ├── atoms/               # Button (+ getButtonClasses), Badge, BrandLogo, Container, Typography, StarRating, StoreBadge, Input
+│   ├── molecules/           # FlagChip, EstablishmentCard, PhoneMockup, Accordion, Breadcrumb, DeleteAccountForm, ContactForm, DownloadModal
+│   ├── organisms/           # Navbar, HeroSection, InteractiveSimulator, HowItWorksSection, ForEstablishmentsSection, ReviewsSection, DataSafetyHighlightSection, FaqSection, DownloadCtaSection, GooglePlayComplianceHub, Footer
+│   └── templates/           # MainLayout, LegalLayout
+├── context/                 # ModalContext, useModal
+├── data/                    # Flags, estabelecimentos demo, avaliações, FAQs e catálogo Data Safety
+├── lib/                     # Rotas legais e normalização de paths (routes.ts)
+└── types/                   # Definições TypeScript estritas
 ```
 
 ---
 
-## 🚀 Como Executar
+## 🚀 Como Executar e Implantar
 
 ### Pré-requisitos
 - Node.js >= 20 (ou 24 LTS)
 - npm >= 10
 
-### Instalação
+### Instalação e Desenvolvimento
 ```bash
 cd helprest-site
 npm install
-```
-
-### Desenvolvimento
-```bash
 npm run dev
 ```
 
-### Validação de Qualidade
+### Validação e Build Estático (`out/`)
 ```bash
-# Verificação de Tipagem Estrita
-npm run build # (tsc -b && vite build)
-
-# Linter ESLint 9 Flat Config
-npm run lint
+npm run typecheck   # Verificação TypeScript estrita (tsc --noEmit)
+npm run lint        # Next ESLint (eslint .)
+npm run build       # Gera arquivos estáticos HTML/CSS/JS em out/
+npm run preview     # Serve a pasta out/ localmente (npx serve@latest out)
 ```
+
+### Nota de Deploy na Vercel
+- **Root Directory**: `helprest-site`
+- **Framework Preset**: **Next.js** (O Next.js exporta estaticamente para `out/` via `output: 'export'` em `next.config.ts`, permitindo rotas reais HTTP 200 sem fallback SPA).

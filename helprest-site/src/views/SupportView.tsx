@@ -1,14 +1,15 @@
 import React from 'react';
+import Link from 'next/link';
 import { LegalLayout } from '../components/templates/LegalLayout';
 import { ContactForm } from '../components/molecules/ContactForm';
 import { Clock, ArrowRight } from 'lucide-react';
-import { Link } from '../router';
 
-export const SupportPage: React.FC = () => {
+export const SupportView: React.FC = () => {
   return (
     <LegalLayout
       title="Central de Suporte & Contato"
       subtitle="Atendimento direto aos usuários do HelpRest, suporte a restaurantes parceiros, denúncias de conteúdo e dados oficiais do desenvolvedor para o Google Play."
+      currentHref="/suporte"
       lastUpdated="Novembro de 2026"
     >
       {/* Official Play Console Developer Contact Card */}
@@ -70,7 +71,7 @@ export const SupportPage: React.FC = () => {
 
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
           <Link
-            to="/exclusao-de-dados"
+            href="/exclusao-de-dados"
             className="tonal-surface p-4 sm:p-5 rounded-2xl bg-[#F7F7F8] hover:bg-[#FDF1EF] transition-colors flex items-center justify-between group"
           >
             <div>
@@ -88,7 +89,7 @@ export const SupportPage: React.FC = () => {
           </Link>
 
           <Link
-            to="/seguranca-dos-dados"
+            href="/seguranca-dos-dados"
             className="tonal-surface p-4 sm:p-5 rounded-2xl bg-[#F7F7F8] hover:bg-[#EFFBFB] transition-colors flex items-center justify-between group"
           >
             <div>

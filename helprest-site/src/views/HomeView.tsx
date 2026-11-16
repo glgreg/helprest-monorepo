@@ -9,7 +9,7 @@ import { DataSafetyHighlightSection } from '../components/organisms/DataSafetyHi
 import { FaqSection } from '../components/organisms/FaqSection';
 import { DownloadCtaSection } from '../components/organisms/DownloadCtaSection';
 
-export const HomePage: React.FC = () => {
+export const HomeView: React.FC = () => {
   return (
     <MainLayout>
       <HeroSection />

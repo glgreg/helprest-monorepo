@@ -1,8 +1,8 @@
 import React from 'react';
+import Link from 'next/link';
 import { Container } from '../atoms/Container';
 import { Heading2, Paragraph } from '../atoms/Typography';
-import { Button } from '../atoms/Button';
-import { Link } from '../../router';
+import { getButtonClasses } from '../atoms/Button';
 import { Store, Star, MapPin, UtensilsCrossed, ArrowRight, CheckCircle2 } from 'lucide-react';
 
 export const ForEstablishmentsSection: React.FC = () => {
@@ -48,14 +48,12 @@ export const ForEstablishmentsSection: React.FC = () => {
             </ul>
 
             <div className="pt-2 flex flex-wrap items-center gap-4">
-              <Link to="/suporte">
-                <Button
-                  variant="primary"
-                  size="lg"
-                  iconRight={<ArrowRight className="w-4 h-4" aria-hidden="true" />}
-                >
-                  Falar com o Suporte Comercial
-                </Button>
+              <Link
+                href="/suporte"
+                className={getButtonClasses({ variant: 'primary', size: 'lg' })}
+              >
+                <span>Falar com o Suporte Comercial</span>
+                <ArrowRight className="w-4 h-4" aria-hidden="true" />
               </Link>
               <span className="text-xs text-[#596168]">
                 Atendimento direto: suporte@helprest.net
@@ -139,7 +137,7 @@ export const ForEstablishmentsSection: React.FC = () => {
               <div className="text-xs text-[#596168] flex flex-wrap items-center justify-between gap-2 pt-1">
                 <span>Cadastro simples no app para pessoa jurídica (CNPJ)</span>
                 <Link
-                  to="/termos"
+                  href="/termos"
                   className="font-semibold text-[#00797A] hover:underline inline-flex items-center gap-1 min-h-[36px]"
                 >
                   <span>Regras para parceiros</span>

@@ -1,8 +1,10 @@
+'use client';
+
 import React, { useState } from 'react';
+import Link from 'next/link';
 import { Container } from '../atoms/Container';
 import { Heading2, Paragraph } from '../atoms/Typography';
-import { Button } from '../atoms/Button';
-import { Link } from '../../router';
+import { getButtonClasses } from '../atoms/Button';
 import {
   ShieldCheck,
   Trash2,
@@ -39,14 +41,14 @@ export const GooglePlayComplianceHub: React.FC = () => {
       icon: <ShieldCheck className="w-4 h-4" aria-hidden="true" />,
       policyId: 'Google Play Developer Policy · Seção 4.8 (Privacidade do Usuário)',
       playStoreRequirement:
-        'URL ativa e publicamente acessível de Política de Privacidade declarando tratamento de dados e alérgenos.',
+        'URL ativa e publicamente acessível de Política de Privacidade declarando tratamento de dados pessoais e restrições alimentares.',
       summary:
-        'Nossa política descreve com precisão a finalidade de cada dado coletado (restrições alimentares, coordenadas de localização com precisão aproximada para cálculo de distância, e credenciais de login). Nenhum dado é vendido ou compartilhado com corretores de dados.',
+        'Nossa política descreve bases legais, finalidade de cada dado coletado (flags alimentares tratadas como dados sensíveis com consentimento específico Art. 11, I, coordenadas para proximidade/geofencing de 100m e autenticação via Google Sign-In OAuth2). Nenhum dado é vendido ou compartilhado com corretores de dados.',
       compliancePoints: [
-        'Conformidade integral com a LGPD (Lei nº 13.709/2018) e GDPR',
-        'Declaração explícita sobre ausência de rastreamento entre apps e sem cookies intrusivos',
-        'Direitos dos titulares: confirmação, acesso, correção, anonimização e portabilidade',
-        'Encarregado de Proteção de Dados (DPO) contactável via privacidade@helprest.net',
+        'Conformidade com a LGPD (Lei nº 13.709/2018), incluindo Art. 11 (dados sensíveis) e Art. 14 (adolescentes)',
+        'Sem rastreamento entre aplicativos nem redes externas de publicidade comportamental',
+        'Direitos dos titulares com atendimento em até 15 dias corridos e petição direta à ANPD',
+        'Encarregado pelo Tratamento de Dados (DPO) contactável via privacidade@helprest.net',
       ],
       docUrl: '/privacidade',
       docButtonText: 'Acessar Política de Privacidade Completa',
@@ -58,13 +60,13 @@ export const GooglePlayComplianceHub: React.FC = () => {
       icon: <Trash2 className="w-4 h-4" aria-hidden="true" />,
       policyId: 'Google Play Console · Exclusão de Conta (2024–2026)',
       playStoreRequirement:
-        'URL pública na web permitindo solicitar a exclusão de conta e todos os dados associados sem precisar reinstalar o aplicativo.',
+        'URL pública na web permitindo solicitar a exclusão de conta e dados associados sem precisar reinstalar o aplicativo.',
       summary:
-        'Em conformidade com a exigência do Google Play Console, disponibilizamos um formulário web público onde qualquer usuário cadastrado pode solicitar a exclusão completa de sua conta, preferências de restrições, fotos e histórico de avaliações.',
+        'Disponibilizamos página web estática oficial onde qualquer usuário pode solicitar a eliminação definitiva da conta Google OAuth vinculada, flags alimentares, favoritos, fotos de refeições, comentários de avaliações e coordenadas de visitas.',
       compliancePoints: [
-        'Formulário web independente de instalação do app disponível 24/7',
-        'Eliminação definitiva de dados pessoais em até 30 dias',
-        'Opção de exclusão total ou exclusão parcial (ex.: apenas dados de localização mantendo cadastro)',
+        'Página web estática acessível diretamente no navegador sem depender do app instalado',
+        'Atendimento imediato ou eliminação definitiva em até 15 dias corridos (LGPD Art. 18, §5º)',
+        'Eliminação integral de avaliações textuais, fotos e histórico vinculado (sem exposição em perfil desvinculado)',
         'Protocolo estruturado encaminhado para privacidade@helprest.net',
       ],
       docUrl: '/exclusao-de-dados',
@@ -77,13 +79,13 @@ export const GooglePlayComplianceHub: React.FC = () => {
       icon: <Lock className="w-4 h-4" aria-hidden="true" />,
       policyId: 'Google Play Data Safety Section · Criptografia e Práticas de Dados',
       playStoreRequirement:
-        'Declaração formal de quais dados são coletados, compartilhados e quais protocolos de criptografia protegem o usuário.',
+        'Declaração formal de quais dados são coletados, compartilhados e quais mecanismos de segurança protegem o usuário.',
       summary:
-        'Todos os fluxos de rede do HelpRest utilizam TLS 1.3 obrigatório. Senhas são protegidas com o padrão Argon2id. Dados de localização são limitados ao cálculo de distância de estabelecimentos e nunca armazenam histórico de trajeto contínuo.',
+        'Todos os fluxos de rede do HelpRest utilizam HTTPS criptografado (TLS 1.2/1.3). A autenticação ocorre exclusivamente via Google Sign-In OAuth2 verificado criptograficamente contra JWKS do Google e tokens JWT rotativos.',
       compliancePoints: [
-        'Criptografia de tráfego TLS 1.3 / HTTPS obrigatória em todas as requisições à API',
-        'Armazenamento seguro de senhas com algoritmo Argon2id e salt criptográfico',
-        'Localização aproximada utilizada exclusivamente no momento da consulta de restaurantes',
+        'Transporte criptografado via HTTPS (TLS 1.2/1.3) em todas as requisições à API',
+        'Autenticação Google OAuth2 (JWKS via jose) com tokens JWT de acesso e refresh',
+        'Localização utilizada para distância de estabelecimentos e validação presencial de 100m sem histórico de rotas contínuo',
         'Sem SDKs externos de redes de publicidade ou profiling comportamental entre apps',
       ],
       docUrl: '/seguranca-dos-dados',
@@ -96,14 +98,14 @@ export const GooglePlayComplianceHub: React.FC = () => {
       icon: <HeartPulse className="w-4 h-4" aria-hidden="true" />,
       policyId: 'Google Play Health Policy · Declaração Médica e Alergênica Preventiva',
       playStoreRequirement:
-        'Transparência de que o app é uma plataforma facilitadora de busca e não substitui aconselhamento médico ou diagnóstico clínico.',
+        'Transparência de que o app é uma plataforma informativa de busca e não substitui aconselhamento médico ou diagnóstico clínico.',
       summary:
-        'O HelpRest fornece informações sobre cardápios e cozinhas com restrições alimentares (glúten, lactose, nozes, etc.). Esclarecemos aos usuários que a responsabilidade final pelo preparo e manipulação é do estabelecimento parceiro, encorajando a comunicação direta com o garçom ou chef.',
+        'O HelpRest fornece informações sobre cardápios e cozinhas com restrições alimentares (glúten, lactose, nozes, etc.). Esclarecemos aos usuários que a responsabilidade pelo preparo e manipulação é do estabelecimento, recomendando confirmação presencial.',
       compliancePoints: [
         'Isenção de responsabilidade médica e recomendação explícita de acompanhamento clínico',
         'Alerta preventivo sobre contaminação cruzada em ambientes mistos',
-        'Diretrizes claras de comunicação segura entre cliente e estabelecimento',
-        'Critérios transparentes para exibição de cozinhas certificadas e mistas',
+        'Diretrizes claras de comunicação direta entre cliente e estabelecimento antes do pedido',
+        'Critérios transparentes para exibição das abas "Para você" e "Outros Itens"',
       ],
       docUrl: '/aviso-de-saude',
       docButtonText: 'Ler Aviso Legal de Saúde & Alérgenos',
@@ -115,13 +117,13 @@ export const GooglePlayComplianceHub: React.FC = () => {
       icon: <KeyRound className="w-4 h-4" aria-hidden="true" />,
       policyId: 'Google Play Console · Acesso ao App',
       playStoreRequirement:
-        'Disponibilização de credenciais de teste para que revisores do Google Play validem os recursos autenticados.',
+        'Documentação do fluxo de login e credenciais de revisão para que revisores do Google Play validem os recursos autenticados.',
       summary:
-        'Usuários podem criar contas gratuitas via e-mail ou Google Sign-In para salvar restaurantes e filtrar restrições alimentares personalizadas, com credenciais de revisão documentadas no Play Console.',
+        'Usuários acessam o HelpRest gratuitamente via Google Sign-In (OAuth2) para configurar suas flags de restrições alimentares, favoritar locais e validar visitas, com fluxo documentado aos revisores da loja no Play Console.',
       compliancePoints: [
-        'Cadastro gratuito por e-mail ou Google Sign-In (OAuth2)',
-        'Credenciais de teste para revisores da loja documentadas no Play Console',
-        'Autenticação moderna com JWT, refresh tokens rotativos e rate limiting',
+        'Acesso gratuito por autenticação Google Sign-In (OAuth2)',
+        'Orientações de teste para revisores da loja documentadas no Play Console',
+        'Sessões autenticadas por tokens JWT (access e refresh) e rate limiting distribuído',
         'Sem cobranças para conferência das funcionalidades essenciais',
       ],
       docUrl: '/termos',
@@ -136,9 +138,9 @@ export const GooglePlayComplianceHub: React.FC = () => {
       playStoreRequirement:
         'E-mail de suporte técnico ativo, tempo hábil de resposta e canais de atendimento aos usuários da loja.',
       summary:
-        'Atendimento direto para dúvidas sobre o app, reporte de cardápios desatualizados, sugestões e solicitações de privacidade.',
+        'Atendimento direto para dúvidas sobre o app, reporte de cardápios desatualizados, denúncias de conteúdo ou segurança infantil e solicitações de privacidade.',
       compliancePoints: [
-        'E-mail oficial de suporte: suporte@helprest.net',
+        'E-mail oficial de suporte e segurança infantil: suporte@helprest.net',
         'E-mail oficial do DPO/Privacidade: privacidade@helprest.net',
         'Atendimento em dias úteis das 09h às 18h (Brasília)',
         'Formulário web integrado para preparo direto de chamados',
@@ -174,7 +176,7 @@ export const GooglePlayComplianceHub: React.FC = () => {
                   onClick={() => setActiveTabId(tab.id)}
                   className={`flex items-center gap-2 px-4 py-2.5 min-h-[44px] rounded-2xl text-xs sm:text-sm whitespace-nowrap transition-colors cursor-pointer ${
                     isActive
-                      ? 'bg-[#009C9D] text-[#09181A] font-semibold'
+                      ? 'bg-[#009C9D] text-white font-semibold'
                       : 'text-[#3F454A] hover:text-[#11181C] hover:bg-[#F1F2F4] font-medium'
                   }`}
                 >
@@ -199,14 +201,12 @@ export const GooglePlayComplianceHub: React.FC = () => {
             </div>
 
             <div className="flex-shrink-0">
-              <Link to={currentTab.docUrl}>
-                <Button
-                  variant="primary"
-                  size="md"
-                  iconRight={<ArrowRight className="w-4 h-4" aria-hidden="true" />}
-                >
-                  Abrir documento
-                </Button>
+              <Link
+                href={currentTab.docUrl}
+                className={getButtonClasses({ variant: 'primary', size: 'md' })}
+              >
+                <span>Abrir documento</span>
+                <ArrowRight className="w-4 h-4" aria-hidden="true" />
               </Link>
             </div>
           </div>
@@ -220,7 +220,7 @@ export const GooglePlayComplianceHub: React.FC = () => {
 
               <div className="pt-2">
                 <Link
-                  to={currentTab.docUrl}
+                  href={currentTab.docUrl}
                   className="inline-flex items-center gap-1.5 text-sm font-semibold text-[#00797A] hover:underline"
                 >
                   <span>{currentTab.docButtonText}</span>
@@ -248,22 +248,22 @@ export const GooglePlayComplianceHub: React.FC = () => {
           <div className="rounded-2xl bg-[#F7F7F8] px-4 py-3 flex flex-wrap items-center justify-between gap-3 text-xs text-[#596168]">
             <span>Páginas públicas relacionadas:</span>
             <div className="flex flex-wrap items-center gap-3 font-semibold text-[#00797A]">
-              <Link to="/privacidade" className="hover:underline">
+              <Link href="/privacidade" className="hover:underline">
                 Privacidade
               </Link>
-              <Link to="/exclusao-de-dados" className="hover:underline">
+              <Link href="/exclusao-de-dados" className="hover:underline">
                 Exclusão de dados
               </Link>
-              <Link to="/seguranca-dos-dados" className="hover:underline">
+              <Link href="/seguranca-dos-dados" className="hover:underline">
                 Segurança dos dados
               </Link>
-              <Link to="/aviso-de-saude" className="hover:underline">
+              <Link href="/aviso-de-saude" className="hover:underline">
                 Aviso de saúde
               </Link>
-              <Link to="/termos" className="hover:underline">
+              <Link href="/termos" className="hover:underline">
                 Termos de uso
               </Link>
-              <Link to="/suporte" className="hover:underline">
+              <Link href="/suporte" className="hover:underline">
                 Suporte
               </Link>
             </div>

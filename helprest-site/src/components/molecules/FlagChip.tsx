@@ -1,3 +1,5 @@
+'use client';
+
 import React from 'react';
 import { DietaryFlag } from '../../types';
 import { Check } from 'lucide-react';
@@ -27,7 +29,7 @@ export const FlagChip: React.FC<FlagChipProps> = ({
         size === 'sm' ? 'px-3 py-1.5 text-xs min-h-[34px]' : 'px-4 py-2 text-xs sm:text-sm min-h-[40px]'
       } ${isClickable ? 'cursor-pointer active:scale-[0.985]' : 'cursor-default'} ${
         isSelected
-          ? 'bg-[#009C9D] text-[#09181A] font-semibold hover:bg-[#1BA6A7]'
+          ? 'bg-[#009C9D] text-white font-semibold hover:bg-[#008A8B]'
           : 'bg-[#F1F2F4] text-[#11181C] font-medium hover:bg-[#E6E8EB]'
       }`}
       title={flag.description}
@@ -40,7 +42,7 @@ export const FlagChip: React.FC<FlagChipProps> = ({
         />
       )}
       <span className="whitespace-nowrap leading-none">{flag.shortLabel}</span>
-      {isSelected && <Check className="w-3.5 h-3.5 text-[#09181A] flex-shrink-0" aria-hidden="true" />}
+      {isSelected && <Check className="w-3.5 h-3.5 text-white flex-shrink-0" aria-hidden="true" />}
     </button>
   );
 };

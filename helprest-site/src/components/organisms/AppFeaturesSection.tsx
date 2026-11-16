@@ -45,7 +45,7 @@ export const AppFeaturesSection: React.FC = () => {
     {
       title: 'Privacidade & Proteção de Dados (LGPD)',
       description:
-        'Suas informações de preferências alimentares são protegidas por criptografia moderna em trânsito (TLS 1.3) e hashes fortes (Argon2id). Seus dados nunca são vendidos a terceiros.',
+        'Suas restrições alimentares são tratadas com consentimento específico (LGPD Art. 11, I), protegidas por criptografia em trânsito (HTTPS/TLS) e autenticação via Google OAuth2 com tokens JWT assinados. Seus dados nunca são vendidos a terceiros.',
       icon: <Lock className="w-5 h-5 text-[#11181C]" aria-hidden="true" />,
     },
   ];

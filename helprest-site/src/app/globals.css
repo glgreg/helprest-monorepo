@@ -7,9 +7,9 @@
 
   /* Exact HelpRest brand cyan-teal + warm optimistic accents */
   --color-brand: #009C9D;
-  --color-brand-hover: #1BA6A7;
+  --color-brand-hover: #008A8B;
   --color-brand-text: #00797A;
-  --color-brand-ink-on-fill: #09181A;
+  --color-brand-ink-on-fill: #FFFFFF;
   --color-brand-tint: #EFFBFB;
   --color-brand-container: #D8F3F3;
 
@@ -52,7 +52,7 @@
 
   ::selection {
     background-color: var(--color-brand-container);
-    color: var(--color-brand-ink-on-fill);
+    color: var(--color-ink);
   }
 
   h1,
@@ -100,6 +100,20 @@
   padding: 0 !important;
   border: 0 !important;
   white-space: nowrap !important;
+}
+
+/* Breadcrumb CSS separator hidden from screen readers via empty alt text */
+.hr-breadcrumb > ol > li + li {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.hr-breadcrumb > ol > li + li::before {
+  content: "/" / "";
+  color: var(--color-control-stroke);
+  font-weight: 400;
+  user-select: none;
 }
 
 /* Form control typography & interaction-gated validation */
@@ -427,6 +441,10 @@ dialog.hr-dialog::backdrop {
 
   .tonal-chip[aria-pressed="true"] {
     outline: 2px solid Highlight;
+  }
+
+  .hr-breadcrumb a[aria-current="page"] {
+    text-decoration: underline;
   }
 }
 
